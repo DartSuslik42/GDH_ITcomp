@@ -15,8 +15,22 @@ let data_plot2 = []
 const table_points = {
     selected : [all_table_points[0],all_table_points[1],all_table_points[2]],
     all : all_table_points,
+    addPoint : function(p){
+        this.all.push(p)
+        update_table()
+    }
 }
-
+export function update_table(){
+    const table = document.getElementById("table_point")
+    table.innerHTML = ""
+    if(Array.isArray(table_points.all)){
+        table_points.all.forEach((el)=>{
+            const child = document.createElement("li")
+            child.innerHTML = `${el.IID}`
+            table.appendChild(child)
+        })
+    }
+}
 function getData_plot1(){
 
     data_plot1 = data.map((el)=>{
@@ -137,12 +151,33 @@ export function select2_y_F(e){
     update_plot2()
 }
 export function save_F(e){
+    e.preventDefault()
+
     const form = e.target
     const a = new FormData(form)
-    let output = ""
-    for (const [key, value] of formData) {
-        output += `${key}: ${value}\n`;
+    
+    const _ = [...form.querySelectorAll("input")].forEach(el=>{
+        el.value = ""
+    })
+
+    const obj = {}
+    for (const [key, value] of a) {
+        const v = +value
+        if(key !== "IID"){
+            if(Number.isNaN(v)){
+                obj[key] = 0
+            }else{
+                obj[key] = +value
+            }
+        }else{
+            if(!Number.isNaN(v)){
+                obj[key] = Math.round(Math.random()*1e9)
+            }else{
+                obj[key] = value
+            }
+        }
     }
-    console.log("R>"+ output)
-    e.preventDefault()
+
+    console.log(obj)
+    table_points.addPoint(obj)
 }

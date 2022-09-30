@@ -62,17 +62,7 @@
             <div id="cell_bl_content">
               <div>
                 <b>Организации в анализе</b>
-                <ol>
-                    <li class="active"> ООО Лютик </li>  
-                    <li> ООО Программные упражнения </li>  
-                    <li> АО Лучший софт </li>  
-                    <li> ООО Ромашка </li>  
-                    <li> ООО РРСС </li>  
-                    <li> ООО Фунтик </li>  
-                    <li> ООО 1С мельница </li>  
-                    <li> ООО Промышленное проектирование </li>  
-                    <li> ООО Рога и копыта </li>  
-                    <li> ООО Нимфа </li>  
+                <ol id="table_point">
                 </ol>
               </div>
               <div id="form_comp">
@@ -232,11 +222,12 @@
 </body>
 
 <script type="module">
-  import {select_x_F, select_y_F, select2_y_F, save_F} from "/js/data.js" 
+  import {select_x_F, select_y_F, select2_y_F, save_F, update_table} from "/js/data.js" 
   document.querySelector("#form_comp form").onsubmit=save_F
   document.querySelector("#chart .select_x").onchange=select_x_F
   document.querySelector("#chart .select_y").onchange=select_y_F
   document.querySelector("#chart2 .select_y").onchange=select2_y_F
+  update_table()
 </script> 
 
 <script src="/js/index.js" type="module"></script>
