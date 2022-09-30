@@ -36,7 +36,6 @@ const plot2_point_styling = {
         visible:false;}`,
 }
 
-
 let data_plot1 = []
 let data_plot2 = []
 function getData_plot1(){
@@ -72,6 +71,46 @@ function getData_plot1(){
         }
     })
 }
+function getPoint(idx, AA, k){
+    if(k < 80){
+        return [idx + 1, AA, plot2_point_styling["A"],true]
+    }else if (k < 95){
+        return [idx + 1, AA, plot2_point_styling["B"],true]
+    }else{
+        return [idx + 1, AA, plot2_point_styling["C"],true]
+    }
+}
+
+function mapData(data){
+    const aa = data_plot2.reduce((ret, el)=>{
+        return (ret += el.y)
+    }, 0)
+    let AA = 0
+    let prev = "A"
+    const add = []
+    const ret = []
+    let size = data.length
+    for(let idx=0;idx < size;idx++){
+        const el = data[idx]
+        AA += el.y
+        const k = AA/aa*100
+        ret.push(getPoint(idx,AA,k))
+        
+        if (k > 80 && prev === "A"){
+            add.push([idx,0,plot2_point_styling["not_visible"],true])
+            add.push([idx,AA-el.y,plot2_point_styling["not_visible"],false])
+            add.push([0,AA-el.y,plot2_point_styling["not_visible"],true])
+            prev = "B"
+        }else if(k > 95 && prev === "B"){
+            add.push([idx,0,plot2_point_styling["not_visible"],true])
+            add.push([idx,AA-el.y,plot2_point_styling["not_visible"],false])
+            add.push([0,AA-el.y,plot2_point_styling["not_visible"],true])
+            prev = "C"
+            size = idx * 2.5 > size ? size : idx * 2.5
+        }
+    }
+    return ret.concat(add)
+}
 function getData_plot2(){
 
     data_plot2 = data.map((el,idx)=>{
@@ -79,6 +118,7 @@ function getData_plot2(){
             x: 0,
             y: +el[select2_y_Val]
         }
+    
     })
     
     data_plot2.sort((el1, el2)=>{
@@ -88,37 +128,8 @@ function getData_plot2(){
             return -1
     })
     
-    const aa = data_plot2.reduce((ret, el)=>{
-        return (ret += el.y)
-    }, 0)
-    let AA = 0
-    let prev = "A"
-    let add = []
     data_plot2 = [[0, 0, plot2_point_styling["A"], true]]
-        .concat(data_plot2.map((el,idx)=>{
-        AA += el.y
-        const k = AA/aa*100
-        if(k < 80){
-            return [idx + 1, AA, plot2_point_styling["A"],true]
-        }else if (k < 95){
-            if(prev === "A"){
-                add.push([idx,0,plot2_point_styling["not_visible"],true])
-                add.push([idx,AA-el.y,plot2_point_styling["not_visible"],false])
-                add.push([0,AA-el.y,plot2_point_styling["not_visible"],true])
-                prev = "B"
-            }
-            return [idx + 1, AA, plot2_point_styling["B"],true]
-        }else{
-            if(prev === "B"){
-                add.push([idx,0,plot2_point_styling["not_visible"],true])
-                add.push([idx,AA-el.y,plot2_point_styling["not_visible"],false])
-                add.push([0,AA-el.y,plot2_point_styling["not_visible"],true])
-                prev = "C"
-            }
-            return [idx + 1, AA, plot2_point_styling["C"],true]
-        }
-    }))
-        .concat(add)
+        .concat(mapData(data_plot2))
 }
 
 export function update_plot1(){
