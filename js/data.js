@@ -1,43 +1,22 @@
 import data from "/data/y2019q1_1000.json" assert { type: "json" }
+import all_table_points from "/data/pointsFromTable.json" assert { type: "json" }
+
 import {updateData_plot1} from "/js/index.js"
 import {updateData_plot2} from "/js/index2.js"
+import {plot1_point_styling, plot2_point_styling} from "/js/const.js"
 
 let select_x_Val = "income"
 let select_y_Val = "employee_num"
 let select2_y_Val = "income"
 
-const plot1_point_styling = {
-    A: `point {
-        fill-color:#b40000;
-        visible:true; }`,
-    B: `point {
-        fill-color:#0000b4;
-        visible:true; }`,
-    C: `point {
-        fill-color:#007800;
-        visible:true; }`,
-}
-const plot2_point_styling = {
-    A: `line {
-            color:#b40000;}
-        point {
-            visible:false;}`,
-    B: `line {
-        color:#0000b4;}
-        point {
-            visible:false; }`,
-    C: `line {
-        color:#007800;}
-        point {
-            visible:false; }`,
-    not_visible: `line {
-        color: none;}
-    point {
-        visible:false;}`,
-}
-
 let data_plot1 = []
 let data_plot2 = []
+
+const table_points = {
+    selected : [all_table_points[0],all_table_points[1],all_table_points[2]],
+    all : all_table_points,
+}
+
 function getData_plot1(){
 
     data_plot1 = data.map((el)=>{
@@ -80,7 +59,6 @@ function getPoint(idx, AA, k){
         return [idx + 1, AA, plot2_point_styling["C"],true]
     }
 }
-
 function mapData(data){
     const aa = data_plot2.reduce((ret, el)=>{
         return (ret += el.y)
@@ -141,60 +119,6 @@ export function update_plot2(){
     updateData_plot2(data_plot2)
     update_plot1()
 }
-export const columns_plot1 = {
-    x : {
-        type : "number",
-        scale : "log",
-    },
-    y : {
-        type : "number",
-        scale : "log",
-    }
-}
-export const columns_plot2 = {
-    x : {
-        type : "number",
-        scale : "linear",
-    },
-    y : {
-        type : "number",
-        scale : "linear",
-    }
-}
-export const options_def = {
-    hAxis: { 
-        minValue: 0,
-        format: 'short',
-        baselineColor: 'none',
-    },
-    vAxis: {
-        minValue: 0,
-        format: 'short',
-        baselineColor: 'none',
-    },
-    legend: 'none',
-    backgroundColor: {
-        stroke: "none",
-        fill: "transparent",
-    },
-    chartArea: {
-        backgroundColor: {
-            stroke: "black",
-            strokeWidth: "1px",
-            fill: "white",
-        },
-        left:40,
-        right:18,
-        bottom:45,  
-        top:30,
-        width: "100%",
-        height: "100%",    
-    },
-    pointSize: 2,
-    enableInteractivity: false,
-    width: "auto",
-    height: "auto",
-}
 
 export function select_x_F(e){
     select_x_Val = e.target.value
@@ -204,7 +128,6 @@ export function select_y_F(e){
     select_y_Val = e.target.value
     update_plot1()
 }
-
 export function select2_y_F(e){
     select2_y_Val = e.target.value
     update_plot2()

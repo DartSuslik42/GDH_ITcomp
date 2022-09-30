@@ -1,4 +1,5 @@
-import {update_plot2, columns_plot2 as columns, options_def as options} from "/js/data.js"
+import {update_plot2} from "/js/data.js"
+import {columns_plot2 as columns, options_def as options} from "/js/const.js"
 google.charts.load('current', {'packages':['corechart']});
 google.charts.setOnLoadCallback(update_plot2);
 
