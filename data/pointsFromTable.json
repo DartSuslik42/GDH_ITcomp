@@ -1,7 +1,6 @@
-[
-
+[ 
    {
-    "IID": 10930900,
+    "IID": "ООО Лютик",
     "year": 2019,
     "quarter": 1,
     "employee_num": "4.666666666666667",
@@ -20,7 +19,7 @@
     "isIP": 0
    },
    {
-    "IID": 10930916,
+    "IID": "ООО Программные упражнения",
     "year": 2019,
     "quarter": 1,
     "employee_num": "0.3333333333333333",
@@ -39,7 +38,7 @@
     "isIP": 0
    },
    {
-    "IID": 10931355,
+    "IID": "АО Лучший софт",
     "year": 2019,
     "quarter": 1,
     "employee_num": "2.333333333333333",
@@ -57,7 +56,7 @@
     "businessSize": 1,
     "isIP": 0
    },{
-    "IID": 6220956,
+    "IID": "ООО Ромашка",
     "year": 2019,
     "quarter": 1,
     "employee_num": "39.333333333333336",
@@ -75,7 +74,7 @@
     "businessSize": 1,
     "isIP": 0
    },{
-    "IID": 6223076,
+    "IID": "ООО РРСC",
     "year": 2019,
     "quarter": 1,
     "employee_num": "2.0",
@@ -93,7 +92,7 @@
     "businessSize": 1,
     "isIP": 0
    },{
-    "IID": 6223428,
+    "IID": "ООО Фунтик",
     "year": 2019,
     "quarter": 1,
     "employee_num": "186.66666666666663",
@@ -111,7 +110,7 @@
     "businessSize": 2,
     "isIP": 0
    },{
-    "IID": 6220282,
+    "IID": "ООО 1С мельница",
     "year": 2019,
     "quarter": 1,
     "employee_num": "22.0",

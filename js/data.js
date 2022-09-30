@@ -23,7 +23,8 @@ function getData_plot1(){
         return {
             x: +el[select_x_Val],
             y: +el[select_y_Val],
-            z: +el[select2_y_Val]
+            z: +el[select2_y_Val],
+            id: +el.IID
         }
     })
     
@@ -40,6 +41,9 @@ function getData_plot1(){
     let AA = 0
 
     data_plot1 = data_plot1.map((el)=>{
+        if(+el.id < 0) {
+            return [el.x, el.y, plot1_point_styling["D"]]
+        }
         AA += el.z
         if(AA/aa*100 < 80){
             return [el.x, el.y, plot1_point_styling["A"]]
@@ -131,4 +135,14 @@ export function select_y_F(e){
 export function select2_y_F(e){
     select2_y_Val = e.target.value
     update_plot2()
+}
+export function save_F(e){
+    const form = e.target
+    const a = new FormData(form)
+    let output = ""
+    for (const [key, value] of formData) {
+        output += `${key}: ${value}\n`;
+    }
+    console.log("R>"+ output)
+    e.preventDefault()
 }

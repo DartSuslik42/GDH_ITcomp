@@ -62,7 +62,11 @@ export const plot1_point_styling = {
     C: `point {
         fill-color:#007800;
         visible:true; }`,
-}
+    D: `point {
+        fill-color:cyan;
+        size:7;
+        visible:true; }`,
+    }
 export const plot2_point_styling = {
     A: `line {
             color:#b40000;}

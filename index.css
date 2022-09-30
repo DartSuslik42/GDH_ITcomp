@@ -82,6 +82,14 @@ form div > span {
     float: right;
 }
 
-button {
+button.save{
+    width: 100%;
     scale: 0.75;
+}
+
+li.active {
+    background: cyan;
+}
+.row{
+    padding: 3px 0;
 }
