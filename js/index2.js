@@ -1,17 +1,6 @@
-import {update_plot2} from "/js/data.js"
+import {update_plot2, columns_plot2 as columns, options_def as options} from "/js/data.js"
 google.charts.load('current', {'packages':['corechart']});
 google.charts.setOnLoadCallback(update_plot2);
-
-let columns = {
-    x : {
-        type : "number",
-        scale : "linear",
-    },
-    y : {
-        type : "number",
-        scale : "linear",
-    }
-}
 
 export function updateData_plot2(mydata = []) {
     var data = new google.visualization.DataTable();
@@ -31,29 +20,10 @@ export function updateData_plot2(mydata = []) {
     })
     data.addRows(mydata)
     
-    var options = {
-        hAxis: {minValue: 0, scaleType: columns.x.scale },
-        vAxis: {minValue: 0, scaleType: columns.y.scale },
-        legend: 'none',
-        backgroundColor: {
-            stroke: "black",
-            strokeWidth: "0px",
-            fill: "transparent",
-        },
-        chartArea: {
-            backgroundColor: {
-                stroke: "black",
-                strokeWidth: "0px",
-                fill: "white",
-            },
-            left: "20%",
-            top: "10%",
-
-        },
-        tooltip: {isHtml: true},
-        pointSize: 3,
-    };
-
-    var chart = new google.visualization.LineChart(document.getElementById('chart2_div'));
+    options.hAxis.scaleType = columns.x.scale
+    options.vAxis.scaleType = columns.y.scale
+    
+    const chart2_div = document.getElementById('chart2_div')
+    const chart = new google.visualization.LineChart(chart2_div);
     chart.draw(data, options);
 }

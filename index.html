@@ -11,40 +11,47 @@
     <table>
         <tr>
           <td>
-            <div id="chart_div"></div>
-            <select id="select_x"> 
-              <option value="income" selected> Доход </option>
-              <option value="income_lic"> Доход с лицензий </option>
-              <option value="fot"> Фонд оплаты труда </option>
-              <option value="taxesProfit"> Налог с прибыли </option>
-              <option value="taxesVAT"> НДС </option> 
-              <option value="taxesEmplSal"> НДФЛ </option> 
-              <option value="insurance"> Страховые сборы </option>
-              <option value="employee_num"> Количество сотрудников </option>  
-            </select>
-            <select id="select_y">  
-              <option value="income"> Доход </option>
-              <option value="income_lic"> Доход с лицензий </option>
-              <option value="fot"> Фонд оплаты труда </option>
-              <option value="taxesProfit"> Налог с прибыли </option>
-              <option value="taxesVAT"> НДС </option> 
-              <option value="taxesEmplSal"> НДФЛ </option> 
-              <option value="insurance"> Страховые сборы </option>
-              <option value="employee_num" selected> Количество сотрудников </option>  
-            </select>
+            <div id="chart" class="chart">
+              <div id="chart_div" class="chart"></div>
+              <select class="select_x"> 
+                <option value="income" selected> Доход </option>
+                <option value="income_lic"> Доход с лицензий </option>
+                <option value="fot"> Фонд оплаты труда </option>
+                <option value="taxesProfit"> Налог с прибыли </option>
+                <option value="taxesVAT"> НДС </option> 
+                <option value="taxesEmplSal"> НДФЛ </option> 
+                <option value="insurance"> Страховые сборы </option>
+                <option value="employee_num"> Количество сотрудников </option>  
+              </select>
+              <select class="select_y">  
+                <option value="income"> Доход </option>
+                <option value="income_lic"> Доход с лицензий </option>
+                <option value="fot"> Фонд оплаты труда </option>
+                <option value="taxesProfit"> Налог с прибыли </option>
+                <option value="taxesVAT"> НДС </option> 
+                <option value="taxesEmplSal"> НДФЛ </option> 
+                <option value="insurance"> Страховые сборы </option>
+                <option value="employee_num" selected> Количество сотрудников </option>  
+              </select>
+            </div>
           </td>
           <td>
-            <div id="chart2_div"></div>
-            <select id="select2_y">  
-              <option value="income" selected> Доход </option>
-              <option value="income_lic"> Доход с лицензий </option>
-              <option value="fot"> Фонд оплаты труда </option>
-              <option value="taxesProfit"> Налог с прибыли </option>
-              <option value="taxesVAT"> НДС </option> 
-              <option value="taxesEmplSal"> НДФЛ </option> 
-              <option value="insurance"> Страховые сборы </option>
-              <option value="employee_num"> Количество сотрудников </option>  
-            </select>
+            <div id="chart2" class="chart"> 
+              <div id="chart2_div" class="chart"></div>
+              <select class="select_y">  
+                <option value="income" selected> Доход </option>
+                <option value="income_lic"> Доход с лицензий </option>
+                <option value="fot"> Фонд оплаты труда </option>
+                <option value="taxesProfit"> Налог с прибыли </option>
+                <option value="taxesVAT"> НДС </option> 
+                <option value="taxesEmplSal"> НДФЛ </option> 
+                <option value="insurance"> Страховые сборы </option>
+                <option value="employee_num"> Количество сотрудников </option>  
+              </select>
+              <select class="select_x" disabled>
+                <option selected>Число компаний</option>
+              </select>
+            </div>  
           </td>
         </tr>
         <tr>
@@ -89,9 +96,9 @@
 
 <script type="module">
   import {select_x_F, select_y_F, select2_y_F} from "/js/data.js" 
-  document.getElementById("select_x").onchange=select_x_F
-  document.getElementById("select_y").onchange=select_y_F
-  document.getElementById("select2_y").onchange=select2_y_F
+  document.querySelector("#chart .select_x").onchange=select_x_F
+  document.querySelector("#chart .select_y").onchange=select_y_F
+  document.querySelector("#chart2 .select_y").onchange=select2_y_F
 </script> 
 
 <script src="/js/index.js" type="module"></script>

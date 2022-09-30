@@ -36,6 +36,7 @@ const plot2_point_styling = {
         visible:false;}`,
 }
 
+
 let data_plot1 = []
 let data_plot2 = []
 function getData_plot1(){
@@ -128,6 +129,60 @@ export function update_plot2(){
     getData_plot2()
     updateData_plot2(data_plot2)
     update_plot1()
+}
+export const columns_plot1 = {
+    x : {
+        type : "number",
+        scale : "log",
+    },
+    y : {
+        type : "number",
+        scale : "log",
+    }
+}
+export const columns_plot2 = {
+    x : {
+        type : "number",
+        scale : "linear",
+    },
+    y : {
+        type : "number",
+        scale : "linear",
+    }
+}
+export const options_def = {
+    hAxis: { 
+        minValue: 0,
+        format: 'short',
+        baselineColor: 'none',
+    },
+    vAxis: {
+        minValue: 0,
+        format: 'short',
+        baselineColor: 'none',
+    },
+    legend: 'none',
+    backgroundColor: {
+        stroke: "none",
+        fill: "transparent",
+    },
+    chartArea: {
+        backgroundColor: {
+            stroke: "black",
+            strokeWidth: "1px",
+            fill: "white",
+        },
+        left:40,
+        right:18,
+        bottom:45,  
+        top:30,
+        width: "100%",
+        height: "100%",    
+    },
+    pointSize: 2,
+    enableInteractivity: false,
+    width: "auto",
+    height: "auto",
 }
 
 export function select_x_F(e){
