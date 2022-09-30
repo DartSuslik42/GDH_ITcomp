@@ -3,14 +3,17 @@
 <meta charset="UTF-8">
 <title>Page Title</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <link rel="stylesheet" href="index.css">
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 <body>
     <table>
         <tr>
-          <td>
+          <td class="charts">
+            <div class="ml-3 mt-1">
+              <img src="gdh.png" alt="GDH" height="44px">
+            </div>
             <div id="chart" class="chart">
               <div id="chart_div" class="chart"></div>
               <select class="select_x"> 
@@ -35,7 +38,7 @@
               </select>
             </div>
           </td>
-          <td>
+          <td class="charts">
             <div id="chart2" class="chart"> 
               <div id="chart2_div" class="chart"></div>
               <select class="select_y">  
@@ -55,41 +58,156 @@
           </td>
         </tr>
         <tr>
-          <td id="cell_bl">
+          <td id="cell_bl" class="forms">
             <div id="cell_bl_content">
-              <div id="comp_list">
+              <div>
                 <b>Организации в анализе</b>
                 <ol>
                     <li> ООО Лютик </li>  
                     <li> ООО Программные упражнения </li>  
                     <li> АО Лучший софт </li>  
+                    <li> ООО Ромашка </li>  
+                    <li> ООО РРСС </li>  
+                    <li> ООО Фунтик </li>  
+                    <li> ООО 1С мельница </li>  
+                    <li> ООО Промышленное проектирование </li>  
+                    <li> ООО Рога и копыта </li>  
+                    <li> ООО Нимфа </li>  
                 </ol>
               </div>
               <div id="form_comp">
-                <form>
-                  <div>
-                  ИНН <input type="text" name="inn">
-                  </div>
-                  <div>
-                  ОПФ + Наименование <input type="text" name="name">
-                  </div>
-                  <div>
-                  Доход за 2021 год <input type="text" name="name">
-                  </div>
-                  <div>
-                  Уплачено в бюджет за 2021 год <input type="text" name="name">
-                  </div>
-                  <div>
-                  Доход от продажи лицензий <input type="text" name="name">
-                  </div>
-                  <div>
-                      <textarea rows="7" cols="44" name="text"></textarea>
+                <form style="overflow-y:auto">
+                  <div style="height:14rem">
+                     <div class="row">
+                      <div class="col-6">
+                        <span>ИНН</span>
+                      </div>
+                      <div class="col-6">
+                        <input type="text" name="inn" placeholder="123456789012">
+                      </div>
+                    </div>
+                     <div class="row">
+                      <div class="col-6">
+                        <span>ОПФ + Наименование</span>
+                      </div>
+                      <div class="col-6">
+                        <input type="text" name="name" placeholder="ООО Лютик">
+                      </div>
+                    </div>
+                     <div class="row">
+                      <div class="col-6">
+                        <span>Доход</span>
+                      </div>
+                      <div class="col-6">
+                        <input type="text" name="income" placeholder="22 000 000">
+                      </div>
+                    </div>
+                     <div class="row">
+                      <div class="col-6">
+                        <span>Доход от продажи лицензий</span>
+                      </div>
+                      <div class="col-6">
+                        <input type="text" name="income2" placeholder="12 000 000">
+                      </div>
+                    </div>
+                     <div class="row">
+                      <div class="col-6">
+                        <span>Доход от ВЭД</span>
+                      </div>
+                      <div class="col-6">
+                        <input type="text" name="income3" placeholder="12 000 000">
+                      </div>
+                    </div>
+                     <div class="row">
+                      <div class="col-6">
+                        <span>Уплачено в бюджет</span>
+                      </div>
+                      <div class="col-6">
+                        <input type="text" name="income3" placeholder="12 000 000">
+                      </div>
+                    </div>
+                     <div class="row">
+                      <div class="col-6">
+                        <span>ФОТ</span>
+                      </div>
+                      <div class="col-6">
+                        <input type="text" name="income3" placeholder="12 000 000">
+                      </div>
+                    </div>
+                     <div class="row">
+                      <div class="col-6">
+                        <span>Количество сотрудников</span>
+                      </div>
+                      <div class="col-6">
+                        <input type="text" name="income3" placeholder="12 000 000">
+                      </div>
+                    </div>
+
+                     <div class="row">
+                      <div class="col-3 offset-1">
+                        <button type="button" class="btn btn-primary">Сохранить</button>
+                        <button type="button" class="btn btn-primary ml-1">Загрузить </button>
+                      </div>
+                      <div class="col-8">
+                        <textarea placeholder="Краткая информация о компании"
+                        rows="4" cols="28" name="text" class="ml-3"></textarea>
+                      </div>
+                    </div>
                   </div>
                 </form>
               </div>
             </div>
           </td>
-          <td></td>
+          <td class="contaner">
+             <div class="row">
+              <div class="col-6 ml-4">
+                 <div class="mb-1">
+                    <input type="date" id="start" name="date-start" value="2022-01-01">            
+                    <input type="date" id="end" name="date-end" value="2022-09-30">  
+                </div>
+                 <div class="row">
+                  <div class="col-6">
+                    <input type="text" placeholder="ООО Лютик">
+                  </div>
+                  <div class="col-6">
+                    <input type="text" placeholder="123456789012">
+                  </div>
+                </div>
+                 <div class="row">
+                  <div class="col-6">
+                    <input type="text" placeholder="окт 2022">
+                  </div>
+                  <div class="col-6">
+                    <input type="text" placeholder="22 000 000">
+                  </div>
+                </div>
+                 <div class="row">
+                  <div class="col-6">
+                    <input type="text" placeholder="март 2022">
+                  </div>
+                  <div class="col-6">
+                    <input type="text" placeholder="22 000 000">
+                  </div>
+                </div>
+                 <div class="row">
+                  <div class="col-6">
+                    <input type="text" placeholder="март 2022">
+                  </div>
+                  <div class="col-6">
+                    <input type="text" placeholder="22 000 000">
+                  </div>
+                </div>
+              </div>
+              <div class="col-5">
+                <ul class="list-group">
+                  <li class="list-group-item"><h6 style="color:steelblue" >Лента событий</h6></li>
+                  <li class="list-group-item">Аккредитовано Минцифрой</li>
+                  <li class="list-group-item">Принято решение о субсидии</li>
+                  <li class="list-group-item active">Первый транш</li>
+                  <li class="list-group-item">Отчет по первому этапу</li>
+                </ul>        
+            </div>
+          </td>
         </tr>
       </table>
 </body>
