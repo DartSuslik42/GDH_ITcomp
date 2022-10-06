@@ -106,6 +106,10 @@ export const plot1_point_styling_p = {
         visible:true; 
         size: 10px;
     }`,
+	D: `point {
+        fill-color:cyan;
+        size:7;
+        visible:true; }`,
 }
 export const plot2_point_styling = {
     A: `line {
