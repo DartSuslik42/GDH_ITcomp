@@ -52,6 +52,38 @@ export const options_def = {
     width: "auto",
     height: "auto",
 }
+export const options_trans = {
+    hAxis: {
+        baselineColor: 'none',
+        gridlines: {color: 'none'},
+        minorGridlines: {color: 'none'},
+        textStyle: {color: 'none'},
+    },
+    vAxis: {
+        baselineColor: 'none',
+        gridlines: {color: 'none'},
+        minorGridlines: {color: 'none'},
+        textStyle: {color: 'none'},
+    },
+    legend: 'none',
+    backgroundColor: {
+        stroke: "none",
+        fill: "transparent",
+    },
+    chartArea: {
+        backgroundColor: {
+            stroke: "none",
+            fill: "transparent",
+        },
+        left:40,
+        right:18,
+        bottom:45,  
+        top:30,
+        width: "100%",
+        height: "100%",    
+    },
+    enableInteractivity: false,
+}
 export const plot1_point_styling = {
     A: `point {
         fill-color:#b40000;

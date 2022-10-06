@@ -3,7 +3,8 @@ import all_table_points from "/data/pointsFromTable.json" assert { type: "json" 
 
 import {updateData_plot1} from "/js/index.js"
 import {updateData_plot2} from "/js/index2.js"
-import {plot1_point_styling, plot2_point_styling} from "/js/const.js"
+import {updateData_plot1_points as upd_p1_p} from "/js/index_points.js"
+import {plot1_point_styling, plot2_point_styling, plot1_point_styling_p as plot1_psp} from "/js/const.js"
 
 let select_x_Val = "income"
 let select_y_Val = "employee_num"
@@ -127,17 +128,44 @@ function getData_plot2(){
     data_plot2 = [[0, 0, plot2_point_styling["A"], true]]
         .concat(mapData(data_plot2))
 }
+function get_p1_p(){
+    const ret = table_points.all
+        .map((el)=>{
+            const is_selected = table_points.selected.find((sel)=>{
+                return sel.IID === el.IID 
+            }) ? true : false
+            
+            return {
+                    x: +el[select_x_Val],
+                    y: +el[select_y_Val],
+                    z: +el[select2_y_Val],
+                    is_selected: is_selected,
+            }
+        })
+        .map((el)=>{
+            if(el.is_selected){
+                return [el.x, el.y, plot1_psp["selected"]]
+            }else {
+                return [el.x, el.y, plot1_psp["not_selected"]]
+            }
+        })
+    return ret
+}
+export function update_plot1_points(){
+    const data = get_p1_p()
+    upd_p1_p(data)
+}
 
 export function update_plot1(){
     getData_plot1()
     updateData_plot1(data_plot1)
+    const d = document.getElementById("chart_div").querySelector("svg")
 }
 export function update_plot2(){
     getData_plot2()
     updateData_plot2(data_plot2)
     update_plot1()
 }
-
 export function select_x_F(e){
     select_x_Val = e.target.value
     update_plot1()
