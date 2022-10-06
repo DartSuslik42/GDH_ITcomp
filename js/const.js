@@ -52,6 +52,38 @@ export const options_def = {
     width: "auto",
     height: "auto",
 }
+export const options_trans = {
+    hAxis: {
+        baselineColor: 'none',
+        gridlines: {color: 'none'},
+        minorGridlines: {color: 'none'},
+        textStyle: {color: 'none'},
+    },
+    vAxis: {
+        baselineColor: 'none',
+        gridlines: {color: 'none'},
+        minorGridlines: {color: 'none'},
+        textStyle: {color: 'none'},
+    },
+    legend: 'none',
+    backgroundColor: {
+        stroke: "none",
+        fill: "transparent",
+    },
+    chartArea: {
+        backgroundColor: {
+            stroke: "none",
+            fill: "transparent",
+        },
+        left:40,
+        right:18,
+        bottom:45,  
+        top:30,
+        width: "100%",
+        height: "100%",    
+    },
+    enableInteractivity: false,
+}
 export const plot1_point_styling = {
     A: `point {
         fill-color:#b40000;
@@ -62,6 +94,18 @@ export const plot1_point_styling = {
     C: `point {
         fill-color:#007800;
         visible:true; }`,
+}
+export const plot1_point_styling_p = {
+    selected: `point {
+        fill-color:#b40000;
+        visible:true; 
+        size: 10px;
+    }`,
+    not_selected: `point {
+        fill-color:#0000b4;
+        visible:true; 
+        size: 10px;
+    }`,
 }
 export const plot2_point_styling = {
     A: `line {
