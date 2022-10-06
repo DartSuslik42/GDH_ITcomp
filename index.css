@@ -3,6 +3,7 @@ body{
     padding: 0;
     margin: 0;
     background-color: rgb(245,245,245);
+    font-size: 0.75rem;
 }
 table{
     width: 100%;
@@ -10,9 +11,16 @@ table{
 }
 table td{
     width: 50%;
-    height: 50%; 
     position: relative;
 }
+
+table td.charts{
+    height: 55%; 
+}
+table td.forms{
+    height: 45%; 
+}
+
 table, th, td {
     border: 1px solid black;
     border-collapse: collapse;
@@ -72,12 +80,18 @@ select:disabled{
     align-items: flex-start;
     justify-content: space-between;
 }
-#comp_list{
-    width: 30%
-}
+
 #form_comp{
     background-color: rgb(226,213,231); 
     padding: 5px;
     border: 1px solid rgb(126,113,131); 
     border-right: 0;
+}
+
+form div > span {
+    float: right;
+}
+
+button {
+    scale: 0.75;
 }
