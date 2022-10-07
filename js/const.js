@@ -84,17 +84,6 @@ export const options_trans = {
     },
     enableInteractivity: false,
 }
-export const plot1_point_styling = {
-    A: `point {
-        fill-color:#b40000;
-        visible:true; }`,
-    B: `point {
-        fill-color:#0000b4;
-        visible:true; }`,
-    C: `point {
-        fill-color:#007800;
-        visible:true; }`,
-}
 export const plot1_point_styling_p = {
     selected: `point {
         fill-color:#b40000;
@@ -111,21 +100,59 @@ export const plot1_point_styling_p = {
         size:7;
         visible:true; }`,
 }
-export const plot2_point_styling = {
-    A: `line {
-            color:#b40000;}
-        point {
-            visible:false;}`,
-    B: `line {
-        color:#0000b4;}
-        point {
-            visible:false; }`,
-    C: `line {
-        color:#007800;}
-        point {
-            visible:false; }`,
-    not_visible: `line {
-        color: none;}
-    point {
-        visible:false;}`,
+export const API_Chart_Keys ={
+    ImgSize:{
+        x : "w",
+        y : "h",
+    },
+    AxisSrc:{
+        x : "x_src",
+        y : "y_src",
+        z : "abc_src",
+    },
+    AxisLable:{
+        x: "x_label",
+        y: "y_label",
+    },
+    Period:{
+        year : "year",
+        quarter : "quarter",
+    },
+    DPI : "dpi",
+}
+export const Fields_Boolean = {
+    isIT : "isIT",
+    isSpecialTaxRegime_insurance : "isSpecialTaxRegime_insurance",
+    isSpecialTaxRegime_profit : "isSpecialTaxRegime_profit",
+    isIP : "isIP",
+}
+export const Fields_Info = {
+    IID : "IID",
+    taxType : "taxType",
+    businessSize : "businessSize",
+}
+export const Fields_Columns = {
+    employee_num : "employee_num", 
+    fot : "fot", 
+    income : "income", 
+    income_lic : "income_lic", 
+    taxesProfit : "taxesProfit", 
+    taxesVAT : "taxesVAT", 
+    taxesEmplSal : "taxesEmplSal", 
+    insurance : "insurance", 
+}
+export const Fields_Columns_Names = {
+    income: "Доход",
+    income_lic: "Доход с лицензий",
+    fot: "Фонд оплаты труда",
+    taxesProfit: "Налог с прибыли",
+    taxesVAT: "НДС",
+    taxesEmplSal: "НДФЛ",
+    insurance: "Страховые сборы",
+    employee_num: "Количество сотрудников",
+}
+export const Fields_All = {
+    ...Fields_Boolean,
+    ...Fields_Columns,
+    ...Fields_Info,
 }
