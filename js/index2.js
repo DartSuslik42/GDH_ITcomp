@@ -6,7 +6,7 @@ window.addEventListener('load', (event) => {
 });
 
 const img = document.createElement('img')
-const chart_div = document.getElementById('chart_div')
+const chart_div = document.getElementById('chart2_div')
 chart_div.appendChild(img);
 
 export const Params = {

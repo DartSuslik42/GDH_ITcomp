@@ -11,14 +11,15 @@
     <table>
       <tr>
         <td class="ml-3 border-rt">
-          <img src="gdh.png" alt="GDH" height="44px">
+          <img id="logo" src="gdh.png" alt="GDH" height="44px">
         </td>    
       </tr>
         <tr>
           <td class="charts border-bt border-rt">
-            <div id="chart" class="chart">
+            <div id="chart" class="chart container">
               <div id="chart_div" class="chart content lower"></div>
               <div id="chart_points_div" class="chart content"></div>
+              
               <select class="select_x"> 
                 <option value="income" selected> Доход </option>
                 <option value="income_lic"> Доход с лицензий </option>
@@ -42,8 +43,9 @@
             </div>
           </td>
           <td class="charts border-bt">
-            <div id="chart2" class="chart"> 
-              <div id="chart2_div" class="chart"></div>
+            <div id="chart2" class="chart container"> 
+              <div id="chart2_div" class="chart content"></div>
+              
               <select class="select_y">  
                 <option value="income" selected> Доход </option>
                 <option value="income_lic"> Доход с лицензий </option>
@@ -233,8 +235,4 @@
   document.querySelector("#chart2 .select_y").onchange=select2_y_F
   update_table()
 </script> 
-
-<script src="/js/index.js" type="module"></script>
-<script src="/js/index2.js" type="module"></script>
-
 </html>
