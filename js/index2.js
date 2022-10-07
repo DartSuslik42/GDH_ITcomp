@@ -1,30 +1,42 @@
 import {update_plot2} from "/js/data.js"
-import {columns_plot2 as columns, options_def as options} from "/js/const.js"
-google.charts.load('current', {'packages':['corechart']});
-google.charts.setOnLoadCallback(update_plot2);
+import {API_Chart_Keys as API} from "/js/const.js"
 
-export function updateData_plot2(mydata = []) {
-    var data = new google.visualization.DataTable();
-    data.addColumn({
-        type : columns.x.type,
-    });
-    data.addColumn({
-        type : columns.y.type,
-    });
-    data.addColumn({
-        type : "string",
-        role : "style",
-    });
-    data.addColumn({
-        type: "boolean",
-        role: "certainty",
-    })
-    data.addRows(mydata)
+window.addEventListener('load', (event) => {
+    update_plot2()
+});
+
+const img = document.createElement('img')
+const chart_div = document.getElementById('chart_div')
+chart_div.appendChild(img);
+
+export const Params = {
+    Size : {
+        x : "",
+        y : "",
+    },
+    Period : {
+        year : "",
+        quarter : ""
+    },
+    DPI : "",
+    Scale : 1,
+    AxisSrc : {
+        y : "",
+    },
+    Src : "",
+}
+
+export function updateData_plot2() {
+    Params.Size.x = chart_div.clientWidth
+    Params.Size.y = chart_div.clientHeight
     
-    options.hAxis.scaleType = columns.x.scale
-    options.vAxis.scaleType = columns.y.scale
+    const size_str = `${API.ImgSize.x}=${Math.floor(Params.Size.x*Params.Scale)}&${API.ImgSize.y}=${Math.floor(Params.Size.y*Params.Scale)}`
+    const period_str = `${API.Period.year}=${Params.Period.year}&${API.Period.quarter}=${Params.Period.quarter}`
+    const axis_src_str = `${API.AxisSrc.y}=${Params.AxisSrc.y}`
+    const dpi_str = `${API.DPI}=${Params.DPI}`
+    Params.Src = `https://greencert.car.cos.ru/abc?${size_str}&${period_str}&${axis_src_str}&${dpi_str}` 
     
-    const chart2_div = document.getElementById('chart2_div')
-    const chart = new google.visualization.LineChart(chart2_div);
-    chart.draw(data, options);
+    img.width = Params.Size.x
+    img.height = Params.Size.y
+    img.src = Params.Src;
 }
