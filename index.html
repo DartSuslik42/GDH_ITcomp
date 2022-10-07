@@ -17,8 +17,21 @@
         <tr>
           <td class="charts border-bt border-rt">
             <div id="chart" class="chart container">
-              <div id="chart_div" class="chart content lower"></div>
-              <div id="chart_points_div" class="chart content"></div>
+              <select class="select_y">  
+                <option value="income"> Доход </option>
+                <option value="income_lic"> Доход с лицензий </option>
+                <option value="fot"> Фонд оплаты труда </option>
+                <option value="taxesProfit"> Налог с прибыли </option>
+                <option value="taxesVAT"> НДС </option> 
+                <option value="taxesEmplSal"> НДФЛ </option> 
+                <option value="insurance"> Страховые сборы </option>
+                <option value="employee_num" selected> Количество сотрудников </option>  
+              </select>
+              
+              <div class="chart diagram">
+                <div id="chart_div" class="chart content lower"></div>
+                <div id="chart_points_div" class="chart content"></div>
+              </div>
               
               <select class="select_x"> 
                 <option value="income" selected> Доход </option>
@@ -30,21 +43,11 @@
                 <option value="insurance"> Страховые сборы </option>
                 <option value="employee_num"> Количество сотрудников </option>  
               </select>
-              <select class="select_y">  
-                <option value="income"> Доход </option>
-                <option value="income_lic"> Доход с лицензий </option>
-                <option value="fot"> Фонд оплаты труда </option>
-                <option value="taxesProfit"> Налог с прибыли </option>
-                <option value="taxesVAT"> НДС </option> 
-                <option value="taxesEmplSal"> НДФЛ </option> 
-                <option value="insurance"> Страховые сборы </option>
-                <option value="employee_num" selected> Количество сотрудников </option>  
-              </select>
+            
             </div>
           </td>
           <td class="charts border-bt">
             <div id="chart2" class="chart container"> 
-              <div id="chart2_div" class="chart content"></div>
               
               <select class="select_y">  
                 <option value="income" selected> Доход </option>
@@ -56,9 +59,15 @@
                 <option value="insurance"> Страховые сборы </option>
                 <option value="employee_num"> Количество сотрудников </option>  
               </select>
+
+              <div class="chart diagram">
+                <div id="chart2_div" class="chart content"></div>
+              </div>
+              
               <select class="select_x" disabled>
                 <option selected>Число компаний</option>
               </select>
+
             </div>  
           </td>
         </tr>

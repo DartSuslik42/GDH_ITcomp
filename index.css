@@ -33,47 +33,55 @@ table td.forms{
     position: relative;
     padding: 0;
     margin: 0;
-    z-index: 10;
 }
-.chart *{
-    z-index: 11;   
+select.select_x, select.select_y{
+    display: flex;
+    flex:  0 0 auto;
+    width: max-content;
 }
-.chart.lower{
-    z-index: 9;
-}
-.chart.container{
-    width: 80%;
-    height: 80%;
+select.select_x{
+    margin-left: auto;
+    text-align: right;
 }
 .chart.content{
+    position: absolute;
     width: 100%;
     height: 100%;
     position: absolute;
 }
+.chart.diagram{
+    position: relative;
+    display: flex;
+    flex: 1 1 max-content;
+}
+.chart.diagram *{
+    z-index: 12;
+}
+.chart.diagram .chart.content{
+    z-index: 11;
+}
+.chart.diagram .chart.lower{
+    z-index: 10;
+}
 select{
-    margin: 0;
-    padding: 0 3px;
-    position: absolute;
+    appearance: none;
     border: none;
     outline: none;
+    background: transparent;
 }
 select:disabled{
     appearance: none;
-    background: transparent;
     color: inherit;
     opacity: 1;
 }
+.chart.container{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
 
-.select_y{
-    top : 0;
-    left : 0;
-    text-align: left;
-}
-.select_x{ 
-    right: 2rem;
-    bottom: 0;
-    text-align: right;
-}
 #cell_bl{
     padding: 7px 0 0 5px;
 }
