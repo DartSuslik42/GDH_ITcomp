@@ -63,8 +63,10 @@ export const plot1_point_styling = {
         fill-color:#007800;
         visible:true; }`,
     D: `point {
-        fill-color:cyan;
-        size:7;
+        fill-color:yellow;
+        stroke-width: 2;
+        stroke-color: red;
+        size:5;
         visible:true; }`,
     }
 export const plot2_point_styling = {

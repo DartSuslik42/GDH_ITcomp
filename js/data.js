@@ -37,8 +37,7 @@ function getData_plot1(){
         return {
             x: +el[select_x_Val],
             y: +el[select_y_Val],
-            z: +el[select2_y_Val],
-            id: +el.IID
+            z: +el[select2_y_Val]
         }
     })
     
@@ -55,9 +54,6 @@ function getData_plot1(){
     let AA = 0
 
     data_plot1 = data_plot1.map((el)=>{
-        if(+el.id < 0) {
-            return [el.x, el.y, plot1_point_styling["D"]]
-        }
         AA += el.z
         if(AA/aa*100 < 80){
             return [el.x, el.y, plot1_point_styling["A"]]
@@ -66,6 +62,10 @@ function getData_plot1(){
         }else{
             return [el.x, el.y, plot1_point_styling["C"]]
         }
+    })
+    table_points.all.forEach((el)=>{
+        const v = [+el[select_x_Val], +el[select_y_Val], plot1_point_styling["D"]]
+        data_plot1.push(v)
     })
 }
 function getPoint(idx, AA, k){
@@ -155,10 +155,6 @@ export function save_F(e){
 
     const form = e.target
     const a = new FormData(form)
-    
-    const _ = [...form.querySelectorAll("input")].forEach(el=>{
-        el.value = ""
-    })
 
     const obj = {}
     for (const [key, value] of a) {
@@ -178,6 +174,6 @@ export function save_F(e){
         }
     }
 
-    console.log(obj)
     table_points.addPoint(obj)
+    update_plot1()
 }
