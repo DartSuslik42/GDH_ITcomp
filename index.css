@@ -10,7 +10,6 @@ table{
     height: 100vh;
 }
 table td{
-    width: 50%;
     position: relative;
 }
 
@@ -21,10 +20,15 @@ table td.forms{
     height: 45%; 
 }
 
-table, th, td {
-    border: 1px solid black;
+.border-bt {
+    border-bottom: 1px solid #000;
     border-collapse: collapse;
 }
+.border-rt {
+    border-right: 1px solid #777;
+    border-collapse: collapse;
+}
+
 .chart{
     position: relative;
     padding: 0;
@@ -36,16 +40,12 @@ select{
     margin: 0;
     padding: 0 3px;
     position: absolute;
-    background: transparent;
     border: none;
-    appearance: none;
-    font-family: inherit;
-    font-size: inherit;
-    cursor: inherit;
-    line-height: inherit;
     outline: none;
 }
 select:disabled{
+    appearance: none;
+    background: transparent;
     color: inherit;
     opacity: 1;
 }
@@ -56,7 +56,7 @@ select:disabled{
     text-align: left;
 }
 .select_x{ 
-    right: 0;
+    right: 2rem;
     bottom: 0;
     text-align: right;
 }
@@ -92,4 +92,15 @@ li.active {
 }
 .row{
     padding: 3px 0;
+}
+
+@media all and (max-width: 800px) {
+  table,
+  thead,
+  tbody,
+  th,
+  td,
+  tr {
+    display: block;
+  }
 }

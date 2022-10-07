@@ -1,7 +1,7 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html> -->
 <html lang="en">
 <meta charset="UTF-8">
-<title>Page Title</title>
+<title>ГДХ</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <link rel="stylesheet" href="index.css">
@@ -9,11 +9,13 @@
 
 <body>
     <table>
+      <tr>
+        <td class="ml-3 border-rt">
+          <img src="gdh.png" alt="GDH" height="44px">
+        </td>    
+      </tr>
         <tr>
-          <td class="charts">
-            <div class="ml-3 mt-1">
-              <img src="gdh.png" alt="GDH" height="44px">
-            </div>
+          <td class="charts border-bt border-rt">
             <div id="chart" class="chart">
               <div id="chart_div" class="chart"></div>
               <select class="select_x"> 
@@ -38,7 +40,7 @@
               </select>
             </div>
           </td>
-          <td class="charts">
+          <td class="charts border-bt">
             <div id="chart2" class="chart"> 
               <div id="chart2_div" class="chart"></div>
               <select class="select_y">  
@@ -58,7 +60,7 @@
           </td>
         </tr>
         <tr>
-          <td id="cell_bl" class="forms">
+          <td id="cell_bl" class="forms border-bt border-rt">
             <div id="cell_bl_content">
               <div>
                 <b>Организации в анализе</b>
@@ -66,97 +68,97 @@
                 </ol>
               </div>
               <div id="form_comp">
-                <form action="#" style="overflow-y:auto">
-                  <div style="height:14rem">
+                <form action="#" style="margin-block-end:0">
+                  <div>
 
                     <div class="row">
-                      <div class="col-6">
+                      <div class="col">
                         <span>Название</span>
                       </div>
-                      <div class="col-6">
-                        <input type="text" name="IID" placeholder="">
+                      <div class="col">
+                        <input type="text" name="IID">
                       </div>
                     </div>
 
                     <div class="row">
-                      <div class="col-6">
+                      <div class="col">
                         <span>Доход</span>
                       </div>
-                      <div class="col-6">
-                        <input type="text" name="income" placeholder="">
+                      <div class="col">
+                        <input type="text" name="income">
                       </div>
                     </div>
 
 		                <div class="row">
-                      <div class="col-6">
+                      <div class="col">
                         <span>Доход с лицензий</span>
                       </div>
-                      <div class="col-6">
-                        <input type="text" name="income_lic" placeholder="">
+                      <div class="col">
+                        <input type="text" name="income_lic">
                       </div>
                     </div>
 
 		                <div class="row">
-                      <div class="col-6">
+                      <div class="col">
                         <span>Фонд оплаты труда</span>
                       </div>
-                      <div class="col-6">
+                      <div class="col">
                         <input  type="text" name="fot" placeholder="">
                       </div>
                     </div>
 
                     <div class="row">
-                      <div class="col-6">
+                      <div class="col">
                         <span>Налог с прибыли</span>
                       </div>
-                      <div class="col-6">
+                      <div class="col">
                         <input  type="text" name="taxesProfit" placeholder="">
                       </div>
                     </div>
 
                     <div class="row">
-                      <div class="col-6">
+                      <div class="col">
                         <span>НДС</span>
                       </div>
-                      <div class="col-6">
+                      <div class="col">
                         <input  type="text" name="taxesVAT" placeholder="">
                       </div>
                     </div>
 
                     <div class="row">
-                      <div class="col-6">
+                      <div class="col">
                         <span>НДФЛ</span>
                       </div>
-                      <div class="col-6">
+                      <div class="col">
                         <input  type="text" name="taxesEmplSal" placeholder="">
                       </div>
                     </div>
 
                     <div class="row">
-                      <div class="col-6">
+                      <div class="col">
                         <span>Страховые сборы</span>
                       </div>
-                      <div class="col-6">
+                      <div class="col">
                         <input  type="text" name="insurance" placeholder="">
                       </div>
                     </div>
 
                     <div class="row">
-                      <div class="col-6">
+                      <div class="col">
                         <span>Количество сотрудников</span>
                       </div>
-                      <div class="col-6">
+                      <div class="col">
                         <input  type="text" name="employee_num" placeholder="">
                       </div>
                     </div>
                     
                     <div class="row">
-                      <div class="col-6 right">
+                      <div class="col right">
                         <button type="submit" class="save btn btn-primary">
                           Сохранить
                         </button>
                       </div>
-                      <div class="col-6 left">
+                      <div class="col left">
                         <button type="submit" class="save btn btn-primary">
                           Загрузить
                         </button>
@@ -169,52 +171,53 @@
           </td>
           <td class="contaner">
             <div class="row">
-              <div class="col-6 ml-4">
+              <div class="col ml-4">
                 <div class="mb-1">
                     <input type="date" id="start" name="date-start" value="2022-01-01">            
                     <input type="date" id="end" name="date-end" value="2022-09-30">  
                 </div>
                 <div class="row">
-                  <div class="col-6">
+                  <div class="col">
                     <input type="text" placeholder="ООО Лютик">
                   </div>
-                  <div class="col-6">
+                  <div class="col">
                     <input type="text" placeholder="123456789012">
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-6">
+                  <div class="col">
                     <input type="text" placeholder="окт 2022">
                   </div>
-                  <div class="col-6">
+                  <div class="col">
                     <input type="text" placeholder="22 000 000">
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-6">
+                  <div class="col">
                     <input type="text" placeholder="март 2022">
                   </div>
-                  <div class="col-6">
+                  <div class="col">
                     <input type="text" placeholder="22 000 000">
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-6">
+                  <div class="col">
                     <input type="text" placeholder="март 2022">
                   </div>
-                  <div class="col-6">
+                  <div class="col">
                     <input type="text" placeholder="22 000 000">
                   </div>
                 </div>
               </div>
-              <div class="col-5">
+              <div class="col">
                 <ul class="list-group">
                   <li class="list-group-item"><h6 style="color:steelblue" >Лента событий</h6></li>
                   <li class="list-group-item">Аккредитовано Минцифрой</li>
                   <li class="list-group-item">Принято решение о субсидии</li>
                   <li class="list-group-item active">Первый транш</li>
                   <li class="list-group-item">Отчет по первому этапу</li>
-                </ul>        
+                </ul>
+              </div>        
             </div>
           </td>
         </tr>
