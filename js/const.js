@@ -86,19 +86,15 @@ export const options_trans = {
 }
 export const plot1_point_styling_p = {
     selected: `point {
-        fill-color:#b40000;
+        fill-color:cyan;
+        size:6;
         visible:true; 
-        size: 10px;
     }`,
     not_selected: `point {
-        fill-color:#0000b4;
+        fill-color:darkcyan;
         visible:true; 
-        size: 10px;
-    }`,
-	D: `point {
-        fill-color:cyan;
-        size:7;
-        visible:true; }`,
+        size:4;
+    }`
 }
 export const API_Chart_Keys ={
     ImgSize:{

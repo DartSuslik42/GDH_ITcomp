@@ -5,6 +5,10 @@ import {updateData_plot2, Params as data_p2} from "/js/index2.js"
 import {updateData_plot1_points as upd_p1_p} from "/js/index_points.js"
 import {plot1_point_styling_p as plot1_psp} from "/js/const.js"
 
+window.addEventListener('load', (event) => {
+    comp_table.reload()
+});
+
 let select_x_Val = "income"
 let select_y_Val = "employee_num"
 let select2_y_Val = "income"
@@ -14,25 +18,27 @@ const Period = {
     quarter : ""
 }
 
-const table_points = {
-    selected : [all_table_points[0],all_table_points[1],all_table_points[2]],
-    all : all_table_points,
+const comp_table = {
+    table : document.getElementById("table_point"),
+    points : all_table_points,
     addPoint : function(p){
-        this.all.push(p)
-        update_table()
-    }
-}
-export function update_table(){
-    const table = document.getElementById("table_point")
-    table.innerHTML = ""
-    if(Array.isArray(table_points.all)){
-        table_points.all.forEach((el)=>{
+        this.points.push(p)
+    },
+    reload : function(){
+        this.table.innerHTML = ""
+        this.points.forEach((el)=>{
             const child = document.createElement("li")
+            child.id = el.IID
             child.innerHTML = `${el.IID}`
-            table.appendChild(child)
+            if(el.isSelected){
+                child.classList.add("active")
+            }
+            this.table.appendChild(child)
         })
-    }
+        update_plot1_points()
+    },
 }
+
 function getData_plot1(){
     data_p1.AxisSrc.x = select_x_Val
     data_p1.AxisSrc.y = select_y_Val
@@ -46,36 +52,22 @@ function getData_plot2(){
     data_p2.Period.quarter = Period.quarter
 }
 function get_p1_p(){
-    const ret = table_points.all
-        .map((el)=>{
-            const is_selected = table_points.selected.find((sel)=>{
-                return sel.IID === el.IID 
-            }) ? true : false
-            
-            return {
-                    x: +el[select_x_Val],
-                    y: +el[select_y_Val],
-                    z: +el[select2_y_Val],
-                    is_selected: is_selected,
-            }
+    return comp_table.points
+        .map(el=>{
+            return [
+                +el[select_x_Val],
+                +el[select_y_Val],
+                plot1_psp[el.isSelected ? "selected" : "not_selected"]
+            ]
         })
-        .map((el)=>{
-            if(el.is_selected){
-                return [el.x, el.y, plot1_psp["selected"]]
-            }else {
-                return [el.x, el.y, plot1_psp["not_selected"]]
-            }
-        })
-    return ret
 }
 export function update_plot1_points(){
-    const data = get_p1_p()
-    upd_p1_p(data)
+    upd_p1_p(get_p1_p())
 }
-
 export function update_plot1(){
     getData_plot1()
     updateData_plot1()
+    update_plot1_points()
 }
 export function update_plot2(){
     getData_plot2()
@@ -118,6 +110,8 @@ export function save_F(e){
         }
     }
 
-    table_points.addPoint(obj)
-    update_plot1()
+    form.querySelectorAll("input").forEach(el=>el.value = "")
+
+    comp_table.addPoint(obj)
+    comp_table.reload()
 }

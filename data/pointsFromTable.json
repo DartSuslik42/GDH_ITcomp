@@ -16,7 +16,8 @@
     "isSpecialTaxRegime_profit": 0,
     "taxType": 2,
     "businessSize": 1,
-    "isIP": 0
+    "isIP": 0,
+    "isSelected": true
    },
    {
     "IID": "ООО Программные упражнения",

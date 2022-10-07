@@ -237,11 +237,10 @@
 </body>
 
 <script type="module">
-  import {select_x_F, select_y_F, select2_y_F, save_F, update_table} from "/js/data.js" 
+  import {select_x_F, select_y_F, select2_y_F, save_F} from "/js/data.js" 
   document.querySelector("#form_comp form").onsubmit=save_F
   document.querySelector("#chart .select_x").onchange=select_x_F
   document.querySelector("#chart .select_y").onchange=select_y_F
   document.querySelector("#chart2 .select_y").onchange=select2_y_F
-  update_table()
 </script> 
 </html>
