@@ -29,8 +29,6 @@ table, th, td {
     position: relative;
     padding: 0;
     margin: 0;
-    width: 100%;
-    height: 100%;
     z-index: 10;
 }
 .chart *{
@@ -39,7 +37,13 @@ table, th, td {
 .chart.lower{
     z-index: 9;
 }
+.chart.container{
+    width: 80%;
+    height: 80%;
+}
 .chart.content{
+    width: 100%;
+    height: 100%;
     position: absolute;
 }
 select{

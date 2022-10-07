@@ -41,7 +41,7 @@ function getData_plot1(){
     data_p1.Period.quarter = Period.quarter
 }
 function getData_plot2(){
-    data_p2.AxisSrc.y = select_y_Val
+    data_p2.AxisSrc.y = select2_y_Val
     data_p2.Period.year = Period.year
     data_p2.Period.quarter = Period.quarter
 }
