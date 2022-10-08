@@ -125,3 +125,7 @@ li.active {
     display: block;
   }
 }
+
+#table_point li:hover {
+    background: #0ff7;
+}

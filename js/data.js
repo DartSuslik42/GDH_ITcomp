@@ -34,6 +34,7 @@ const comp_table = {
                 child.classList.add("active")
             }
             this.table.appendChild(child)
+            child.onclick = clickOrg
         })
         update_plot1_points()
     },
@@ -88,10 +89,8 @@ export function select2_y_F(e){
 }
 export function save_F(e){
     e.preventDefault()
-
     const form = e.target
     const a = new FormData(form)
-
     const obj = {}
     for (const [key, value] of a) {
         const v = +value
@@ -114,4 +113,18 @@ export function save_F(e){
 
     comp_table.addPoint(obj)
     comp_table.reload()
+}
+
+export function clickOrg(e) {
+    const id = e.target.id;
+    comp_table.points.forEach(p => {
+        p.isSelected = p.IID === id;
+        return p;
+    });
+    comp_table.reload();
+    const org = comp_table.points.filter(p => p.IID === id)[0];
+    const xs = document.querySelectorAll("#form_comp form input");
+    xs.forEach(x => {
+        x.value = org[x.name];
+    });
 }
