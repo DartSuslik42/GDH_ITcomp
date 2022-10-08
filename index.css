@@ -64,7 +64,6 @@ select.select_x{
     z-index: 10;
 }
 select{
-    appearance: none;
     border: none;
     outline: none;
     background: transparent;

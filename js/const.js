@@ -87,11 +87,15 @@ export const options_trans = {
 export const plot1_point_styling_p = {
     selected: `point {
         fill-color:cyan;
+        stroke-color: blue;
+        stroke-width: 2;
         size:6;
         visible:true; 
     }`,
     not_selected: `point {
-        fill-color:darkcyan;
+        fill-color: yellow;
+        stroke-color: red;
+        stroke-width: 1;
         visible:true; 
         size:4;
     }`
