@@ -12,7 +12,11 @@
       <tr>
         <td class="ml-3 border-rt">
           <img id="logo" src="gdh.png" alt="GDH" height="44px">
-        </td>    
+          <select class="select_d"> 
+            <option value="1" selected> Версия 1  </option>
+            <option value="2"> Версия 2 </option>
+          </select>
+    </td>    
       </tr>
         <tr>
           <td class="charts border-bt border-rt">
@@ -237,10 +241,11 @@
 </body>
 
 <script type="module">
-  import {select_x_F, select_y_F, select2_y_F, save_F, clickOrg} from "/js/data.js" 
+  import {select_x_F, select_y_F, select2_y_F, save_F, clickOrg, select_d_F} from "/js/data.js" 
   document.querySelector("#form_comp form").onsubmit=save_F
   document.querySelector("#chart .select_x").onchange=select_x_F
   document.querySelector("#chart .select_y").onchange=select_y_F
   document.querySelector("#chart2 .select_y").onchange=select2_y_F
+  document.querySelector("#logo + .select_d").onchange=select_d_F
 </script> 
 </html>

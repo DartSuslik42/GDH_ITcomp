@@ -109,6 +109,7 @@ export const API_Chart_Keys ={
         x : "x_src",
         y : "y_src",
         z : "abc_src",
+        d : "dataset",
     },
     AxisLable:{
         x: "x_label",

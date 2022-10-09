@@ -24,6 +24,7 @@ export const Params = {
         x : "",
         y : "",
         z : "",
+        d: ""
     },
     Src : "",
 }
@@ -33,7 +34,7 @@ export function updateData_plot1() {
     
     const size_str = `${API.ImgSize.x}=${Math.floor(Params.Size.x*Params.Scale)}&${API.ImgSize.y}=${Math.floor(Params.Size.y*Params.Scale)}`
     const period_str = `${API.Period.year}=${Params.Period.year}&${API.Period.quarter}=${Params.Period.quarter}`
-    const axis_src_str = `${API.AxisSrc.x}=${Params.AxisSrc.x}&${API.AxisSrc.y}=${Params.AxisSrc.y}&${API.AxisSrc.z}=${Params.AxisSrc.z}`
+    const axis_src_str = `${API.AxisSrc.x}=${Params.AxisSrc.x}&${API.AxisSrc.y}=${Params.AxisSrc.y}&${API.AxisSrc.z}=${Params.AxisSrc.z}&${API.AxisSrc.d}=${Params.AxisSrc.d}`
     const dpi_str = `${API.DPI}=${Params.DPI}`
     Params.Src = `https://greencert.car.cos.ru/scatter?${size_str}&${period_str}&${axis_src_str}&${dpi_str}` 
     

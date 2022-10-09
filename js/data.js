@@ -12,6 +12,7 @@ window.addEventListener('load', (event) => {
 let select_x_Val = "income"
 let select_y_Val = "employee_num"
 let select2_y_Val = "income"
+let select_d_Val = 1
 
 const Period = {
     year : "",
@@ -44,11 +45,13 @@ function getData_plot1(){
     data_p1.AxisSrc.x = select_x_Val
     data_p1.AxisSrc.y = select_y_Val
     data_p1.AxisSrc.z = select2_y_Val
+    data_p1.AxisSrc.d = select_d_Val
     data_p1.Period.year = Period.year
     data_p1.Period.quarter = Period.quarter
 }
 function getData_plot2(){
     data_p2.AxisSrc.y = select2_y_Val
+    data_p2.AxisSrc.d = select_d_Val
     data_p2.Period.year = Period.year
     data_p2.Period.quarter = Period.quarter
 }
@@ -74,6 +77,10 @@ export function update_plot2(){
     getData_plot2()
     updateData_plot2()
     update_plot1()
+}
+export function select_d_F(e){
+    select_d_Val = e.target.value
+    update_plot2()
 }
 export function select_x_F(e){
     select_x_Val = e.target.value

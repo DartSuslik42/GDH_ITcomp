@@ -22,6 +22,7 @@ export const Params = {
     Scale : 1,
     AxisSrc : {
         y : "",
+        d: ""
     },
     Src : "",
 }
@@ -32,7 +33,7 @@ export function updateData_plot2() {
     
     const size_str = `${API.ImgSize.x}=${Math.floor(Params.Size.x*Params.Scale)}&${API.ImgSize.y}=${Math.floor(Params.Size.y*Params.Scale)}`
     const period_str = `${API.Period.year}=${Params.Period.year}&${API.Period.quarter}=${Params.Period.quarter}`
-    const axis_src_str = `${API.AxisSrc.y}=${Params.AxisSrc.y}`
+    const axis_src_str = `${API.AxisSrc.y}=${Params.AxisSrc.y}&${API.AxisSrc.d}=${Params.AxisSrc.d}`
     const dpi_str = `${API.DPI}=${Params.DPI}`
     Params.Src = `https://greencert.car.cos.ru/abc?${size_str}&${period_str}&${axis_src_str}&${dpi_str}` 
     

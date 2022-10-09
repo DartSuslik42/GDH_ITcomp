@@ -43,6 +43,10 @@ select.select_x{
     margin-left: auto;
     text-align: right;
 }
+select.select_d{
+    margin-left: 9em;
+}
+
 .chart.content{
     position: absolute;
     width: 100%;
