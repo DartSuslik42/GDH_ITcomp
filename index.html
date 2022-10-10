@@ -14,27 +14,24 @@
 <body>
   <table>
     <tr>
-      <td class="ml-3 border-rt">
-        <img id="logo" src="gdh.png" alt="GDH" height="44px">
-        <select class="select_d">
-          <option value="1" selected> Версия 1 </option>
-          <option value="2"> Версия 2 </option>
-        </select>
-      </td>
-    </tr>
-    <tr>
       <td class="charts border-bt border-rt">
         <div id="chart" class="chart container">
-          <select class="select_y">
-            <option value="income"> Доход </option>
-            <option value="income_lic"> Доход с лицензий </option>
-            <option value="fot"> Фонд оплаты труда </option>
-            <option value="taxesProfit"> Налог с прибыли </option>
-            <option value="taxesVAT"> НДС </option>
-            <option value="taxesEmplSal"> НДФЛ </option>
-            <option value="insurance"> Страховые сборы </option>
-            <option value="employee_num" selected> Количество сотрудников </option>
-          </select>
+          <div id="select_yd">
+            <select class="select_y">
+              <option value="income"> Доход </option>
+              <option value="income_lic"> Доход с лицензий </option>
+              <option value="fot"> Фонд оплаты труда </option>
+              <option value="taxesProfit"> Налог с прибыли </option>
+              <option value="taxesVAT"> НДС </option>
+              <option value="taxesEmplSal"> НДФЛ </option>
+              <option value="insurance"> Страховые сборы </option>
+              <option value="employee_num" selected> Количество сотрудников </option>
+            </select>
+            <select class="select_d">
+              <option value="1" selected> Версия 1 </option>
+              <option value="2"> Версия 2 </option>
+            </select>
+          </div>
 
           <div class="chart diagram">
             <div id="chart_div" class="chart content lower"></div>
@@ -82,10 +79,13 @@
     <tr>
       <td id="cell_bl" class="forms border-bt border-rt">
         <div id="cell_bl_content">
-          <div>
-            <b>Организации в анализе</b>
-            <ol id="table_point">
-            </ol>
+          <div id="org_list">
+            <div>
+              <b>Организации в анализе</b>
+              <ol id="table_point">
+              </ol>
+            </div>
+            <img id="logo" src="gdh.png" alt="GDH" width="150px">
           </div>
           <div id="form_comp">
             <form action="#" style="margin-block-end:0">
