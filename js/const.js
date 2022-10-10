@@ -1,25 +1,25 @@
 export const columns_plot1 = {
-    x : {
-        type : "number",
-        scale : "log",
+    x: {
+        type: "number",
+        scale: "log",
     },
-    y : {
-        type : "number",
-        scale : "log",
+    y: {
+        type: "number",
+        scale: "log",
     }
 }
 export const columns_plot2 = {
-    x : {
-        type : "number",
-        scale : "linear",
+    x: {
+        type: "number",
+        scale: "linear",
     },
-    y : {
-        type : "number",
-        scale : "linear",
+    y: {
+        type: "number",
+        scale: "linear",
     }
 }
 export const options_def = {
-    hAxis: { 
+    hAxis: {
         minValue: 0,
         format: 'short',
         baselineColor: 'none',
@@ -40,12 +40,12 @@ export const options_def = {
             strokeWidth: "1px",
             fill: "white",
         },
-        left:40,
-        right:18,
-        bottom:45,  
-        top:30,
+        left: 40,
+        right: 18,
+        bottom: 45,
+        top: 30,
         width: "100%",
-        height: "100%",    
+        height: "100%",
     },
     pointSize: 2,
     enableInteractivity: false,
@@ -55,15 +55,15 @@ export const options_def = {
 export const options_trans = {
     hAxis: {
         baselineColor: 'none',
-        gridlines: {color: 'none'},
-        minorGridlines: {color: 'none'},
-        textStyle: {color: 'none'},
+        gridlines: { color: 'none' },
+        minorGridlines: { color: 'none' },
+        textStyle: { color: 'none' },
     },
     vAxis: {
         baselineColor: 'none',
-        gridlines: {color: 'none'},
-        minorGridlines: {color: 'none'},
-        textStyle: {color: 'none'},
+        gridlines: { color: 'none' },
+        minorGridlines: { color: 'none' },
+        textStyle: { color: 'none' },
     },
     legend: 'none',
     backgroundColor: {
@@ -75,12 +75,12 @@ export const options_trans = {
             stroke: "none",
             fill: "transparent",
         },
-        left:40,
-        right:18,
-        bottom:45,  
-        top:30,
+        left: 40,
+        right: 18,
+        bottom: 45,
+        top: 30,
         width: "100%",
-        height: "100%",    
+        height: "100%",
     },
     enableInteractivity: false,
 }
@@ -100,47 +100,47 @@ export const plot1_point_styling_p = {
         size:4;
     }`
 }
-export const API_Chart_Keys ={
-    ImgSize:{
-        x : "w",
-        y : "h",
+export const API_Chart_Keys = {
+    ImgSize: {
+        x: "w",
+        y: "h",
     },
-    AxisSrc:{
-        x : "x_src",
-        y : "y_src",
-        z : "abc_src",
-        d : "dataset",
+    AxisSrc: {
+        x: "x_src",
+        y: "y_src",
+        z: "abc_src",
+        d: "dataset",
     },
-    AxisLable:{
+    AxisLable: {
         x: "x_label",
         y: "y_label",
     },
-    Period:{
-        year : "year",
-        quarter : "quarter",
+    Period: {
+        year: "year",
+        quarter: "quarter",
     },
-    DPI : "dpi",
+    DPI: "dpi",
 }
 export const Fields_Boolean = {
-    isIT : "isIT",
-    isSpecialTaxRegime_insurance : "isSpecialTaxRegime_insurance",
-    isSpecialTaxRegime_profit : "isSpecialTaxRegime_profit",
-    isIP : "isIP",
+    isIT: "isIT",
+    isSpecialTaxRegime_insurance: "isSpecialTaxRegime_insurance",
+    isSpecialTaxRegime_profit: "isSpecialTaxRegime_profit",
+    isIP: "isIP",
 }
 export const Fields_Info = {
-    IID : "IID",
-    taxType : "taxType",
-    businessSize : "businessSize",
+    IID: "IID",
+    taxType: "taxType",
+    businessSize: "businessSize",
 }
 export const Fields_Columns = {
-    employee_num : "employee_num", 
-    fot : "fot", 
-    income : "income", 
-    income_lic : "income_lic", 
-    taxesProfit : "taxesProfit", 
-    taxesVAT : "taxesVAT", 
-    taxesEmplSal : "taxesEmplSal", 
-    insurance : "insurance", 
+    employee_num: "employee_num",
+    fot: "fot",
+    income: "income",
+    income_lic: "income_lic",
+    taxesProfit: "taxesProfit",
+    taxesVAT: "taxesVAT",
+    taxesEmplSal: "taxesEmplSal",
+    insurance: "insurance",
 }
 export const Fields_Columns_Names = {
     income: "Доход",
