@@ -1,2 +1,16 @@
-# GDH_ITcomp
- ГосДата.hub JS-визуализация тренда развития IT компаний на территории Российской Федирации
+# Vue GDH WebService
+
+## Project setup
+```
+npm install
+```
+
+### Compiles and hot-reloads for development
+```
+npm run serve
+```
+
+### Compiles and minifies for production
+```
+npm run build
+```
