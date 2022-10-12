@@ -163,14 +163,14 @@
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col right">
-                    <button type="submit" class="save btn btn-primary">
-                      Сохранить в файл
+                  <div class="col-6">
+                    <button type="submit" id="saveBtn" title="Сохранить локально" class="btn btn-primary">
+                      Сохранить
                     </button>
                   </div>
-                  <div class="col left">
-                    <button type="submit" class="save btn btn-primary">
-                      Загрузить из файла
+                  <div class="col-6">
+                    <button type="button" id="loadBtn" title="Загрузить сохранённое" class="btn btn-primary">
+                      Загрузить
                     </button>
                   </div>
                 </div>
@@ -237,12 +237,14 @@
 </body>
 
 <script type="module">
-  import { select_x_F, select_y_F, select2_y_F, save_F, clickOrg, select_d_F } from "/js/data.js"
-  document.querySelector("#form_comp form").onsubmit = save_F
+  import { select_x_F, select_y_F, select2_y_F, saveData,
+    clickOrg, select_d_F, readData } from "/js/data.js"
+  document.querySelector("#form_comp form").onsubmit = saveData
   document.querySelector("#chart .select_x").onchange = select_x_F
   document.querySelector("#chart .select_y").onchange = select_y_F
   document.querySelector("#chart2 .select_y").onchange = select2_y_F
-  document.querySelector("#logo + .select_d").onchange = select_d_F
+  document.querySelector("#select_yd .select_d").onchange = select_d_F
+  document.querySelector("#loadBtn").onclick = readData
 </script>
 
 </html>

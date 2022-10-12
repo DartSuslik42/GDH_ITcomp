@@ -1,13 +1,7 @@
-import all_table_points from "/data/pointsFromTable.json" assert { type: "json" }
-
 import { updateData_plot1, Params as data_p1 } from "/js/index.js"
 import { updateData_plot2, Params as data_p2 } from "/js/index2.js"
 import { updateData_plot1_points as upd_p1_p } from "/js/index_points.js"
 import { plot1_point_styling_p as plot1_psp } from "/js/const.js"
-
-window.addEventListener('load', (event) => {
-    comp_table.reload()
-});
 
 let select_x_Val = "income"
 let select_y_Val = "employee_num"
@@ -18,12 +12,14 @@ const Period = {
     year: "",
     quarter: ""
 }
-
 const comp_table = {
     table: document.getElementById("table_point"),
-    points: all_table_points,
+    points: [],
     addPoint: function (p) {
         this.points.push(p)
+    },
+    removePoint: function (p) {
+        this.points = this.points.filter(e => e.IID !== p.IID)
     },
     reload: function () {
         this.table.innerHTML = ""
@@ -94,12 +90,15 @@ export function select2_y_F(e) {
     select2_y_Val = e.target.value
     update_plot2()
 }
-export function save_F(e) {
+export function saveData(e) {
     e.preventDefault()
     const form = e.target
     const a = new FormData(form)
     const obj = {}
     for (const [key, value] of a) {
+        if (key === "IID" && value === "") {
+            return;
+        }
         const v = +value
         if (key !== "IID") {
             if (Number.isNaN(v)) {
@@ -115,9 +114,20 @@ export function save_F(e) {
             }
         }
     }
-
+    let companyList = localStorage.getItem('COMPANY_LIST');
+    companyList = companyList ? JSON.parse(companyList) : [];
+    const found = companyList.find(c => c.IID === obj.IID);
+    const isUpdate = JSON.stringify(found) !== JSON.stringify(obj);
+    if (found && !isUpdate) {
+        return;
+    }
+    companyList = companyList.filter(c => c.IID !== obj.IID)
+    companyList.push(obj);
+    localStorage['COMPANY_LIST'] = JSON.stringify(companyList);
     form.querySelectorAll("input").forEach(el => el.value = "")
-
+    if (isUpdate) {
+        comp_table.removePoint(obj)
+    }
     comp_table.addPoint(obj)
     comp_table.reload()
 }
@@ -134,4 +144,10 @@ export function clickOrg(e) {
     xs.forEach(x => {
         x.value = org[x.name];
     });
+}
+
+export function readData() {
+    const companyList = localStorage.getItem('COMPANY_LIST');
+    comp_table.points = companyList ? JSON.parse(companyList) : [];
+    comp_table.reload();
 }

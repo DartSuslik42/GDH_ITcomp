@@ -124,15 +124,13 @@ select:disabled {
 #form_comp {
     background-color: rgb(226, 213, 231);
     padding: 5px;
-    border: 1px solid rgb(126, 113, 131);
-    border-right: 0;
 }
 
 form div>span {
     float: right;
 }
 
-button.save {
+button {
     width: 100%;
     scale: 0.75;
 }
