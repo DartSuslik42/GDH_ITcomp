@@ -12,6 +12,8 @@ const Period = {
     year: "",
     quarter: ""
 }
+
+/** Company list */
 const comp_table = {
     table: document.getElementById("table_point"),
     points: [],
@@ -132,6 +134,10 @@ export function saveData(e) {
     comp_table.reload()
 }
 
+/**
+ * Click on item in Организации в анализе
+ * @param {*} e mouse click event
+ */
 export function clickOrg(e) {
     const id = e.target.id;
     comp_table.points.forEach(p => {
@@ -146,6 +152,9 @@ export function clickOrg(e) {
     });
 }
 
+/**
+ * Load saved companies
+ */
 export function readData() {
     const companyList = localStorage.getItem('COMPANY_LIST');
     comp_table.points = companyList ? JSON.parse(companyList) : [];

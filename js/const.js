@@ -157,3 +157,5 @@ export const Fields_All = {
     ...Fields_Columns,
     ...Fields_Info,
 }
+
+export const server = "https://greencert.car.cos.ru/";
