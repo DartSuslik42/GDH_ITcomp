@@ -39,7 +39,6 @@
             </div>
             <img id="logo" src="gdh.png" alt="GDH" width="150px">
           </div>
-
           <NewCompForm>
             <div class="row">
               <div class="col-6">
@@ -54,7 +53,6 @@
               </div>
             </div>
           </NewCompForm>
-
         </div>
       </td>
       <td class="contaner">
@@ -107,11 +105,6 @@
               <li class="list-group-item active">Первый транш</li>
               <li class="list-group-item">Отчет по первому этапу</li>
             </ul>
-
-            <audio loop id="musicplayer" >
-              <source src="./assets/1.mp3" type="audio/mpeg">
-            </audio>
-
           </div>
         </div>
       </td>
@@ -120,6 +113,7 @@
 </template>
 
 <script>
+// import { select_x_F, select_y_F, select2_y_F, saveData, select_d_F, readData } from "./js/data.js"
 // document.querySelector("#form_comp form").onsubmit = saveData
 // document.querySelector("#chart .select_x").onchange = select_x_F
 // document.querySelector("#chart .select_y").onchange = select_y_F
@@ -130,7 +124,6 @@ import SelectAxisType from '@/components/SelectAxisType.vue'
 import ScatterChart from '@/components/ScatterChart.vue'
 import AbcChart from '@/components/AbcChart.vue'
 import NewCompForm from './components/newCompForm.vue'
-require('./assets/1.mp3')
 export default {
   name: 'root',
   components: {
@@ -180,11 +173,6 @@ export default {
       }
     }
   },
-  mounted () {
-    this.$el.addEventListener("click",()=>{
-      this.$el.querySelector("#musicplayer").play()
-    })
-  }
 }
 </script>
 
