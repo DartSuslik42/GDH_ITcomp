@@ -132,11 +132,6 @@ export const Fields_Info = {
   taxType: 'taxType',
   businessSize: 'businessSize'
 }
-export const Field_Info_Names = {
-  IID: 'IID',
-  taxType: 'taxType',
-  businessSize: 'businessSize'
-}
 export const Fields_Columns = {
   employee_num: 'employee_num',
   fot: 'fot',
@@ -162,4 +157,16 @@ export const Fields_All = {
   ...Fields_Columns,
   ...Fields_Info
 }
+export const dummyFormCompany = {
+  IID: "",
+  income: "",
+  income_lic: "",
+  fot: "",
+  taxesProfit: "",
+  taxesVAT: "",
+  taxesEmplSal: "",
+  insurance: "",
+  employee_num: "",
+}
+
 export const server = "https://greencert.car.cos.ru/";

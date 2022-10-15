@@ -34,25 +34,26 @@
           <div id="org_list">
             <div>
               <b>Организации в анализе</b>
-              <ol id="table_point">
-              </ol>
+              <CompaniesList :companies="companies" :selected="selectedCompany" @select="setSelectedCompany"/>
             </div>
-            <img id="logo" src="gdh.png" alt="GDH" width="150px">
+            <div>
+              <div class="row">
+                <div class="col-6">
+                  <UploadButton/>
+                </div>
+                <div class="col-6">
+                  <DownloadButton/>
+                </div>
+              </div>
+              <img id="logo" src="@/assets/gdh.png" alt="GDH" width="150px">
+            </div>
           </div>
-          <NewCompForm>
-            <div class="row">
-              <div class="col-6">
-                <button type="submit" id="saveBtn" title="Сохранить локально" class="btn btn-primary">
-                    Сохранить
-                </button>
-              </div>
-              <div class="col-6">
-                <button type="button" id="loadBtn" title="Загрузить сохранённое" class="btn btn-primary">
-                    Загрузить
-                </button>
-              </div>
-            </div>
-          </NewCompForm>
+          <NewCompForm 
+            @updateCompany="updateSelectedCompany" 
+            @addCompany="addNewCompany" 
+            :dummyCompany="selectedCompany"
+          />
+        
         </div>
       </td>
       <td class="contaner">
@@ -124,16 +125,25 @@ import SelectAxisType from '@/components/SelectAxisType.vue'
 import ScatterChart from '@/components/ScatterChart.vue'
 import AbcChart from '@/components/AbcChart.vue'
 import NewCompForm from './components/newCompForm.vue'
+import DownloadButton from './components/downloadButton.vue'
+import UploadButton from './components/uploadButton.vue'
+import CompaniesList from './components/companiesList.vue'
+
 export default {
   name: 'root',
   components: {
     SelectAxisType,
     ScatterChart,
     AbcChart,
-    NewCompForm
+    NewCompForm,
+    DownloadButton,
+    UploadButton,
+    CompaniesList
 },
   data(){
     return {
+      companies: [],
+      selectedCompany: null,
       dataSource: 1,
       AbcAxis:{
         y:'income',
@@ -149,6 +159,19 @@ export default {
       companies: [
         
       ],
+    }
+  },
+  methods:{
+    updateSelectedCompany(val){
+      const idx = this.$data.companies.indexOf(this.$data.selectedCompany)
+      this.$data.companies.splice(idx, 1, val) // https://v2.vuejs.org/v2/guide/reactivity.html#For-Arrays
+      this.setSelectedCompany(null)
+    },
+    setSelectedCompany(val){
+      this.$data.selectedCompany = val
+    },
+    addNewCompany(val){
+      this.$data.companies.push(val)
     }
   },
   computed:{
