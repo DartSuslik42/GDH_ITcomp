@@ -1,0 +1,167 @@
+div.google-visualization-tooltip {
+    display: none;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    background-color: rgb(245, 245, 245);
+    font-size: 0.75rem;
+    width: 100%;
+    height: 100%;
+}
+
+table {
+    height:100vh;
+    width:100%;
+    overflow: hidden;
+}
+
+table td {
+    position: relative;
+}
+
+table td.charts {
+    height: 60%;
+}
+
+.border-bt {
+    border-bottom: 1px solid #000;
+    border-collapse: collapse;
+}
+
+.border-rt {
+    border-right: 1px solid #777;
+    border-collapse: collapse;
+}
+
+.chart {
+    position: relative;
+    padding: 0;
+    margin: 0;
+}
+
+#select_yd {
+    display: flex;
+    flex-direction: row;
+}
+
+select.select_x,
+select.select_y {
+    display: flex;
+    flex: 0 0 auto;
+    width: max-content;
+}
+
+select.select_x {
+    margin-left: auto;
+    text-align: right;
+}
+
+select.select_d {
+    margin-left: 9em;
+}
+
+.chart.content {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+.chart.diagram {
+    position: relative;
+    display: flex;
+    flex: 1 1 max-content;
+}
+
+.chart.diagram * {
+    z-index: 12;
+}
+
+.chart.diagram .chart.content {
+    z-index: 11;
+}
+
+.chart.diagram .chart.lower {
+    z-index: 10;
+}
+
+select {
+    border: none;
+    outline: none;
+    background: transparent;
+}
+
+select:disabled {
+    appearance: none;
+    color: inherit;
+    opacity: 1;
+}
+
+.chart.container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+#cell_bl {
+    padding: 7px 0 0 5px;
+}
+
+#cell_bl_content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+#org_list {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#form_comp {
+    background-color: rgb(226, 213, 231);
+    padding: 5px;
+}
+
+form div>span {
+    float: right;
+}
+
+button {
+    width: 100%;
+    scale: 0.75;
+}
+
+li.active {
+    background: cyan;
+}
+
+.row {
+    padding: 3px 0;
+}
+
+@media all and (max-width: 800px) {
+
+    table,
+    thead,
+    tbody,
+    th,
+    td,
+    tr {
+        display: block;
+    }
+}
+
+#table_point li:hover {
+    background: #0ff7;
+}
+
+input[type=number] {
+    text-align: right;
+}
