@@ -120,6 +120,7 @@ export const API_Chart_Keys = {
         quarter: "quarter",
     },
     DPI: "dpi",
+    isAccredited: "isAccredited"
 }
 export const Fields_Boolean = {
     isIT: "isIT",

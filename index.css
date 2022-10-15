@@ -18,10 +18,6 @@ table td {
     position: relative;
 }
 
-table td.charts {
-    height: 60%;
-}
-
 .border-bt {
     border-bottom: 1px solid #000;
     border-collapse: collapse;
@@ -55,8 +51,8 @@ select.select_x {
     text-align: right;
 }
 
-select.select_d {
-    margin-left: 9em;
+select.select_d, input[type=checkbox] {
+    margin-left: 5em;
 }
 
 .chart.content {
@@ -102,6 +98,7 @@ select:disabled {
     height: 100%;
     display: flex;
     flex-direction: column;
+    min-height: 50vh;
 }
 
 #cell_bl {
@@ -109,21 +106,21 @@ select:disabled {
 }
 
 #cell_bl_content {
-    width: 100%;
-    height: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
 }
 
 #org_list {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    min-width: 20vw;
 }
 
 #form_comp {
     background-color: rgb(226, 213, 231);
     padding: 5px;
+    min-width: 20vw;
 }
 
 form div>span {
@@ -153,12 +150,21 @@ li.active {
     tr {
         display: block;
     }
+
+    #org_list, #form_comp {
+        min-width: 40vw;
+    }
+        
 }
 
 #table_point li:hover {
-    background: #0ff7;
+    background: #0222;
 }
 
 input[type=number] {
     text-align: right;
+}
+
+input[type=checkbox] {
+    margin-right: 5px;
 }

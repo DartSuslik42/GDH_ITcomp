@@ -7,6 +7,7 @@ let select_x_Val = "income"
 let select_y_Val = "employee_num"
 let select2_y_Val = "income"
 let select_d_Val = 1
+let isAccredited = false
 
 const Period = {
     year: "",
@@ -44,6 +45,7 @@ function getData_plot1() {
     data_p1.AxisSrc.y = select_y_Val
     data_p1.AxisSrc.z = select2_y_Val
     data_p1.AxisSrc.d = select_d_Val
+    data_p1.isAccredited = isAccredited
     data_p1.Period.year = Period.year
     data_p1.Period.quarter = Period.quarter
 }
@@ -80,6 +82,11 @@ export function select_d_F(e) {
     select_d_Val = e.target.value
     update_plot2()
 }
+export function check_accredited_F() {
+    isAccredited = document.querySelector('#accredited').checked;
+    update_plot1()
+}
+
 export function select_x_F(e) {
     select_x_Val = e.target.value
     update_plot1()

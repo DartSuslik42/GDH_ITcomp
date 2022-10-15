@@ -31,6 +31,7 @@
               <option value="1" selected> Версия 1 </option>
               <option value="2"> Версия 2 </option>
             </select>
+            <input type="checkbox" id="accredited"> Аккредитованные
           </div>
 
           <div class="chart diagram">
@@ -238,12 +239,13 @@
 
 <script type="module">
   import { select_x_F, select_y_F, select2_y_F, saveData,
-    clickOrg, select_d_F, readData } from "/js/data.js"
+    clickOrg, select_d_F, readData, check_accredited_F } from "/js/data.js"
   document.querySelector("#form_comp form").onsubmit = saveData
   document.querySelector("#chart .select_x").onchange = select_x_F
   document.querySelector("#chart .select_y").onchange = select_y_F
   document.querySelector("#chart2 .select_y").onchange = select2_y_F
   document.querySelector("#select_yd .select_d").onchange = select_d_F
+  document.querySelector("#accredited").onchange = check_accredited_F
   document.querySelector("#loadBtn").onclick = readData
 </script>
 
