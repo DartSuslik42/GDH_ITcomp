@@ -8,6 +8,7 @@ let select_y_Val = "employee_num"
 let select2_y_Val = "income"
 let select_d_Val = 1
 let isAccredited = false
+let selectedFile
 
 const Period = {
     year: "",
@@ -99,7 +100,8 @@ export function select2_y_F(e) {
     select2_y_Val = e.target.value
     update_plot2()
 }
-export function saveData(e) {
+
+export function addCompany(e) {
     e.preventDefault()
     const form = e.target
     const a = new FormData(form)
@@ -145,7 +147,7 @@ export function saveData(e) {
  * Click on item in Организации в анализе
  * @param {*} e mouse click event
  */
-export function clickOrg(e) {
+function clickOrg(e) {
     const id = e.target.id;
     comp_table.points.forEach(p => {
         p.isSelected = p.IID === id;
@@ -159,11 +161,52 @@ export function clickOrg(e) {
     });
 }
 
+function readStorage() {
+    const companyList = localStorage.getItem('COMPANY_LIST');
+    comp_table.points = companyList ? JSON.parse(companyList) : [];
+    comp_table.reload(selectedFile);        
+}
+
 /**
  * Load saved companies
  */
-export function readData() {
+ export function readData() {
+    if(!selectedFile) {
+        readStorage();        
+    } else {
+        readFile()
+    }
+}
+
+function fileSave(sourceText, fileIdentity) {
+    var tempLink = document.createElement("a");
+    if ('download' in tempLink) {
+        var taBlob = new Blob([sourceText], {type: 'application/json'});
+        tempLink.setAttribute('href', URL.createObjectURL(taBlob));
+        tempLink.setAttribute('download', fileIdentity);
+        tempLink.click();
+        URL.revokeObjectURL(tempLink.href);      
+    } else throw 'File saving not supported for this browser';
+}
+
+export function saveStoreToFile() {
     const companyList = localStorage.getItem('COMPANY_LIST');
-    comp_table.points = companyList ? JSON.parse(companyList) : [];
-    comp_table.reload();
+    const fileName = selectedFile ? selectedFile.name : '_companies'
+    fileSave(companyList, fileName)
+}
+
+function readFile() {
+    const reader = new FileReader(); // без аргументов
+    reader.readAsText(selectedFile);
+    reader.onload = function() {
+        localStorage['COMPANY_LIST'] = reader.result;
+        readStorage()
+    };
+    reader.onerror = function() {
+      console.log(reader.error);
+    };  
+}
+
+export function selectFile(event) {
+    selectedFile = event.target.files[0];
 }
