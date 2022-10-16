@@ -100,7 +100,6 @@ export default{
             })
 
             this.$data.chart.draw(data, this.$data.chart_options)
-            console.log("here")
         },
     },
     computed:{
