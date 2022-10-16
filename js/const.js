@@ -142,6 +142,7 @@ export const Fields_Columns = {
     taxesVAT: "taxesVAT",
     taxesEmplSal: "taxesEmplSal",
     insurance: "insurance",
+    taxes: "taxes"
 }
 export const Fields_Columns_Names = {
     income: "Доход",
@@ -151,6 +152,7 @@ export const Fields_Columns_Names = {
     taxesVAT: "НДС",
     taxesEmplSal: "НДФЛ",
     insurance: "Страховые сборы",
+    taxes: "Cумма платежей в бюджет",
     employee_num: "Количество сотрудников",
 }
 export const Fields_All = {

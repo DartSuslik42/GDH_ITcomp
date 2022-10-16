@@ -14,10 +14,6 @@ table {
     height: 100vh;
 }
 
-table td {
-    position: relative;
-}
-
 .border-bt {
     border-bottom: 1px solid #000;
     border-collapse: collapse;
@@ -166,4 +162,14 @@ input[type=number] {
 
 input[type=checkbox] {
     margin-right: 5px;
+}
+
+.close {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: red;
+}
+
+ol li {
+    margin: 0 1rem 0.2rem 0;
 }

@@ -25,6 +25,7 @@
               <option value="taxesVAT"> НДС </option>
               <option value="taxesEmplSal"> НДФЛ </option>
               <option value="insurance"> Страховые сборы </option>
+              <option value="taxes"> Cумма платежей в бюджет </option>
               <option value="employee_num" selected> Количество сотрудников </option>
             </select>
             <select class="select_d">
@@ -47,6 +48,7 @@
             <option value="taxesVAT"> НДС </option>
             <option value="taxesEmplSal"> НДФЛ </option>
             <option value="insurance"> Страховые сборы </option>
+            <option value="taxes"> Cумма платежей в бюджет </option>
             <option value="employee_num"> Количество сотрудников </option>
           </select>
 
@@ -63,6 +65,7 @@
             <option value="taxesVAT"> НДС </option>
             <option value="taxesEmplSal"> НДФЛ </option>
             <option value="insurance"> Страховые сборы </option>
+            <option value="taxes"> Cумма платежей в бюджет </option>
             <option value="employee_num"> Количество сотрудников </option>
           </select>
 
@@ -80,109 +83,111 @@
     <tr>
       <td id="cell_bl" class="forms border-bt border-rt">
         <form action="#" style="margin-block-end:0">
-        <div id="cell_bl_content">
-          <div id="org_list">
-            <div>
-              <b>Организации в анализе</b>
-              <button type="submit" id="addBtn" title="Добавить" class="btn btn-primary">
-                +
-              </button>
-              <ol id="table_point">
-              </ol>
-            </div>
-            <img id="logo" src="gdh.png" alt="GDH" width="150px">
-          </div>
-          <div id="form_comp">
+          <div id="cell_bl_content">
+            <div id="org_list">
               <div>
-                <div class="row">
-                  <div class="col">
-                    <span>Название</span>
-                  </div>
-                  <div class="col">
-                    <input type="text" name="IID" placeholder="Введите имя компании">
-                  </div>
+                <b>Организации в анализе</b>
+                <button type="submit" id="addBtn" title="Добавить" class="btn btn-primary">
+                  +
+                </button>
+                <ol id="table_point">
+                </ol>
+              </div>
+              <img id="logo" src="gdh.png" alt="GDH" width="150px">
+            </div>
+            <div id="form_comp">
+              <div class="row">
+                <div class="col">
+                  <span>Название</span>
                 </div>
-                <div class="row">
-                  <div class="col">
-                    <span>Доход</span>
-                  </div>
-                  <div class="col">
-                    <input type="number" pattern="\d*" name="income" placeholder="0">
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col">
-                    <span>Доход с лицензий</span>
-                  </div>
-                  <div class="col">
-                    <input type="number" pattern="\d*" name="income_lic" placeholder="0">
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col">
-                    <span>Фонд оплаты труда</span>
-                  </div>
-                  <div class="col">
-                    <input type="number" pattern="\d*" name="fot" placeholder="0">
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col">
-                    <span>Налог с прибыли</span>
-                  </div>
-                  <div class="col">
-                    <input type="number" pattern="\d*" name="taxesProfit" placeholder="0">
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col">
-                    <span>НДС</span>
-                  </div>
-                  <div class="col">
-                    <input type="number" pattern="\d*" name="taxesVAT" placeholder="0">
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col">
-                    <span>НДФЛ</span>
-                  </div>
-                  <div class="col">
-                    <input type="number" pattern="\d*" name="taxesEmplSal" placeholder="0">
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col">
-                    <span>Страховые сборы</span>
-                  </div>
-                  <div class="col">
-                    <input type="number" pattern="\d*" name="insurance" placeholder="0">
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col">
-                    <span>Количество сотрудников</span>
-                  </div>
-                  <div class="col">
-                    <input type="number" pattern="\d*" name="employee_num" placeholder="0">
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-6">
-                    <button type="button" id="saveBtn" title="Сохранить в файл" class="btn btn-primary">
-                      Сохранить
-                    </button>
-                  </div>
-                  <div class="col-6">
-                    <button type="button" id="loadBtn" title="Загрузить из файла" class="btn btn-primary">
-                      Загрузить
-                    </button>
-                    <input type="file" id="file-selector">
-                  </div>
+                <div class="col">
+                  <input type="text" name="IID" placeholder="Введите имя компании">
                 </div>
               </div>
+              <div class="row">
+                <div class="col">
+                  <span>Доход</span>
+                </div>
+                <div class="col">
+                  <input type="number" pattern="\d*" name="income" placeholder="0">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <span>Доход с лицензий</span>
+                </div>
+                <div class="col">
+                  <input type="number" pattern="\d*" name="income_lic" placeholder="0">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <span>Фонд оплаты труда</span>
+                </div>
+                <div class="col">
+                  <input type="number" pattern="\d*" name="fot" placeholder="0">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <span>Налог с прибыли</span>
+                </div>
+                <div class="col">
+                  <input type="number" pattern="\d*" name="taxesProfit" placeholder="0">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <span>НДС</span>
+                </div>
+                <div class="col">
+                  <input type="number" pattern="\d*" name="taxesVAT" placeholder="0">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <span>НДФЛ</span>
+                </div>
+                <div class="col">
+                  <input type="number" pattern="\d*" name="taxesEmplSal" placeholder="0">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <span>Страховые сборы</span>
+                </div>
+                <div class="col">
+                  <input type="number" pattern="\d*" name="insurance" placeholder="0">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <span>Количество сотрудников</span>
+                </div>
+                <div class="col">
+                  <input type="number" pattern="\d*" name="employee_num" placeholder="0">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-3">
+                  <button type="button" id="saveBtn" title="Сохранить в файл и хранилище браузера"
+                    class="btn btn-primary m-0">
+                    Сохранить
+                  </button>
+                </div>
+                <div class="col-3">
+                  <button type="button" id="loadBtn" title="Загрузить из хранилища браузера или выбранного файла"
+                    class="btn btn-primary m-0">
+                    Загрузить
+                  </button>
+                </div>
+                <div class="col-3 m-0 p-0 mt-2">
+                  <input type="file" id="fileSelector" title="Выбрать файл для загрузки" />
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-      </form>
+        </form>
       </td>
       <td class="contaner">
         <div class="row">
@@ -242,8 +247,10 @@
 </body>
 
 <script type="module">
-  import { select_x_F, select_y_F, select2_y_F, addCompany,
-    select_d_F, readData, check_accredited_F, saveStoreToFile, selectFile } from "/js/data.js"
+  import {
+    select_x_F, select_y_F, select2_y_F, addCompany,
+    select_d_F, readData, check_accredited_F, saveStoreToFile, selectFile
+  } from "/js/data.js"
   document.querySelector("form").onsubmit = addCompany
   document.querySelector("#chart .select_x").onchange = select_x_F
   document.querySelector("#chart .select_y").onchange = select_y_F
@@ -252,7 +259,7 @@
   document.querySelector("#accredited").onchange = check_accredited_F
   document.querySelector("#loadBtn").onclick = readData
   document.querySelector("#saveBtn").onclick = saveStoreToFile
-  document.getElementById('file-selector').onchange = selectFile
+  document.getElementById('fileSelector').onchange = selectFile
 </script>
 
-</html>
+</html> 

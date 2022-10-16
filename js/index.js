@@ -1,9 +1,4 @@
-import { update_plot1 } from "/js/data.js"
 import { API_Chart_Keys as API, server } from "/js/const.js"
-
-// window.addEventListener('load', (event) => {
-//     update_plot1()
-// });
 
 const img = document.createElement('img')
 const chart_div = document.getElementById('chart_div')

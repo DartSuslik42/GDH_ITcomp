@@ -9,6 +9,7 @@ let select2_y_Val = "income"
 let select_d_Val = 1
 let isAccredited = false
 let selectedFile
+let selectedCompany
 
 const Period = {
     year: "",
@@ -35,7 +36,16 @@ const comp_table = {
                 child.classList.add("active")
             }
             this.table.appendChild(child)
-            child.onclick = clickOrg
+            child.onclick = clickOrg;
+            var span = document.createElement("SPAN");
+            var txt = document.createTextNode("\u00D7");
+            span.className = "close";
+            span.appendChild(txt);
+            span.onclick = () => {
+                this.removePoint(el);
+                this.reload();
+            }
+            child.appendChild(span);          
         })
         update_plot1_points()
     },
@@ -125,8 +135,7 @@ export function addCompany(e) {
             }
         }
     }
-    let companyList = localStorage.getItem('COMPANY_LIST');
-    companyList = companyList ? JSON.parse(companyList) : [];
+    let companyList = readCompanyList();
     const found = companyList.find(c => c.IID === obj.IID);
     const isUpdate = JSON.stringify(found) !== JSON.stringify(obj);
     if (found && !isUpdate) {
@@ -143,8 +152,7 @@ export function addCompany(e) {
     comp_table.reload()
 }
 
-/**
- * Click on item in Организации в анализе
+/** Click on item in Организации в анализе
  * @param {*} e mouse click event
  */
 function clickOrg(e) {
@@ -154,23 +162,38 @@ function clickOrg(e) {
         return p;
     });
     comp_table.reload();
-    const org = comp_table.points.filter(p => p.IID === id)[0];
-    const xs = document.querySelectorAll("#form_comp form input");
+    selectedCompany = comp_table.points.filter(p => p.IID === id)[0];
+    const xs = document.querySelectorAll("#form_comp input");
     xs.forEach(x => {
-        x.value = org[x.name];
+        if (x.type !== "file") {
+            x.value = selectedCompany[x.name];
+        }
     });
 }
 
-function readStorage() {
+function readCompanyList() {
     const companyList = localStorage.getItem('COMPANY_LIST');
-    comp_table.points = companyList ? JSON.parse(companyList) : [];
-    comp_table.reload(selectedFile);        
+    if (companyList) {
+        const res = JSON.parse(companyList);
+        res.forEach(c => c.isSelected = false);
+        return res
+    }
+    return [];
 }
 
-/**
- * Load saved companies
- */
+function readStorage() {
+    comp_table.points = readCompanyList();
+    comp_table.reload();
+}
+
+function clearForm() {
+    const form = document.querySelector("form");
+    form.querySelectorAll("input").forEach(el => el.value = "")
+}
+
+/** Load saved companies */
  export function readData() {
+    clearForm();
     if(!selectedFile) {
         readStorage();        
     } else {
@@ -190,9 +213,10 @@ function fileSave(sourceText, fileIdentity) {
 }
 
 export function saveStoreToFile() {
-    const companyList = localStorage.getItem('COMPANY_LIST');
+    const companyListStr = JSON.stringify(comp_table.points);
+    localStorage['COMPANY_LIST'] = companyListStr;
     const fileName = selectedFile ? selectedFile.name : '_companies'
-    fileSave(companyList, fileName)
+    fileSave(companyListStr, fileName)
 }
 
 function readFile() {
@@ -210,3 +234,7 @@ function readFile() {
 export function selectFile(event) {
     selectedFile = event.target.files[0];
 }
+
+window.addEventListener('load', (event) => {
+     readData()
+});
