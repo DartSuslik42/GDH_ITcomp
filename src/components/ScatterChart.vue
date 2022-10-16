@@ -125,11 +125,15 @@ export default{
                     return [
                         +el[this.$props.params.AxisSrc.x],
                         +el[this.$props.params.AxisSrc.y],
-                        plot1_psp[el.IID === this.$props.selected?.IID ? 'selected' : 'not_selected'],
-                        `<div style="padding:0 3px 3px 3px;margin:0;width:max-content">
-                            <div><b>${el.IID}</b></div>
+                        plot1_psp[el.IID === this.$props.selected?.IID ? 'selected' : 'not_selected'], 
+                        `<div style="padding:3px 7px 5px 7px;margin:0;width:max-content">
+                            <div><h6 style="margin:0"><b>${el.IID}</b></h6></div>
                             <div><b>${field_names[this.$props.params.AxisSrc.x]}:</b><span>${+el[this.$props.params.AxisSrc.x]}</span></div>
-                            <div><b>${field_names[this.$props.params.AxisSrc.y]}:</b><span>${+el[this.$props.params.AxisSrc.y]}</span></div>
+                            ${
+                                this.$props.params.AxisSrc.x === this.$props.params.AxisSrc.y ? 
+                                "" : 
+                                `<div><b>${field_names[this.$props.params.AxisSrc.y]}:</b><span>${+el[this.$props.params.AxisSrc.y]}</span></div>`
+                            }
                         </div>`
                     ]
                 })
