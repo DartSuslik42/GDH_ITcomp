@@ -57,32 +57,39 @@ export const options_trans = {
     baselineColor: 'none',
     gridlines: { color: 'none' },
     minorGridlines: { color: 'none' },
-    textStyle: { color: 'none' }
+    textStyle: { color: 'black' },
+    format: 'short',
+    ticks: [],
   },
   vAxis: {
     baselineColor: 'none',
     gridlines: { color: 'none' },
     minorGridlines: { color: 'none' },
-    textStyle: { color: 'none' }
+    textStyle: { color: 'black' },
+    format: 'short',
+    ticks: [],
   },
   legend: 'none',
   backgroundColor: {
     stroke: 'none',
-    fill: 'transparent'
+    fill: 'none'
   },
   chartArea: {
     backgroundColor: {
-      stroke: 'none',
-      fill: 'transparent'
+      stroke: 'black',
+      fill: 'none'
     },
-    left: 40,
-    right: 18,
-    bottom: 45,
-    top: 30,
+    left: 45,
+    right: 5,
+    bottom: 30,
+    top: 5,
     width: '100%',
     height: '100%'
   },
-  enableInteractivity: false
+  aggregationTarget: "none",
+  tooltip: { 
+    isHtml: true,
+  }
 }
 export const plot1_point_styling_p = {
   selected: `point {

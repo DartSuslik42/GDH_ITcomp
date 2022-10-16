@@ -11,7 +11,12 @@
               <option value="2"> Версия 2 </option>
             </select>
           </div>
-          <ScatterChart :params="ScatterChartParams" class="chart diagram"/>
+          <ScatterChart class="chart diagram"
+            :params="ScatterChartParams" 
+            :companies="companies"
+            :selected="selectedCompany" 
+            @select="setSelectedCompany"
+          />
           <SelectAxisType class="select_x" v-model="ScatterAxis.x"/>
 
         </div>
