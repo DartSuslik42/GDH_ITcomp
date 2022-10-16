@@ -87,8 +87,8 @@ export const options_trans = {
     height: '100%'
   },
   aggregationTarget: "none",
-  tooltip: { 
-    isHtml: true,
+  tooltip:{
+    isHtml: true
   }
 }
 export const plot1_point_styling_p = {

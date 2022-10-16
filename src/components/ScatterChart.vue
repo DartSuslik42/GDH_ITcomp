@@ -14,7 +14,7 @@
 
 <script>
 import chart_img from '@/components/chart_img.vue'
-import { API_Chart_Keys as API, server, columns_plot1 as columns, options_trans as options, plot1_point_styling_p as plot1_psp} from '@/js/const.js'
+import { API_Chart_Keys as API, server, columns_plot1 as columns, options_trans as options, plot1_point_styling_p as plot1_psp, Fields_Columns_Names as field_names} from '@/js/const.js'
 export default{
     props:{
         params: Object,
@@ -87,7 +87,7 @@ export default{
                 type: 'string',
                 role: 'style'
             })
-            data.addColumn({'type': 'string', 'role': 'tooltip', 'p': {'html': true}})
+            data.addColumn({type: 'string', role: 'tooltip', p: {'html': true}})
             data.addRows(this.points)
 
             // Redraw chart
@@ -126,7 +126,11 @@ export default{
                         +el[this.$props.params.AxisSrc.x],
                         +el[this.$props.params.AxisSrc.y],
                         plot1_psp[el.IID === this.$props.selected?.IID ? 'selected' : 'not_selected'],
-                        "row"
+                        `<div style="padding:0 3px 3px 3px;margin:0;width:max-content">
+                            <div><b>${el.IID}</b></div>
+                            <div><b>${field_names[this.$props.params.AxisSrc.x]}:</b><span>${+el[this.$props.params.AxisSrc.x]}</span></div>
+                            <div><b>${field_names[this.$props.params.AxisSrc.y]}:</b><span>${+el[this.$props.params.AxisSrc.y]}</span></div>
+                        </div>`
                     ]
                 })
         }
