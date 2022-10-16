@@ -116,7 +116,9 @@ export default{
             // AxisType
             `&${API.AxisSrc.x}=${this.$props.params.AxisSrc.x}&${API.AxisSrc.y}=${this.$props.params.AxisSrc.y}&${API.AxisSrc.z}=${this.$props.params.AxisSrc.z}` +
             // DataSource
-            `&${API.AxisSrc.d}=${this.$props.params.AxisSrc.d}`
+            `&${API.AxisSrc.d}=${this.$props.params.AxisSrc.d}` +
+            // isAccredited
+            `&${API.AxisSrc.a}=${this.$props.params.AxisSrc.a}`
         },
         points(){
             return this.$props.companies

@@ -58,8 +58,8 @@ select.select_x {
     text-align: right;
 }
 
-select.select_d {
-    margin-left: 9em;
+select.select_d, input[type=checkbox] {
+    margin-left: 5em;
 }
 
 .chart.content {

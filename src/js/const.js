@@ -116,7 +116,8 @@ export const API_Chart_Keys = {
     x: 'x_src',
     y: 'y_src',
     z: 'abc_src',
-    d: 'dataset'
+    d: 'dataset',
+    a: 'isAccredited'
   },
   AxisLable: {
     x: 'x_label',
@@ -147,7 +148,8 @@ export const Fields_Columns = {
   taxesProfit: 'taxesProfit',
   taxesVAT: 'taxesVAT',
   taxesEmplSal: 'taxesEmplSal',
-  insurance: 'insurance'
+  insurance: 'insurance',
+  taxes: "taxes"
 }
 export const Fields_Columns_Names = {
   income: 'Доход',
@@ -157,6 +159,7 @@ export const Fields_Columns_Names = {
   taxesVAT: 'НДС',
   taxesEmplSal: 'НДФЛ',
   insurance: 'Страховые сборы',
+  taxes: "Cумма платежей в бюджет",
   employee_num: 'Количество сотрудников'
 }
 export const Fields_All = {
@@ -166,6 +169,7 @@ export const Fields_All = {
 }
 export const dummyFormCompany = {
   IID: "",
+  ogrn: "",
   income: "",
   income_lic: "",
   fot: "",
