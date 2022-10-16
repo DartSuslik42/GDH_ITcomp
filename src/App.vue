@@ -10,6 +10,7 @@
               <option value="1"> Версия 1 </option>
               <option value="2"> Версия 2 </option>
             </select>
+            <input type="checkbox" id="accredited" v-model="isAccredited"> Аккредитованные
           </div>
           <ScatterChart class="chart diagram"
             :params="ScatterChartParams" 
@@ -150,6 +151,7 @@ export default {
       companies: [],
       selectedCompany: null,
       dataSource: 1,
+      isAccredited: false,
       AbcAxis:{
         y:'income',
       },
@@ -186,7 +188,8 @@ export default {
           x:this.$data.ScatterAxis.x,
           y:this.$data.ScatterAxis.y,
           z:this.$data.AbcAxis.y,
-          d:this.$data.dataSource
+          d:this.$data.dataSource,
+          a:this.$data.isAccredited
         },
         Period:this.$data.period,
       }

@@ -12,6 +12,14 @@
                 </div>
                 <div class="row">
                     <div class="col">
+                        <span>ОГРН</span>
+                    </div>
+                    <div class="col">
+                        <input type="text" name="ogrn" v-model="dummy.ogrn">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
                         <span>Доход</span>
                     </div>
                     <div class="col">
@@ -115,7 +123,7 @@ export default{
                     this.$data.dummy = {...d}
                 }
             }else{
-                alert("Усё пагано")
+                alert("Введите имя компании")
             }
         },
         fildsValid(){
