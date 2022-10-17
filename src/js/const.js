@@ -178,6 +178,7 @@ export const dummyFormCompany = {
   taxesEmplSal: "",
   insurance: "",
   employee_num: "",
+  events: undefined
 }
 export const dummyFormEvent = {
   id: "получение дохода от грантов и субсидий",

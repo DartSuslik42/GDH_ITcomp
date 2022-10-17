@@ -65,17 +65,21 @@ export default {
   },
   data() {
     return {
-    //   selected: { year: 2019, quarter: 1 },
       dummy: { ...(this.dummyEvent ? this.dummyEvent : d) },
     };
   },
   methods: {
-    addNewEvent(e) {
+    addNewEvent() {
+      console.log('addNewEvent')
       if (this.dummyEvent) {
         this.$emit("updateEvent", this.$data.dummy);
       } else {
+        if (!this.$data.dummy.year && !this.$data.dummy.quarter) {
+          alert("Выберите квартал года");
+          return;
+        }
         this.$emit("addEvent", this.$data.dummy);
-        this.$data.dummy = { ...this.$data.dummy };
+        this.$data.dummy = { ...this.$data.dummy }; // need clone
       }
     },
     removeEvent(e) {
@@ -84,6 +88,7 @@ export default {
     highlight(quarter) {
         this.dummy.quarter = quarter;
         this.dummy.year = Math.floor(2019 + (quarter-1) / 4); 
+        this.$emit("timeSelected", {year: this.dummy.year, quarter: ((this.dummy.quarter - 1) % 4) + 1}); 
     }
   },
   watch: {

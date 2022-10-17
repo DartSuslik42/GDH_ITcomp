@@ -66,7 +66,7 @@
         </div>
       </td>
       <td style="width:50%">
-        <EventsList :events="events"
+        <EventsList :events="events" @timeSelected="setPeriod"
             @addEvent="addEvent"  
             @removeEvent="removeEvent" />
       </td>
@@ -118,13 +118,20 @@ export default {
         y:'employee_num',
       },
       period: {
-        year: '',
-        quarter: ''
+        year: 2019,
+        quarter: 1
       },
     }
   },
   methods:{
+    setPeriod(p) {
+      this.$data.period = p;
+      console.log(p)
+    },
     addEvent(e) {
+      if (!this.$data.events) {
+        this.$data.events = [];
+      }
       this.$data.events.push(e)
     },
     removeEvent(e) {
@@ -141,13 +148,15 @@ export default {
       localStorage['COMPANY_LIST'] = JSON.stringify(this.$data.companies);
     },
     updateSelectedCompany(val){
+      val.events = this.$data.events;
       const idx = this.$data.companies.indexOf(this.$data.selectedCompany)
       this.$data.companies.splice(idx, 1, val) // https://v2.vuejs.org/v2/guide/reactivity.html#For-Arrays
       this.setSelectedCompany(null)
       this.storeCompanies()
     },
     setSelectedCompany(val){
-      this.$data.selectedCompany = val
+      this.$data.selectedCompany = val;
+      this.events = val.events;
     },
     addNewCompany(val){
       this.$data.companies.push(val)
