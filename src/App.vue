@@ -65,56 +65,25 @@
         
         </div>
       </td>
-      <td class="contaner">
-        <div class="row">
-          <div class="col ml-4">
-            <div class="mb-1">
-              <input type="date" id="start" name="date-start" value="2022-01-01">
-              <input type="date" id="end" name="date-end" value="2022-09-30">
-            </div>
-            <div class="row">
-              <div class="col">
-                <input type="text" placeholder="ООО Лютик">
-              </div>
-              <div class="col">
-                <input type="text" placeholder="123456789012">
-              </div>
-            </div>
-            <div class="row">
-              <div class="col">
-                <input type="text" placeholder="окт 2022">
-              </div>
-              <div class="col">
-                <input type="text" placeholder="22 000 000">
-              </div>
-            </div>
-            <div class="row">
-              <div class="col">
-                <input type="text" placeholder="март 2022">
-              </div>
-              <div class="col">
-                <input type="text" placeholder="22 000 000">
-              </div>
-            </div>
-            <div class="row">
-              <div class="col">
-                <input type="text" placeholder="март 2022">
-              </div>
-              <div class="col">
-                <input type="text" placeholder="22 000 000">
-              </div>
+      <td style="width:50%">
+        <div id="q4">
+          <div class="yq">
+            <div class="year" v-for="year in [2019,2020,2021,2022]">
+              {{ year }}
             </div>
           </div>
-          <div class="col">
-            <ul class="list-group">
-              <li class="list-group-item">
-                <h6 style="color:steelblue">Лента событий</h6>
-              </li>
-              <li class="list-group-item">Аккредитовано Минцифрой</li>
-              <li class="list-group-item">Принято решение о субсидии</li>
-              <li class="list-group-item active">Первый транш</li>
-              <li class="list-group-item">Отчет по первому этапу</li>
-            </ul>
+          <div class="yq">
+            <div class="quarter" v-for="quarter in 16">
+              Q{{(quarter-1)%4+1 }}
+            </div>
+          </div>
+          <div class="yq">
+            <div class="quarter" v-for="k in 16">
+              <input type="text" />
+            </div>
+          </div>
+          <div class="events">  
+            <h4>Лента событий</h4>
           </div>
         </div>
       </td>

@@ -37,11 +37,30 @@ table td.charts {
     margin: 0;
 }
 
-#select_yd {
+#select_yd, #q4 {
     display: flex;
     flex-direction: row;
 }
 
+.yq {
+    min-width: 2.1rem;
+    height: 50vh;
+}
+
+.year {
+    height: 12.5vh;
+    border-bottom: 1px solid grey;
+}
+.quarter {
+    height: 3.125vh;
+    border-bottom: 1px solid grey;
+}
+.events {
+    width: 25vw;
+    height: 50vh;
+    margin-left: 5rem;
+    border-bottom: 1px solid grey;
+}
 select.select_x,
 select.select_y {
     display: flex;
