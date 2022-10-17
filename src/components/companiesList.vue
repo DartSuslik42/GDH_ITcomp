@@ -1,7 +1,7 @@
 <template>
     <ol id="table_point">
         <Company v-for="(company, idx) in companies" :key="idx" :company="company"
-            @select="updSelectedComp" @remove="remove"
+            @select="updSelectedComp" @removeCompany="removeCompany"
             :class="{active: company.IID === selectedComp?.IID}"
         />
     </ol>
@@ -31,8 +31,8 @@ export default{
             }
             this.$emit('select', this.$data.selectedComp)
         },
-        remove(e) {
-            this.$emit('remove', e)
+        removeCompany(e) {
+            this.$emit('removeCompany', e)
         }
     },
     watch:{

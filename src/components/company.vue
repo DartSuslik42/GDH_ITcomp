@@ -1,7 +1,7 @@
 <template>
     <li :id="company.IID" @click.left="clickOrg">
         {{company.IID}}
-        <span  @click.left="remove" class="close">x</span>
+        <span  @click.left="removeCompany" class="close">X</span>
     </li>
 </template>
 <script>
@@ -13,8 +13,8 @@ export default{
         clickOrg(){
             this.$emit('select', this.$props.company)
         },
-        remove(){
-            this.$emit('remove', this.$props.company)
+        removeCompany(){
+            this.$emit('removeCompany', this.$props.company)
         }
     }
 }

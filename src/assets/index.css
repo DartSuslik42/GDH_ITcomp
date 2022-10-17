@@ -40,6 +40,7 @@ table td.charts {
 #select_yd, #q4 {
     display: flex;
     flex-direction: row;
+    margin-left: .5rem;
 }
 
 .yq {
@@ -56,7 +57,7 @@ table td.charts {
     border-bottom: 1px solid grey;
 }
 .events {
-    width: 25vw;
+    min-width: 25vw;
     height: 50vh;
     margin-left: 5rem;
     border-bottom: 1px solid grey;
@@ -193,4 +194,8 @@ ol li {
 
 input[type=file] {
     width: 85px;
+}
+
+.highl {
+    background-color: #9acd3270;
 }

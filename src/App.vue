@@ -42,7 +42,7 @@
               <b>Организации в анализе</b>
               <CompaniesList :companies="companies" 
               :selected="selectedCompany" 
-              @remove="remove"
+              @removeCompany="removeCompany"
               @select="setSelectedCompany"/>
             </div>
             <div>
@@ -66,26 +66,9 @@
         </div>
       </td>
       <td style="width:50%">
-        <div id="q4">
-          <div class="yq">
-            <div class="year" v-for="year in [2019,2020,2021,2022]">
-              {{ year }}
-            </div>
-          </div>
-          <div class="yq">
-            <div class="quarter" v-for="quarter in 16">
-              Q{{(quarter-1)%4+1 }}
-            </div>
-          </div>
-          <div class="yq">
-            <div class="quarter" v-for="k in 16">
-              <input type="text" />
-            </div>
-          </div>
-          <div class="events">  
-            <h4>Лента событий</h4>
-          </div>
-        </div>
+        <EventsList :events="events"
+            @addEvent="addEvent"  
+            @removeEvent="removeEvent" />
       </td>
     </tr>
   </table>
@@ -106,6 +89,7 @@ import NewCompForm from './components/newCompForm.vue'
 import DownloadButton from './components/downloadButton.vue'
 import UploadButton from './components/uploadButton.vue'
 import CompaniesList from './components/companiesList.vue'
+import EventsList from './components/eventsList.vue'
 
 export default {
   name: 'root',
@@ -116,11 +100,13 @@ export default {
     NewCompForm,
     DownloadButton,
     UploadButton,
-    CompaniesList
+    CompaniesList,
+    EventsList
 },
   data(){
     return {
       companies: [],
+      events: [],
       selectedCompany: null,
       dataSource: 1,
       isAccredited: false,
@@ -138,7 +124,13 @@ export default {
     }
   },
   methods:{
-    remove(e) {
+    addEvent(e) {
+      this.$data.events.push(e)
+    },
+    removeEvent(e) {
+      this.$data.events = this.$data.events.filter(c => c.id !== e.id)
+    },
+    removeCompany(e) {
       this.$data.companies = this.$data.companies.filter(c => c.IID !== e.IID)
     },
     loadCompanies() {

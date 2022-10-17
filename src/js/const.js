@@ -179,5 +179,10 @@ export const dummyFormCompany = {
   insurance: "",
   employee_num: "",
 }
+export const dummyFormEvent = {
+  id: "получение дохода от грантов и субсидий",
+  year: 2019,
+  quarter: 1,
+}
 
 export const server = "https://greencert.car.cos.ru/";
