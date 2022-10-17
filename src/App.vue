@@ -5,12 +5,12 @@
         <div id="chart" class="chart container">
           
           <div id="select_yd">
-            <SelectAxisType class="select_y" v-model="ScatterAxis.y"/>
-            <select class="select_d" v-model="dataSource">
+            <SelectAxisType class="select_y" v-model="ScatterAxis.y" @input="saveScatterAxis"/>
+            <select class="select_d" v-model="dataSource" v-on:change="saveDataSource">
               <option value="1"> Версия 1 </option>
               <option value="2"> Версия 2 </option>
             </select>
-            <input type="checkbox" id="accredited" v-model="isAccredited"> Аккредитованные
+            <input type="checkbox" id="accredited" v-model="isAccredited" v-on:change="saveIsAccredited"> Аккредитованные
           </div>
           <ScatterChart class="chart diagram"
             :params="ScatterChartParams" 
@@ -18,14 +18,14 @@
             :selected="selectedCompany" 
             @select="setSelectedCompany"
           />
-          <SelectAxisType class="select_x" v-model="ScatterAxis.x"/>
+          <SelectAxisType class="select_x" v-model="ScatterAxis.x" @input="saveScatterAxis"/>
 
         </div>
       </td>
       <td class="charts border-bt">
         <div id="chart2" class="chart container">
 
-          <SelectAxisType class="select_y" v-model="AbcAxis.y"/>
+          <SelectAxisType class="select_y" v-model="AbcAxis.y"  @input="saveAbcAxis"/>
           <AbcChart :params="AbcChartParams" class="chart diagram"/>
           <select class="select_x" disabled>
             <option selected>Число компаний</option>
@@ -73,15 +73,7 @@
     </tr>
   </table>
 </template>
-
 <script>
-// import { select_x_F, select_y_F, select2_y_F, saveData, select_d_F, readData } from "./js/data.js"
-// document.querySelector("#form_comp form").onsubmit = saveData
-// document.querySelector("#chart .select_x").onchange = select_x_F
-// document.querySelector("#chart .select_y").onchange = select_y_F
-// document.querySelector("#chart2 .select_y").onchange = select2_y_F
-// document.querySelector("#select_yd .select_d").onchange = select_d_F
-// document.querySelector("#loadBtn").onclick = readData
 import SelectAxisType from '@/components/SelectAxisType.vue'
 import ScatterChart from '@/components/ScatterChart.vue'
 import AbcChart from '@/components/AbcChart.vue'
@@ -161,6 +153,53 @@ export default {
     addNewCompany(val){
       this.$data.companies.push(val)
       this.storeCompanies()
+    },
+    readConfig() {
+      const json = localStorage['APP_CONFIG'];
+      console.log('readConfig', json)
+      return json && json !== "undefined" ? JSON.parse(json) : {};
+    },
+    saveDataSource() {
+      console.log('saveDataSource', this.$data.dataSource)
+      const config = this.readConfig();
+      config.dataSource = this.$data.dataSource;
+      localStorage['APP_CONFIG'] = JSON.stringify(config);
+    },
+    saveIsAccredited() {
+      console.log('saveIsAccredited', this.$data.isAccredited)
+      const config = this.readConfig();
+      config.isAccredited = this.$data.isAccredited;
+      localStorage['APP_CONFIG'] = JSON.stringify(config);
+    },
+    saveAbcAxis() {
+      console.log('saveAbcAxis', this.$data.AbcAxis)
+      const config = this.readConfig();
+      config.abcAxis = this.$data.AbcAxis;
+      localStorage['APP_CONFIG'] = JSON.stringify(config);
+    },
+    saveScatterAxis() {
+      console.log('saveScatterAxis', this.$data.ScatterAxis)
+      const config = this.readConfig();
+      config.scatterAxis = this.$data.ScatterAxis;
+      localStorage['APP_CONFIG'] = JSON.stringify(config);
+    },
+    savePeriod() {
+      console.log('savePeriod', this.$data.period)
+      const config = this.readConfig();
+      config.period = this.$data.period;
+      localStorage['APP_CONFIG'] = JSON.stringify(config);
+    },
+    loadConfig() {
+      const json = localStorage['APP_CONFIG'];
+      if (json && json !== "undefined") {
+        const config = JSON.parse(json);
+        console.log('loadConfig', config)
+        this.$data.dataSource = config.dataSource;
+        this.$data.isAccredited = config.isAccredited;
+        this.$data.AbcAxis = config.abcAxis;
+        this.$data.ScatterAxis = config.scatterAxis;
+        if (config.period) this.$data.period = config.period;
+      }
     }
   },
   computed:{
@@ -186,6 +225,10 @@ export default {
       }
     }
   },
+  mounted() {
+      this.loadConfig();
+  }
+  
 }
 </script>
 

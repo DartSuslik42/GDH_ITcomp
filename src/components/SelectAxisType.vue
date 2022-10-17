@@ -1,6 +1,6 @@
 <template>
     <select class="select_y" :value="value" @change="$emit('input', $event.target.value)">
-        <option v-for="(el,idx) in Fields_Columns" :value="el">
+        <option v-for="(el,idx) in Fields_Columns" :value="el" :key="idx">
           {{Fields_Columns_Names[el]}}
         </option>
     </select>
