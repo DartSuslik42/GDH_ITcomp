@@ -40,15 +40,18 @@
           <div id="org_list">
             <div>
               <b>Организации в анализе</b>
-              <CompaniesList :companies="companies" :selected="selectedCompany" @select="setSelectedCompany"/>
+              <CompaniesList :companies="companies" 
+              :selected="selectedCompany" 
+              @remove="remove"
+              @select="setSelectedCompany"/>
             </div>
             <div>
               <div class="row">
                 <div class="col-6">
-                  <UploadButton/>
+                  <UploadButton @loadCompanies="loadCompanies" />
                 </div>
                 <div class="col-6">
-                  <DownloadButton/>
+                  <DownloadButton @storeCompanies="storeCompanies"/>
                 </div>
               </div>
               <img id="logo" src="@/assets/gdh.png" alt="GDH" width="150px">
@@ -163,22 +166,31 @@ export default {
         year: '',
         quarter: ''
       },
-      companies: [
-        
-      ],
     }
   },
   methods:{
+    remove(e) {
+      this.$data.companies = this.$data.companies.filter(c => c.IID !== e.IID)
+    },
+    loadCompanies() {
+      const json = localStorage['COMPANY_LIST'];
+      this.$data.companies = json ? JSON.parse(json) : []
+    },
+    storeCompanies() {
+      localStorage['COMPANY_LIST'] = JSON.stringify(this.$data.companies);
+    },
     updateSelectedCompany(val){
       const idx = this.$data.companies.indexOf(this.$data.selectedCompany)
       this.$data.companies.splice(idx, 1, val) // https://v2.vuejs.org/v2/guide/reactivity.html#For-Arrays
       this.setSelectedCompany(null)
+      this.storeCompanies()
     },
     setSelectedCompany(val){
       this.$data.selectedCompany = val
     },
     addNewCompany(val){
       this.$data.companies.push(val)
+      this.storeCompanies()
     }
   },
   computed:{

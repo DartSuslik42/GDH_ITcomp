@@ -15,7 +15,7 @@
                         <span>ОГРН</span>
                     </div>
                     <div class="col">
-                        <input type="text" name="ogrn" v-model="dummy.ogrn">
+                        <input type="number" pattern="\d*" name="ogrn" v-model="dummy.ogrn">
                     </div>
                 </div>
                 <div class="row">
