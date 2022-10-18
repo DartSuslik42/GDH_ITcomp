@@ -15,7 +15,7 @@ export default {
         if (typeof (value) !== 'object') return false
         if (typeof (value.x) !== 'number') return false
         if (typeof (value.y) !== 'number') return false
-        if (value.x <= 0 || value.y <= 0) return false
+        if (value.x < 0 || value.y < 0) return false
         return true
       }
     },

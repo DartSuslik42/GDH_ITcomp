@@ -75,6 +75,7 @@ export default{
             }
         },
         update_svg_chart(){
+          if (google.visualization) { // occasionally undefined            
             // Data update
             var data = new google.visualization.DataTable()
             data.addColumn({
@@ -100,6 +101,7 @@ export default{
             })
 
             this.$data.chart.draw(data, this.$data.chart_options)
+          }
         },
     },
     computed:{
