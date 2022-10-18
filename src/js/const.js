@@ -182,8 +182,8 @@ export const dummyFormCompany = {
 }
 export const dummyFormEvent = {
   id: "получение дохода от грантов и субсидий",
-  year: 2019,
-  quarter: 1,
+  year: "",
+  quarter: "",
 }
 
 export const server = "https://greencert.car.cos.ru/";

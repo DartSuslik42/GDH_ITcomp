@@ -111,13 +111,13 @@ export default {
         y:'employee_num',
       },
       period: {
-        year: 2019,
-        quarter: 1
+        year: '',
+        quarter: ''
       },
     }
   },
   methods:{
-    setPeriod(p) {
+    setPeriod(p = {year: '', quarter: ''}) {
       this.$data.period = p;
     },
     addEvent(e) {
@@ -143,7 +143,7 @@ export default {
       const children = this.$el.querySelectorAll('.timeline');
       const xs = [];
       children.forEach(e=>{
-        xs.push({v:e.value})
+        xs.push(e.value)
       })
       return xs;
     },

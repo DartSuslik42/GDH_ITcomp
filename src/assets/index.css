@@ -40,11 +40,10 @@ table td.charts {
 #select_yd, #q4 {
     display: flex;
     flex-direction: row;
-    margin-left: .5rem;
 }
 
-.yq {
-    min-width: 2.1rem;
+.year-quarter {
+    min-width: 2rem;
     height: 50vh;
 }
 
@@ -59,7 +58,7 @@ table td.charts {
 .events {
     min-width: 25vw;
     height: 50vh;
-    margin-left: 5rem;
+    margin-left: 3rem;
     border-bottom: 1px solid grey;
 }
 select.select_x,
