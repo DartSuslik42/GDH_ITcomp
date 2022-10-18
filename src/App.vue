@@ -67,7 +67,7 @@
       </td>
       <td style="width:50%">
         <EventsList :events="events" @timeSelected="setPeriod"
-            @addEvent="addEvent"  
+            @addEvent="addEvent" :numbers="numbers"
             @removeEvent="removeEvent" />
       </td>
     </tr>
@@ -99,6 +99,7 @@ export default {
     return {
       companies: [],
       events: [],
+      numbers: new Array(16).fill(''),
       selectedCompany: null,
       dataSource: 1,
       isAccredited: false,
@@ -118,7 +119,6 @@ export default {
   methods:{
     setPeriod(p) {
       this.$data.period = p;
-      console.log(p)
     },
     addEvent(e) {
       if (!this.$data.events) {
@@ -139,8 +139,17 @@ export default {
     storeCompanies() {
       localStorage['COMPANY_LIST'] = JSON.stringify(this.$data.companies);
     },
+    getNumbers() {
+      const children = this.$el.querySelectorAll('.timeline');
+      const xs = [];
+      children.forEach(e=>{
+        xs.push({v:e.value})
+      })
+      return xs;
+    },
     updateSelectedCompany(val){
       val.events = this.$data.events;
+      val.numbers = this.getNumbers();
       const idx = this.$data.companies.indexOf(this.$data.selectedCompany)
       this.$data.companies.splice(idx, 1, val) // https://v2.vuejs.org/v2/guide/reactivity.html#For-Arrays
       this.setSelectedCompany(null)
@@ -148,43 +157,42 @@ export default {
     },
     setSelectedCompany(val){
       this.$data.selectedCompany = val;
-      this.events = val.events;
+      if (val){
+        this.events = val.events;
+        this.numbers = val.numbers;
+      }
     },
     addNewCompany(val){
+      val.events = this.$data.events;
+      val.numbers = this.getNumbers();
       this.$data.companies.push(val)
       this.storeCompanies()
     },
     readConfig() {
       const json = localStorage['APP_CONFIG'];
-      console.log('readConfig', json)
       return json && json !== "undefined" ? JSON.parse(json) : {};
     },
     saveDataSource() {
-      console.log('saveDataSource', this.$data.dataSource)
       const config = this.readConfig();
       config.dataSource = this.$data.dataSource;
       localStorage['APP_CONFIG'] = JSON.stringify(config);
     },
     saveIsAccredited() {
-      console.log('saveIsAccredited', this.$data.isAccredited)
       const config = this.readConfig();
       config.isAccredited = this.$data.isAccredited;
       localStorage['APP_CONFIG'] = JSON.stringify(config);
     },
     saveAbcAxis() {
-      console.log('saveAbcAxis', this.$data.AbcAxis)
       const config = this.readConfig();
       config.abcAxis = this.$data.AbcAxis;
       localStorage['APP_CONFIG'] = JSON.stringify(config);
     },
     saveScatterAxis() {
-      console.log('saveScatterAxis', this.$data.ScatterAxis)
       const config = this.readConfig();
       config.scatterAxis = this.$data.ScatterAxis;
       localStorage['APP_CONFIG'] = JSON.stringify(config);
     },
     savePeriod() {
-      console.log('savePeriod', this.$data.period)
       const config = this.readConfig();
       config.period = this.$data.period;
       localStorage['APP_CONFIG'] = JSON.stringify(config);
@@ -193,7 +201,6 @@ export default {
       const json = localStorage['APP_CONFIG'];
       if (json && json !== "undefined") {
         const config = JSON.parse(json);
-        console.log('loadConfig', config)
         this.$data.dataSource = config.dataSource;
         this.$data.isAccredited = config.isAccredited;
         this.$data.AbcAxis = config.abcAxis;

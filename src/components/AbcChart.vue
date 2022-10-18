@@ -111,7 +111,6 @@ export default{
                 xmlhttp.onreadystatechange = (function(){
                     if(xmlhttp.status == 200 && xmlhttp.readyState == 4){
                         const obj = JSON.parse(xmlhttp.responseText);
-                        console.log(obj)
                         this.$data.img_src = obj.img
                         this.update_chart_options_fromResponse(obj)
                         this.update_svg_chart()

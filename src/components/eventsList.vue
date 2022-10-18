@@ -14,8 +14,8 @@
       </div>
     </div>
     <div class="yq">
-      <div class="quarter" v-for="quarter in 16" :key="quarter">
-        <input type="text" />
+      <div class="quarter" v-for="n in 16" :key="n">
+        <input type="number" pattern="\d*" class="timeline" v-model="numbers[n]" />
       </div>
     </div>
     <div class="events">
@@ -58,6 +58,7 @@ import { dummyFormEvent as d } from "@/js/const.js";
 export default {
   props: {
     events: Array,
+    numbers: Array,
     dummyEvent: {
       type: Object,
       default: null,
@@ -70,7 +71,6 @@ export default {
   },
   methods: {
     addNewEvent() {
-      console.log('addNewEvent')
       if (this.dummyEvent) {
         this.$emit("updateEvent", this.$data.dummy);
       } else {
