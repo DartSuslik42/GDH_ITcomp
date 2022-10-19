@@ -96,7 +96,7 @@ export const plot1_point_styling_p = {
         fill-color:cyan;
         stroke-color: blue;
         stroke-width: 2;
-        size:6;
+        size:4;
         visible:true; 
     }`,
   not_selected: `point {

@@ -22,12 +22,12 @@ table td.charts {
 }
 
 .border-bt {
-    border-bottom: 1px solid #000;
+    border-bottom: 1px dotted #bbb;
     border-collapse: collapse;
 }
 
 .border-rt {
-    border-right: 1px solid #777;
+    border-right: 1px dotted #bbb;
     border-collapse: collapse;
 }
 
@@ -130,7 +130,7 @@ select:disabled {
     width: 100%;
     height: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
 }
 
 #org_list {
@@ -197,4 +197,8 @@ input[type=file] {
 
 .highl {
     background-color: #9acd3270;
+}
+
+ul {
+    padding: .5rem;
 }
