@@ -9,6 +9,7 @@
             }"
         />
         <div id="abc_chart_points_div" class="chart content"></div>
+        <b-spinner v-show="loading"></b-spinner>        
     </div>
 </template>
 <script>
@@ -27,6 +28,7 @@ export default{
             chart_options: options,
             img_style: null,
             chart: null,
+            loading: false
         }
     },
     methods:{
@@ -108,16 +110,18 @@ export default{
         request_url(newVal){
             if(newVal){
                 var xmlhttp = new XMLHttpRequest();
-                xmlhttp.onreadystatechange = (function(){
+                xmlhttp.onreadystatechange = (() => {
                     if(xmlhttp.status == 200 && xmlhttp.readyState == 4){
                         const obj = JSON.parse(xmlhttp.responseText);
                         this.$data.img_src = obj.img
                         this.update_chart_options_fromResponse(obj)
                         this.update_svg_chart()
+                        this.$data.loading = false;
                     }
                 }).bind(this);
                 xmlhttp.open("GET",newVal,true);
                 xmlhttp.send();  
+                this.$data.loading = true;
             }
         },
     },
