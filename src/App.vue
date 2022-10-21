@@ -158,8 +158,8 @@ export default {
     setSelectedCompany(val){
       this.$data.selectedCompany = val;
       if (val){
-        this.events = val.events;
-        this.numbers = val.numbers;
+        this.$data.events = val.events;
+        this.$data.numbers = val.numbers;
       }
     },
     addNewCompany(val){
@@ -199,13 +199,13 @@ export default {
     },
     loadConfig() {
       const json = localStorage['APP_CONFIG'];
-      if (json && json !== "undefined") {
+      if (json && json != undefined) {
         const config = JSON.parse(json);
-        if (config.dataSource !== undefined) this.$data.dataSource = config.dataSource;
-        if (config.isAccredited !== undefined) this.$data.isAccredited = config.isAccredited;
-        if (config.dataSource !== undefined) this.$data.AbcAxis = config.abcAxis;
-        if (config.dataSource !== undefined) this.$data.ScatterAxis = config.scatterAxis;
-        if (config.period !== undefined) this.$data.period = config.period;
+        if (config.dataSource != undefined) this.$data.dataSource = config.dataSource;
+        if (config.isAccredited != undefined) this.$data.isAccredited = config.isAccredited;
+        if (config.abcAxis && config.abcAxis.y != undefined) this.$data.AbcAxis = config.abcAxis;
+        if (config.scatterAxis && config.scatterAxis.x != undefined && config.scatterAxis.y != undefined ) this.$data.ScatterAxis = config.scatterAxis;
+        if (config.period != undefined) this.$data.period = config.period;
       }
     }
   },
