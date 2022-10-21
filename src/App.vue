@@ -203,7 +203,7 @@ export default {
         const config = JSON.parse(json);
         if (config.dataSource != undefined) this.$data.dataSource = config.dataSource;
         if (config.isAccredited != undefined) this.$data.isAccredited = config.isAccredited;
-        if (config.abcAxis & config.abcAxis.y != undefined) this.$data.AbcAxis = config.abcAxis;
+        if (config.abcAxis && config.abcAxis.y != undefined) this.$data.AbcAxis = config.abcAxis;
         if (config.scatterAxis && config.scatterAxis.x != undefined && config.scatterAxis.y != undefined ) this.$data.ScatterAxis = config.scatterAxis;
         if (config.period != undefined) this.$data.period = config.period;
       }
