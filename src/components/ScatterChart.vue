@@ -7,9 +7,9 @@
                 top : img_style?.position.top + 'px',
                 left : img_style?.position.left + 'px',
             }"
+            :isloading="loading"
         />
         <div id="chart_points_div" class="chart content"></div>
-        <b-spinner v-show="loading"></b-spinner>        
     </div>
 </template>
 
@@ -27,7 +27,7 @@ export default{
     },
     data(){
         return{
-            img_src: "",
+            img_src: undefined,
             chart_options: options,
             img_style: null,
             chart: null,

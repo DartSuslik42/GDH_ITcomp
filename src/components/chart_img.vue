@@ -1,14 +1,26 @@
 <template>
+  <div>
     <img
-        :src=src
+        :src="src"
         :height="size.y"
         :width="size.x"
     />
+    <b-spinner 
+      small
+      class="spinner"
+      v-show="isloading"
+    />
+</div>
 </template>
 
 <script>
+const empty_img = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
 export default {
   props: {
+    isloading:{
+      type: Boolean,
+      default: true,
+    },
     size: {
       type: Object,
       validator (value) {
@@ -19,7 +31,23 @@ export default {
         return true
       }
     },
-    src: String
+    src: {
+      type: String,
+      validator(value){
+        return typeof(value)=== 'string' && value.length
+      },
+      default: empty_img
+    }
   }
 }
 </script>
+<style scoped>
+div{
+  position: relative;
+}
+.spinner{
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+}
+</style>
