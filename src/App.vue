@@ -201,11 +201,11 @@ export default {
       const json = localStorage['APP_CONFIG'];
       if (json && json !== "undefined") {
         const config = JSON.parse(json);
-        this.$data.dataSource = config.dataSource;
-        this.$data.isAccredited = config.isAccredited;
-        this.$data.AbcAxis = config.abcAxis;
-        this.$data.ScatterAxis = config.scatterAxis;
-        if (config.period) this.$data.period = config.period;
+        if (config.dataSource !== undefined) this.$data.dataSource = config.dataSource;
+        if (config.isAccredited !== undefined) this.$data.isAccredited = config.isAccredited;
+        if (config.dataSource !== undefined) this.$data.AbcAxis = config.abcAxis;
+        if (config.dataSource !== undefined) this.$data.ScatterAxis = config.scatterAxis;
+        if (config.period !== undefined) this.$data.period = config.period;
       }
     }
   },
