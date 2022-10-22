@@ -13,7 +13,8 @@ export default{
         clickOrg(){
             this.$emit('select', this.$props.company)
         },
-        removeCompany(){
+        removeCompany(e){
+            e.stopPropagation()
             this.$emit('removeCompany', this.$props.company)
         }
     }
