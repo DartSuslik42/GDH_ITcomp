@@ -148,8 +148,6 @@ export default {
       return xs;
     },
     updateSelectedCompany(val){
-      val.events = this.$data.events;
-      val.numbers = this.getNumbers();
       const idx = this.$data.companies.indexOf(this.$data.selectedCompany)
       this.$data.companies.splice(idx, 1, val) // https://v2.vuejs.org/v2/guide/reactivity.html#For-Arrays
       this.setSelectedCompany(null)
@@ -157,14 +155,8 @@ export default {
     },
     setSelectedCompany(val){
       this.$data.selectedCompany = val;
-      if (val){
-        this.$data.events = val.events;
-        this.$data.numbers = val.numbers;
-      }
     },
     addNewCompany(val){
-      val.events = this.$data.events;
-      val.numbers = this.getNumbers();
       this.$data.companies.push(val)
       this.storeCompanies()
     },
