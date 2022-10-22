@@ -153,9 +153,14 @@ export default {
         const reader = new FileReader(); // без аргументов
         reader.readAsText(this.$data.selectedFile);
         reader.onload = () => {
-          const json = reader.result;
-          localStorage['COMPANY_LIST'] = json;
-          this.$data.companies = json ? JSON.parse(json) : []
+          try {
+            const json = reader.result;
+            const parsed = JSON.parse(json);
+            localStorage['COMPANY_LIST'] = json;
+            this.$data.companies = parsed;
+          } catch {
+            alert("Некорректный файл " + this.$data.selectedFile.name)
+          }
         };
         reader.onerror = function() {
           console.log(reader.error);
