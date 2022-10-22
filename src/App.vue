@@ -168,17 +168,18 @@ export default {
     storeCompanies() {
       const fileName = this.$data.selectedFile ?
         this.$data.selectedFile.name : '_companies';
-      if (!fileName) {
-        this.storeCompaniesLocally();
-      } else {
+      if (this.$data.companies) {
         const tempLink = document.createElement("a");
         if ('download' in tempLink) {
-          const taBlob = new Blob([localStorage['COMPANY_LIST']], {type: 'application/json'});
+          const json = JSON.stringify(this.$data.companies);
+          const taBlob = new Blob([json], {type: 'application/json'});
           tempLink.setAttribute('href', URL.createObjectURL(taBlob));
           tempLink.setAttribute('download', fileName);
           tempLink.click();
           URL.revokeObjectURL(tempLink.href);      
-        } else throw 'File saving not supported for this browser';
+        } else {
+          this.storeCompaniesLocally();
+        };
       }
     },
     getNumbers() {
@@ -193,7 +194,6 @@ export default {
       const idx = this.$data.companies.indexOf(this.$data.selectedCompany)
       this.$data.companies.splice(idx, 1, val) // https://v2.vuejs.org/v2/guide/reactivity.html#For-Arrays
       this.setSelectedCompany(null)
-      this.storeCompaniesLocally()
     },
     setSelectedCompany(val){
       // При попытке установить выбранную(выделенную) компанию повторно выделение снимается
@@ -202,10 +202,10 @@ export default {
     },
     addNewCompany(val){
       this.$data.companies.push(val)
-      this.storeCompaniesLocally()
     },
     readConfig() {
       const json = localStorage['APP_CONFIG'];
+      // json может быть "" пустой строкой или "undefined" 
       return json && json !== "undefined" ? JSON.parse(json) : {};
     },
     saveDataSource() {
@@ -268,10 +268,13 @@ export default {
       }
     }
   },
+  created() { 
+    // beforeDestroy и destroy хуки vue не работают при закрытии страницы, а это работает
+    window.addEventListener("beforeunload", this.storeCompaniesLocally);
+  },
   mounted() {
       this.loadConfig();
-  }
-  
+  }  
 }
 </script>
 
