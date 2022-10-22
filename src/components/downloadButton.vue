@@ -1,6 +1,7 @@
 <template>
-    <button type="submit" id="saveBtn" class="btn btn-primary" v-on:click="save">
-        Сохранить
+    <button type="submit" id="saveBtn" class="btn btn-primary"
+     v-on:click="save">
+     Сохранить в файл
     </button>
 </template>
 
