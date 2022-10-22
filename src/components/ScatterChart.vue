@@ -49,35 +49,38 @@ export default{
             }
         },
         update_chart_options_fromResponse(response){
-            this.$data.chart_options.hAxis = {
-                ...this.$data.chart_options.hAxis,
-                ...{
-                    maxValue: response.x.max,
-                    minValue: response.x.min,
-                    viewWindow:{
-                        max: response.x.max,
-                        min: response.x.min,
-                    },
-                    ticks: response.x.data,
-                    scaleType: response.x.type
-                }
-            }
-            this.$data.chart_options.vAxis = {
-                ...this.$data.chart_options.vAxis,
-                ...{
-                    maxValue: response.y.max,
-                    minValue: response.y.min,
-                    viewWindow:{
-                        max: response.y.max,
-                        min: response.y.min,
-                    },
-                    ticks: response.y.data,
-                    scaleType: response.y.type
+            this.$data.chart_options = {
+                ...this.$data.chart_options,
+                hAxis : {
+                    ...this.$data.chart_options.hAxis,
+                    ...{
+                        maxValue: response.x.max,
+                        minValue: response.x.min,
+                        viewWindow:{
+                            max: response.x.max,
+                            min: response.x.min,
+                        },
+                        ticks: response.x.data,
+                        scaleType: response.x.type
+                    }
+                },
+                vAxis : {
+                    ...this.$data.chart_options.vAxis,
+                    ...{
+                        maxValue: response.y.max,
+                        minValue: response.y.min,
+                        viewWindow:{
+                            max: response.y.max,
+                            min: response.y.min,
+                        },
+                        ticks: response.y.data,
+                        scaleType: response.y.type
+                    }
                 }
             }
         },
         update_svg_chart(){
-          if (google.visualization) { // occasionally undefined            
+            if(!google?.visualization) return
             // Data update
             var data = new google.visualization.DataTable()
             data.addColumn({
@@ -103,7 +106,6 @@ export default{
             })
 
             this.$data.chart.draw(data, this.$data.chart_options)
-          }
         },
     },
     computed:{

@@ -46,34 +46,38 @@ export default{
             }
         },
         update_chart_options_fromResponse(response){
-            this.$data.chart_options.hAxis = {
-                ...this.$data.chart_options.hAxis,
-                ...{
-                    maxValue: Math.floor(response.x.max / response.x.scale),
-                    minValue: Math.floor(response.x.min / response.x.scale),
-                    viewWindow:{
-                        max: Math.floor(response.x.max / response.x.scale),
-                        min: Math.floor(response.x.min / response.x.scale),
-                    },
-                    ticks: response.x.data.map((el)=>{return Math.floor(el / response.x.scale)}),
-                    scaleType: response.x.type
-                }
-            }
-            this.$data.chart_options.vAxis = {
-                ...this.$data.chart_options.vAxis,
-                ...{
-                    maxValue: Math.floor(response.y.max / response.y.scale),
-                    minValue: Math.floor(response.y.min / response.y.scale),
-                    viewWindow:{
-                        max: Math.floor(response.y.max / response.y.scale),
-                        min: Math.floor(response.y.min / response.y.scale),
-                    },
-                    ticks: response.y.data.map((el)=>{return Math.floor(el / response.y.scale)}),
-                    scaleType: response.y.type
+            this.$data.chart_options = {
+                ...this.$data.chart_options,
+                hAxis : {
+                    ...this.$data.chart_options.hAxis,
+                    ...{
+                        maxValue: Math.floor(response.x.max / response.x.scale),
+                        minValue: Math.floor(response.x.min / response.x.scale),
+                        viewWindow:{
+                            max: Math.floor(response.x.max / response.x.scale),
+                            min: Math.floor(response.x.min / response.x.scale),
+                        },
+                        ticks: response.x.data.map((el)=>{return Math.floor(el / response.x.scale)}),
+                        scaleType: response.x.type
+                    }
+                },
+                vAxis : {
+                    ...this.$data.chart_options.vAxis,
+                    ...{
+                        maxValue: Math.floor(response.y.max / response.y.scale),
+                        minValue: Math.floor(response.y.min / response.y.scale),
+                        viewWindow:{
+                            max: Math.floor(response.y.max / response.y.scale),
+                            min: Math.floor(response.y.min / response.y.scale),
+                        },
+                        ticks: response.y.data.map((el)=>{return Math.floor(el / response.y.scale)}),
+                        scaleType: response.y.type
+                    }
                 }
             }
         },
         update_svg_chart(){
+            if(!google?.visualization) return
             // Data update
             var data = new google.visualization.DataTable()
             data.addColumn({

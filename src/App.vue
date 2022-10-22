@@ -58,7 +58,7 @@
             </div>
           </div>
           <NewCompForm 
-            @updateCompany="updateSelectedCompany" 
+            @updateCompany="updateSelectedCompanyData" 
             @addCompany="addNewCompany" 
             :dummyCompany="selectedCompany"
           />
@@ -130,7 +130,12 @@ export default {
       this.$data.events = this.$data.events.filter(c => c.id !== e.id)
     },
     removeCompany(e) {
+      // Удалить компанию из списка компаний
       this.$data.companies = this.$data.companies.filter(c => c.IID !== e.IID)
+      
+      if(this.$data.selectedCompany?.IID === e?.IID){
+        this.setSelectedCompany(null)
+      }
     },
     loadCompanies() {
       const json = localStorage['COMPANY_LIST'];
@@ -147,14 +152,16 @@ export default {
       })
       return xs;
     },
-    updateSelectedCompany(val){
+    updateSelectedCompanyData(val){
       const idx = this.$data.companies.indexOf(this.$data.selectedCompany)
       this.$data.companies.splice(idx, 1, val) // https://v2.vuejs.org/v2/guide/reactivity.html#For-Arrays
       this.setSelectedCompany(null)
       this.storeCompanies()
     },
     setSelectedCompany(val){
-      this.$data.selectedCompany = val;
+      // При попытке установить выбранную(выделенную) компанию повторно выделение снимается
+      const isAlreadySelected = this.$data.selectedCompany?.IID === val?.IID
+      this.$data.selectedCompany = isAlreadySelected ? null : val
     },
     addNewCompany(val){
       this.$data.companies.push(val)
