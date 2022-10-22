@@ -205,8 +205,7 @@ export default {
     },
     readConfig() {
       const json = localStorage['APP_CONFIG'];
-      // json может быть "" пустой строкой или "undefined" 
-      return json && json !== "undefined" ? JSON.parse(json) : {};
+      return json ? JSON.parse(json) : {};
     },
     saveDataSource() {
       const config = this.readConfig();
@@ -235,7 +234,7 @@ export default {
     },
     loadConfig() {
       const json = localStorage['APP_CONFIG'];
-      if (json && json !== "undefined") {
+      if (json) {
         const config = JSON.parse(json);
         if (config.dataSource != undefined) this.$data.dataSource = config.dataSource;
         if (config.isAccredited != undefined) this.$data.isAccredited = config.isAccredited;
