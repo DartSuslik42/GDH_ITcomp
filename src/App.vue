@@ -182,9 +182,7 @@ export default {
           tempLink.setAttribute('download', fileName);
           tempLink.click();
           URL.revokeObjectURL(tempLink.href);      
-        } else {
-          this.storeCompaniesLocally();
-        };
+        } else throw 'Сохранение в файл не поддерживается для этого браузера';
       }
     },
     getNumbers() {
