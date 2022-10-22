@@ -46,6 +46,13 @@
               @select="setSelectedCompany"/>
             </div>
             <div>
+              <div id="choose-file">
+                <b-form-file v-model="selectedFile" :state="Boolean(selectedFile)"
+                  placeholder="Выберите файл или поместите сюда..."
+                  drop-placeholder="Поместите файл сюда..."
+                ></b-form-file>
+                <!-- <div> {{ selectedFile ? 'Выбран файл: ' + selectedFile.name : '' }}</div> -->
+              </div>
               <div class="row">
                 <div class="col-6">
                   <UploadButton @loadCompanies="loadCompanies" />
@@ -114,6 +121,7 @@ export default {
         year: '',
         quarter: ''
       },
+      selectedFile: null,
     }
   },
   methods:{
@@ -138,11 +146,46 @@ export default {
       }
     },
     loadCompanies() {
-      const json = localStorage['COMPANY_LIST'];
-      this.$data.companies = json ? JSON.parse(json) : []
+      if(!this.$data.selectedFile) {
+        const json = localStorage['COMPANY_LIST'];
+        this.$data.companies = json ? JSON.parse(json) : []
+      } else {
+        const reader = new FileReader(); // без аргументов
+        reader.readAsText(this.$data.selectedFile);
+        reader.onload = () => {
+          try {
+            const json = reader.result;
+            const parsed = JSON.parse(json);
+            localStorage['COMPANY_LIST'] = json;
+            this.$data.companies = parsed;
+          } catch {
+            alert("Некорректный файл " + this.$data.selectedFile.name)
+          }
+        };
+        reader.onerror = function() {
+          console.log(reader.error);
+        };  
+      }  
+    },
+    storeCompaniesLocally() {
+      localStorage['COMPANY_LIST'] = JSON.stringify(this.$data.companies);
     },
     storeCompanies() {
-      localStorage['COMPANY_LIST'] = JSON.stringify(this.$data.companies);
+      const fileName = this.$data.selectedFile ?
+        this.$data.selectedFile.name : '_companies';
+      if (this.$data.companies) {
+        const tempLink = document.createElement("a");
+        if ('download' in tempLink) {
+          const json = JSON.stringify(this.$data.companies);
+          const taBlob = new Blob([json], {type: 'application/json'});
+          tempLink.setAttribute('href', URL.createObjectURL(taBlob));
+          tempLink.setAttribute('download', fileName);
+          tempLink.click();
+          URL.revokeObjectURL(tempLink.href);      
+        } else {
+          this.storeCompaniesLocally();
+        };
+      }
     },
     getNumbers() {
       const children = this.$el.querySelectorAll('.timeline');
@@ -156,7 +199,6 @@ export default {
       const idx = this.$data.companies.indexOf(this.$data.selectedCompany)
       this.$data.companies.splice(idx, 1, val) // https://v2.vuejs.org/v2/guide/reactivity.html#For-Arrays
       this.setSelectedCompany(null)
-      this.storeCompanies()
     },
     setSelectedCompany(val){
       // При попытке установить выбранную(выделенную) компанию повторно выделение снимается
@@ -165,11 +207,10 @@ export default {
     },
     addNewCompany(val){
       this.$data.companies.push(val)
-      this.storeCompanies()
     },
     readConfig() {
       const json = localStorage['APP_CONFIG'];
-      return json && json !== "undefined" ? JSON.parse(json) : {};
+      return json ? JSON.parse(json) : {};
     },
     saveDataSource() {
       const config = this.readConfig();
@@ -198,7 +239,7 @@ export default {
     },
     loadConfig() {
       const json = localStorage['APP_CONFIG'];
-      if (json && json != undefined) {
+      if (json) {
         const config = JSON.parse(json);
         if (config.dataSource != undefined) this.$data.dataSource = config.dataSource;
         if (config.isAccredited != undefined) this.$data.isAccredited = config.isAccredited;
@@ -231,10 +272,13 @@ export default {
       }
     }
   },
+  created() { 
+    // beforeDestroy и destroy хуки vue не работают при закрытии страницы, а это работает
+    window.addEventListener("beforeunload", this.storeCompaniesLocally);
+  },
   mounted() {
       this.loadConfig();
-  }
-  
+  }  
 }
 </script>
 
