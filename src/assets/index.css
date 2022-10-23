@@ -202,3 +202,18 @@ input[type=file] {
 ul {
     padding: .5rem;
 }
+
+.custom-file-input:lang(en) ~ .custom-file-label::after {
+    content: '';
+}
+
+input[type=file].custom-file-input {
+    display: none;
+}
+
+#choose-file {
+    background:#ddd;
+    border: 1px dashed gray;
+    color: gray;
+    border-radius: 5px;
+}
