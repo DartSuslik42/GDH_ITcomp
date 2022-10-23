@@ -3,7 +3,7 @@
     <div class="year-quarter" title="Снять выбор года и квартала" @click="selectYear('')" style="min-width: 1.5rem"></div>
     <div class="year-quarter" title="Выбор года">
       <div class="year" v-bind:class="{ highl: year === dummy.year}"
-      v-for="year in [2019, 2020, 2021, 2022]" :key="year" @click="selectYear(year)">
+      v-for="year in years" :key="year" @click="selectYear(year)">
         {{ year }}
       </div>
     </div>
@@ -54,7 +54,7 @@
 </template>
 <script>
 import Event from "./event.vue";
-import { dummyFormEvent as d } from "@/js/const.js";
+import { dummyFormEvent as d, startYear } from "@/js/const.js";
 export default {
   props: {
     events: Array,
@@ -67,6 +67,7 @@ export default {
   data() {
     return {
       dummy: { ...(this.dummyEvent ? this.dummyEvent : d) },
+      years: [startYear, startYear + 1, startYear + 2, startYear + 3]
     };
   },
   methods: {
@@ -92,7 +93,7 @@ export default {
     },
     selectQuarter(quarter) {
         this.dummy.quarter = quarter;
-        this.dummy.year = Math.floor(2019 + (quarter-1) / 4); 
+        this.dummy.year = Math.floor(startYear + (quarter-1) / 4); 
         this.$emit("timeSelected", {year: this.dummy.year, quarter: ((this.dummy.quarter - 1) % 4) + 1}); 
     }
   },

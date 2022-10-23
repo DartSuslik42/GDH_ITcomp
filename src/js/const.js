@@ -187,3 +187,4 @@ export const dummyFormEvent = {
 }
 
 export const server = "https://greencert.car.cos.ru/";
+export const startYear = 2021;
