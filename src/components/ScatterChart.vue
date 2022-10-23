@@ -15,7 +15,7 @@
 
 <script>
 import chart_img from '@/components/chart_img.vue'
-import { API_Chart_Keys as API, server, columns_plot1 as columns, options_trans as options, plot1_point_styling_p as plot1_psp, Fields_Columns_Names as field_names} from '@/js/const.js'
+import { API_Chart_Keys as API, server, columns_plot1 as columns, options_trans as options, plot1_point_styling_p as point_style, Fields_Columns_Names as field_names} from '@/js/const.js'
 export default{
     props:{
         params: Object,
@@ -81,32 +81,49 @@ export default{
         },
         update_svg_chart(){
             if(!google?.visualization) return
-            // Data update
+            // создание DataTable 
             var data = new google.visualization.DataTable()
-            data.addColumn({
-                type: columns.x.type
-            })
-            data.addColumn({
-                type: columns.y.type
-            })
-            data.addColumn({
-                type: 'string',
-                role: 'style'
-            })
-            data.addColumn({type: 'string', role: 'tooltip', p: {'html': true}})
+            data.addColumn({type: columns.x.type}) // Значения по X
+            data.addColumn({type: columns.y.type}) // Значения по Y
+            data.addColumn({type: 'string', role: 'style'}) // Стиль точки
+            data.addColumn({type: 'string', role: 'tooltip', p: {'html': true}}) // ToolTip точки
+            data.addColumn({type: 'number',}) // Индекс точки в массиве компаний this.$props.companies
             data.addRows(this.points)
+        
+            // При построении графика используем только первые 4 колонки
+            const view = new google.visualization.DataView(data);
+            view.setColumns([0,1,2,3]);
 
-            // Redraw chart
+            // Создаём диаграмму
             const chart_points_div = this.$el.querySelector('#chart_points_div')
             this.$data.chart = new google.visualization.ScatterChart(chart_points_div)
 
-            // Прокидывает select-ивент при нажатии на точку содержащий нажатую компанию
+            // Прокидывает select-ивент при нажатии на точку компании
             google.visualization.events.addListener(this.$data.chart, "select", ()=>{
-                this.$emit("select", this.$props.companies[(this.$data.chart.getSelection())[0].row])
-            })
+                const firstSelectItem = (this.$data.chart.getSelection())[0]
+                
+                // Из данных для нажатой точки получаем значение из 5 колонки
+                const indexInCompaniesArr = data.getValue(firstSelectItem.row, 4)
 
-            this.$data.chart.draw(data, this.$data.chart_options)
+                this.$emit("select", this.$props.companies[indexInCompaniesArr]) 
+            })
+            
+            // Перерисовываем диаграмму
+            this.$data.chart.draw(view, this.$data.chart_options)
         },
+        getPointTooltipHTML(point){
+           return (
+            `<div style="padding:3px 7px 5px 7px;margin:0;width:max-content">
+                <div><h6 style="margin:0"><b>${point?.IID || "Company Name"}</b></h6></div>
+                <div><b>${field_names[this.$props.params.AxisSrc.x]}:</b><span>${+point[this.$props.params.AxisSrc.x]}</span></div>
+                ${
+                    this.$props.params.AxisSrc.x === this.$props.params.AxisSrc.y ? 
+                    "" : 
+                    `<div><b>${field_names[this.$props.params.AxisSrc.y]}:</b><span>${+point[this.$props.params.AxisSrc.y]}</span></div>`
+                }
+            </div>`
+            )
+        }
     },
     computed:{
         request_url(){
@@ -127,22 +144,36 @@ export default{
         },
         points(){
             return this.$props.companies
-                .map(el => {
-                    return [
-                        +el[this.$props.params.AxisSrc.x],
-                        +el[this.$props.params.AxisSrc.y],
-                        plot1_psp[el.IID === this.$props.selected?.IID ? 'selected' : 'not_selected'], 
-                        `<div style="padding:3px 7px 5px 7px;margin:0;width:max-content">
-                            <div><h6 style="margin:0"><b>${el.IID}</b></h6></div>
-                            <div><b>${field_names[this.$props.params.AxisSrc.x]}:</b><span>${+el[this.$props.params.AxisSrc.x]}</span></div>
-                            ${
-                                this.$props.params.AxisSrc.x === this.$props.params.AxisSrc.y ? 
-                                "" : 
-                                `<div><b>${field_names[this.$props.params.AxisSrc.y]}:</b><span>${+el[this.$props.params.AxisSrc.y]}</span></div>`
-                            }
-                        </div>`
-                    ]
-                })
+                .reduce((prev, el, idx) => {
+                    const isSelected = el.IID === this.$props.selected?.IID
+                    if(isSelected){
+                        // Начало стрелки в точке выбранной компании
+                        prev.push([
+                            +el[this.$props.params.AxisSrc.x],
+                            +el[this.$props.params.AxisSrc.y],
+                            point_style['selected'], 
+                            this.getPointTooltipHTML(el),
+                            idx
+                        ])
+                        // Конец стрелки в точке прогноза для выбранной компании
+                        prev.push([
+                            +el.predict[this.$props.params.AxisSrc.x],
+                            +el.predict[this.$props.params.AxisSrc.y],
+                            point_style['selected'],
+                            this.getPointTooltipHTML(el.predict),
+                            idx
+                        ])
+                    }else{
+                        prev.push([
+                            +el[this.$props.params.AxisSrc.x],
+                            +el[this.$props.params.AxisSrc.y],
+                            point_style['not_selected'],
+                            this.getPointTooltipHTML(el),
+                            idx
+                        ])
+                    } 
+                    return prev
+                }, [])
         }
     },
     watch:{
