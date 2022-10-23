@@ -14,8 +14,36 @@
           </div>
           <ScatterChart class="chart diagram"
             :params="ScatterChartParams" 
-            :companies="companies"
-            :selected="selectedCompany" 
+            :companies='companies.map((el)=>{return{
+              ...el,
+              predict: {
+                "IID": el.IID,
+                "ogrn":0,
+                "income":3000,
+                "income_lic":0,
+                "fot":0,
+                "taxesProfit":0,
+                "taxesVAT":0,
+                "taxesEmplSal":0,
+                "insurance":0,
+                "employee_num":3000,
+              }
+            }})'
+            :selected='{
+              ...selectedCompany,
+              predict: {
+                "IID": selectedCompany?.IID,
+                "ogrn":0,
+                "income":3000,
+                "income_lic":0,
+                "fot":0,
+                "taxesProfit":0,
+                "taxesVAT":0,
+                "taxesEmplSal":0,
+                "insurance":0,
+                "employee_num":3000,
+              }
+            }'
             @select="setSelectedCompany"
           />
           <SelectAxisType class="select_x" v-model="ScatterAxis.x" @input="saveScatterAxis"/>
