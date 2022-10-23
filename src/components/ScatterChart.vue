@@ -83,16 +83,29 @@ export default{
             if(!google?.visualization) return
             // создание DataTable 
             var data = new google.visualization.DataTable()
-            data.addColumn({type: columns.x.type}) // Значения по X
-            data.addColumn({type: columns.y.type}) // Значения по Y
-            data.addColumn({type: 'string', role: 'style'}) // Стиль точки
-            data.addColumn({type: 'string', role: 'tooltip', p: {'html': true}}) // ToolTip точки
-            data.addColumn({type: 'number',}) // Индекс точки в массиве компаний this.$props.companies
+            const dataColumns = [
+                {opt:{type: columns.x.type}}, // Значения по X
+                //Точки компаний
+                {opt:{type: columns.y.type}}, // Значения по Y
+                {opt:{type: 'string', role: 'style'}}, // Стиль точки
+                {opt:{type: 'string', role: 'tooltip', p: {'html': true}}}, // ToolTip точки
+                //Точки выбранных компаний
+                {opt:{type: columns.y.type}}, // Значения по Y
+                {opt:{type: 'string', role: 'style'}}, // Стиль точки
+                {opt:{type: 'string', role: 'tooltip', p: {'html': true}}}, // ToolTip точки
+                {opt:{type: 'number',},useInPlot:false} // Индекс точки в массиве компаний this.$props.companies
+            ]
+            var CompanyId_ColumnIndex = 7   // Позиция в dataColums колонки индексов 
+
+            dataColumns.forEach(el=>data.addColumn(el.opt))
             data.addRows(this.points)
         
-            // При построении графика используем только первые 4 колонки
+            // При построении графика используем все колонки, кроме имеющих флаг useInPlot===false
             const view = new google.visualization.DataView(data);
-            view.setColumns([0,1,2,3]);
+            view.setColumns(dataColumns.reduce((prev,el,idx)=>{
+                if(el.useInPlot !== false) prev.push(idx)
+                return prev
+            },[]));
 
             // Создаём диаграмму
             const chart_points_div = this.$el.querySelector('#chart_points_div')
@@ -101,14 +114,10 @@ export default{
             // Прокидывает select-ивент при нажатии на точку компании
             google.visualization.events.addListener(this.$data.chart, "select", ()=>{
                 const firstSelectItem = (this.$data.chart.getSelection())[0]
-                
-                // Из данных для нажатой точки получаем значение из 5 колонки
-                const indexInCompaniesArr = data.getValue(firstSelectItem.row, 4)
-
+                const indexInCompaniesArr = data.getValue(firstSelectItem.row, CompanyId_ColumnIndex)
                 this.$emit("select", this.$props.companies[indexInCompaniesArr]) 
             })
-            
-            // Перерисовываем диаграмму
+        
             this.$data.chart.draw(view, this.$data.chart_options)
         },
         getPointTooltipHTML(point){
@@ -150,6 +159,9 @@ export default{
                         // Начало стрелки в точке выбранной компании
                         prev.push([
                             +el[this.$props.params.AxisSrc.x],
+                            null,
+                            null,
+                            null,
                             +el[this.$props.params.AxisSrc.y],
                             point_style['selected'], 
                             this.getPointTooltipHTML(el),
@@ -158,8 +170,11 @@ export default{
                         // Конец стрелки в точке прогноза для выбранной компании
                         prev.push([
                             +el.predict[this.$props.params.AxisSrc.x],
+                            null,
+                            null,
+                            null,
                             +el.predict[this.$props.params.AxisSrc.y],
-                            point_style['selected'],
+                            point_style['selected_predict'],
                             this.getPointTooltipHTML(el.predict),
                             idx
                         ])
@@ -169,6 +184,9 @@ export default{
                             +el[this.$props.params.AxisSrc.y],
                             point_style['not_selected'],
                             this.getPointTooltipHTML(el),
+                            null,
+                            null,
+                            null,
                             idx
                         ])
                     } 
