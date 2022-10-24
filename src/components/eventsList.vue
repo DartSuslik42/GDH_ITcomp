@@ -2,20 +2,21 @@
   <div id="q4">
     <div class="year-quarter" title="Снять выбор года и квартала" @click="selectYear('')" style="min-width: 1.5rem"></div>
     <div class="year-quarter" title="Выбор года">
-      <div class="year" v-bind:class="{ highl: year === dummy.year}"
-      v-for="year in years" :key="year" @click="selectYear(year)">
+      <div class="year" v-bind:class="{ highl: year === current.year}"
+      v-for="year in years" :key="year" @click="selectYear(year)"
+      >
         {{ year }}
       </div>
     </div>
     <div class="year-quarter" title="Выбор года и квартала">
-      <div class="quarter" v-bind:class="{ highl: quarter === dummy.quarter}" 
+      <div class="quarter" v-bind:class="{ highl: quarter === current.quarter}" 
       v-for="quarter in 16" :key="quarter" @click="selectQuarter(quarter)">
         Q{{ ((quarter - 1) % 4) + 1 }}
       </div>
     </div>
     <div class="year-quarter">
       <div class="quarter" v-for="n in 16" :key="n" style="border: none">
-        <input type="number" pattern="\d*" class="timeline" v-model="numbers[n]" />
+        <input type="number" pattern="\d*" class="timeline" v-model="grunts[n-1]" />
       </div>
     </div>
     <div class="events">
@@ -25,7 +26,7 @@
           <form action="#" @submit.prevent="addNewEvent">
             <div class="row">
               <div class="col">
-                <select v-model="dummy.id">
+                <select v-model="current.id">
                   <option>создание компании</option>
                   <option>закрытие компании</option>
                   <option>получение аккредитации компании </option>
@@ -34,7 +35,7 @@
                 </select>
               </div>
               <button type="submit" class="btn btn-primary">
-                {{ dummyEvent ? "Сохранить изменения" : "Добавить событие" }}
+                Добавить событие
               </button>
             </div>
           </form>
@@ -54,64 +55,65 @@
 </template>
 <script>
 import Event from "./event.vue";
-import { dummyFormEvent as d, startYear } from "@/js/const.js";
+import { dummyFormEvent, dummyFormCompany, сompanyDataItem, startYear } from "@/js/const.js";
 export default {
   props: {
-    events: Array,
-    numbers: Array,
-    dummyEvent: {
+    selectedCompany: {
       type: Object,
       default: null,
     },
   },
   data() {
     return {
-      dummy: { ...(this.dummyEvent ? this.dummyEvent : d) },
+      grunts: dummyFormCompany.grunts,
+      current: dummyFormEvent,
       years: [startYear, startYear + 1, startYear + 2, startYear + 3]
     };
   },
   methods: {
-    addNewEvent() {
-      if (this.dummyEvent) {
-        this.$emit("updateEvent", this.$data.dummy);
-      } else {
-        if (!this.$data.dummy.year && !this.$data.dummy.quarter) {
-          alert("Выберите квартал года");
-          return;
-        }
-        this.$emit("addEvent", this.$data.dummy);
-        this.$data.dummy = { ...this.$data.dummy }; // need clone
+    addNewEvent(e) {
+      if (!this.$data.current.year && !this.$data.current.quarter) {
+        alert("Выберите квартал года");
+        return;
       }
+      if (!this.selectedCompany) {
+        alert("Выберите компанию");
+        return;
+      }
+      if (!this.selectedCompany.events) {
+        this.selectedCompany.events = [];
+      }
+      this.selectedCompany.events.push({...this.$data.current})
     },
     removeEvent(e) {
-      this.$emit("removeEvent", e);
+      this.selectedCompany.events = this.selectedCompany.events.filter(c => c.id !== e.id)
     },
     selectYear(year) {
-        this.dummy.quarter = '';
-        this.dummy.year = year; 
-        this.$emit("timeSelected", {year: this.dummy.year, quarter: this.dummy.quarter}); 
+      this.current.year = year; 
+      this.current.quarter = year ? (year - startYear) * 4 + 1 : '';
+      this.$emit("timeSelected", {year: this.current.year, quarter: this.current.quarter}); 
     },
     selectQuarter(quarter) {
-        this.dummy.quarter = quarter;
-        this.dummy.year = Math.floor(startYear + (quarter-1) / 4); 
-        this.$emit("timeSelected", {year: this.dummy.year, quarter: ((this.dummy.quarter - 1) % 4) + 1}); 
+      this.current.quarter = quarter;
+      this.current.year = Math.floor(startYear + (quarter-1) / 4); 
+      this.$emit("timeSelected", {year: this.current.year, quarter: ((this.current.quarter - 1) % 4) + 1}); 
     }
   },
   computed: {
     filteredEvents() {
-      if (this.dummy.quarter) { 
-        return this.events.filter(item => item.quarter === this.dummy.quarter)
+      if (this.current.quarter) { 
+        return this.selectedCompany?.events.filter(item => item.quarter === this.current.quarter)
       }
-      if (this.dummy.year) { 
-        return this.events.filter(item => item.year === this.dummy.year)
+      if (this.current.year) { 
+        return this.selectedCompany?.events.filter(item => item.year === this.current.year)
       }
-      return this.events
+      return this.selectedCompany?.events
     }
   },
   watch: {
-    dummyEvent(val) {
-      this.$data.dummy = { ...(val ? val : d) };
-    },
+    selectedCompany(val){
+      this.$data.grunts = val ? val.grunts : dummyFormCompany.grunts;
+    }
   },
   components: { Event },
 };

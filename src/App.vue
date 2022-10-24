@@ -92,18 +92,17 @@
               <img id="logo" src="@/assets/gdh.png" alt="GDH" width="150px">
             </div>
           </div>
-          <NewCompForm 
+          <NewCompForm
             @updateCompany="updateSelectedCompanyData" 
             @addCompany="addNewCompany" 
-            :dummyCompany="selectedCompany"
+            :selectedCompany="selectedCompany"
+            :period="period"
           />
         
         </div>
       </td>
       <td style="width:50%">
-        <EventsList :events="events" @timeSelected="setPeriod"
-            @addEvent="addEvent" :numbers="numbers"
-            @removeEvent="removeEvent" />
+        <EventsList @timeSelected="setPeriod" :selectedCompany="selectedCompany" />
       </td>
     </tr>
   </table>
@@ -133,8 +132,6 @@ export default {
   data(){
     return {
       companies: [],
-      events: [],
-      numbers: new Array(16).fill(''),
       selectedCompany: null,
       dataSource: 1,
       isAccredited: false,
@@ -155,15 +152,6 @@ export default {
   methods:{
     setPeriod(p = {year: '', quarter: ''}) {
       this.$data.period = p;
-    },
-    addEvent(e) {
-      if (!this.$data.events) {
-        this.$data.events = [];
-      }
-      this.$data.events.push(e)
-    },
-    removeEvent(e) {
-      this.$data.events = this.$data.events.filter(c => c.id !== e.id)
     },
     removeCompany(e) {
       // Удалить компанию из списка компаний
@@ -212,14 +200,6 @@ export default {
           URL.revokeObjectURL(tempLink.href);      
         } else throw 'Сохранение в файл не поддерживается для этого браузера';
       }
-    },
-    getNumbers() {
-      const children = this.$el.querySelectorAll('.timeline');
-      const xs = [];
-      children.forEach(e=>{
-        xs.push(e.value)
-      })
-      return xs;
     },
     updateSelectedCompanyData(val){
       const idx = this.$data.companies.indexOf(this.$data.selectedCompany)

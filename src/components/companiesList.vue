@@ -19,7 +19,7 @@ export default{
     },
     data() {
         return {
-            selectedComp: this.selected ? this.selected : null
+            selectedComp: this.selected || null
         };
     },
     methods:{
