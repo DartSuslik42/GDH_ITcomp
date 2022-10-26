@@ -14,6 +14,7 @@
           </div>
           <ScatterChart class="chart diagram"
             :params="ScatterChartParams" 
+            :period="period"
             :companies='companies.map((el)=>{return{
               ...el,
               predict: {
@@ -156,7 +157,7 @@ export default {
     removeCompany(e) {
       // Удалить компанию из списка компаний
       this.$data.companies = this.$data.companies.filter(c => c.IID !== e.IID)
-      
+      this.storeCompaniesLocally()      
       if(this.$data.selectedCompany?.IID === e?.IID){
         this.setSelectedCompany(null)
       }
@@ -203,7 +204,17 @@ export default {
     },
     updateSelectedCompanyData(val){
       const idx = this.$data.companies.indexOf(this.$data.selectedCompany)
+      // const idx = this.$data.companies?.findIndex(c => {
+      //   c.IID === this.$data.selectedCompany?.IID
+      // })
+      console.log('idx', idx, this.$data.companies)  
       this.$data.companies.splice(idx, 1, val) // https://v2.vuejs.org/v2/guide/reactivity.html#For-Arrays
+      console.log('updateSelectedCompanyData', val?.IID,val?.ogrn, val?.grunts)
+      val?.data.forEach(d => console.log(d?.year, d?.quarter,
+        d?.income, d?.income_lic, 
+        d?.fot, d?.taxesProfit, d?.taxesVAT, 
+        d?.taxesEmplSal, d?.insurance, d?.employee_num))
+      this.storeCompaniesLocally()
       this.setSelectedCompany(null)
     },
     setSelectedCompany(val){
@@ -213,6 +224,12 @@ export default {
     },
     addNewCompany(val){
       this.$data.companies.push(val)
+      this.storeCompaniesLocally()
+      console.log('addNewCompany', val?.IID,val?.ogrn, val?.grunts)
+      val?.data.forEach(d => console.log(d?.year, d?.quarter,
+        d?.income, d?.income_lic, 
+        d?.fot, d?.taxesProfit, d?.taxesVAT, 
+        d?.taxesEmplSal, d?.insurance, d?.employee_num))
     },
     readConfig() {
       const json = localStorage['APP_CONFIG'];

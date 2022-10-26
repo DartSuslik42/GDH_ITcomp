@@ -21,6 +21,7 @@ export default{
         params: Object,
         companies: Array,
         selected: Object,
+        period: Object
     },
     components:{
         chart_img
@@ -152,7 +153,14 @@ export default{
             `&${API.AxisSrc.a}=${this.$props.params.AxisSrc.a}`
         },
         points(){
-            return this.$props.companies
+            const flats = [];
+            this.$props.companies.forEach(c => {
+                const xs = c.data.filter(e => e?.year === this.$props.period?.year && e?.quarter === this.$props.period?.quarter);
+                if (xs && xs.length) {
+                    flats.push({IID:c.IID, ...xs[0]})
+                }
+            })
+            return flats //this.$props.companies
                 .reduce((prev, el, idx) => {
                     const isSelected = el.IID === this.$props.selected?.IID
                     if(isSelected){
@@ -168,16 +176,16 @@ export default{
                             idx
                         ])
                         // Конец стрелки в точке прогноза для выбранной компании
-                        prev.push([
-                            +el.predict[this.$props.params.AxisSrc.x],
-                            null,
-                            null,
-                            null,
-                            +el.predict[this.$props.params.AxisSrc.y],
-                            point_style['selected_predict'],
-                            this.getPointTooltipHTML(el.predict),
-                            idx
-                        ])
+                        // prev.push([
+                        //     +el.predict[this.$props.params.AxisSrc.x],
+                        //     null,
+                        //     null,
+                        //     null,
+                        //     +el.predict[this.$props.params.AxisSrc.y],
+                        //     point_style['selected_predict'],
+                        //     this.getPointTooltipHTML(el.predict),
+                        //     idx
+                        // ])
                     }else{
                         prev.push([
                             +el[this.$props.params.AxisSrc.x],
