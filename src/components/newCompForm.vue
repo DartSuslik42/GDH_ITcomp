@@ -135,12 +135,6 @@ export default{
                     e => e.year == this.$props.period.year &&
                      e.quarter == this.$props.period.quarter);
                 this.$data.currentCompany.data.splice(idx, 1, this.$data.currentItem)
-            console.log('idx', idx)                    
-            this.$data.currentCompany.data.forEach(d => console.log(
-                    d?.income, d?.income_lic, 
-                    d?.fot, d?.taxesProfit, d?.taxesVAT, 
-                    d?.taxesEmplSal, d?.insurance, d?.employee_num))
-
             if(this.selectedCompany){
                     this.$emit("updateCompany", this.$data.currentCompany);
                 }else{
@@ -174,30 +168,12 @@ export default{
             const selectedItem = selectedItems && selectedItems.length ? selectedItems[0] : сompanyDataItem;
             this.$data.currentCompany = {...(val || dummyFormCompany)};
             this.$data.currentItem =  {...(selectedItem)};
-            console.log('watch FM selectedCompany', val?.IID,val?.ogrn, val?.grunts)
-            console.log(this.$props.period?.year, this.$props.period?.quarter)
-            val?.data.forEach(d => console.log( d?.income, d?.income_lic, 
-                    d?.fot, d?.taxesProfit, d?.taxesVAT, 
-                    d?.taxesEmplSal, d?.insurance, d?.employee_num))
-
         },
         period(p) {
             this.$data.currentItem = this.$data.currentCompany?.data?.find(e =>
                 e?.year === p?.year && e?.quarter === p?.quarter) || сompanyDataItem;
             // const selectedItem = selectedItems && selectedItems.length ? selectedItems[0] : сompanyDataItem;
             // this.$data.currentItem =  {...(selectedItem)};
-            console.log('watch FM p', p.year, p.quarter,
-            this.$data.currentCompany.IID,
-                this.$data.currentCompany.ogrn, this.$data.currentCompany.grunts)
-            console.log(this.$props.period?.year, this.$props.period?.quarter, 
-            this.$data.currentItem.income, 
-            this.$data.currentItem.income_lic, 
-            this.$data.currentItem.fot, 
-            this.$data.currentItem.taxesProfit, 
-            this.$data.currentItem.taxesVAT, 
-            this.$data.currentItem.taxesEmplSal, 
-            this.$data.currentItem.insurance, 
-            this.$data.currentItem.employee_num)
         }
     }
 }

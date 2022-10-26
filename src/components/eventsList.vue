@@ -113,11 +113,6 @@ export default {
   watch: {
     selectedCompany(val){
       this.$data.grunts = val ? val.grunts : dummyFormCompany.grunts;
-      console.log('watch ELst selectedCompany', val?.IID,val?.ogrn, val?.grunts)
-            console.log(this.$props.period?.year, this.$props.period?.quarter)
-            val?.data.forEach(d => console.log( d?.income, d?.income_lic, 
-                    d?.fot, d?.taxesProfit, d?.taxesVAT, 
-                    d?.taxesEmplSal, d?.insurance, d?.employee_num))
     }
   },
   components: { Event },
