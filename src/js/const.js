@@ -183,9 +183,9 @@ export const Fields_All = {
   ...Fields_Columns,
   ...Fields_Info
 }
-export const dummyFormCompany = {
-  IID: "",
-  ogrn: "",
+export const сompanyDataItem = {
+  year: "",
+  quarter: "",
   income: "",
   income_lic: "",
   fot: "",
@@ -194,7 +194,13 @@ export const dummyFormCompany = {
   taxesEmplSal: "",
   insurance: "",
   employee_num: "",
-  events: undefined
+}
+export const dummyFormCompany = {
+  IID: "",
+  ogrn: "",
+  data: [],
+  events: [],
+  grunts: new Array(16).fill('')
 }
 export const dummyFormEvent = {
   id: "получение дохода от грантов и субсидий",
@@ -203,3 +209,4 @@ export const dummyFormEvent = {
 }
 
 export const server = "https://greencert.car.cos.ru/";
+export const startYear = 2019;

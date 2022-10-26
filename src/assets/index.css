@@ -173,9 +173,9 @@ li.active {
     }
 }
 
-#table_point li:hover {
+/* #table_point li:hover {
     background: #0ff7;
-}
+} */
 
 input[type=number] {
     text-align: right;

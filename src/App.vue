@@ -14,6 +14,7 @@
           </div>
           <ScatterChart class="chart diagram"
             :params="ScatterChartParams" 
+            :period="period"
             :companies='companies.map((el)=>{return{
               ...el,
               predict: {
@@ -92,18 +93,18 @@
               <img id="logo" src="@/assets/gdh.png" alt="GDH" width="150px">
             </div>
           </div>
-          <NewCompForm 
+          <NewCompForm
             @updateCompany="updateSelectedCompanyData" 
             @addCompany="addNewCompany" 
-            :dummyCompany="selectedCompany"
+            :selectedCompany="selectedCompany"
+            :period="period"
           />
         
         </div>
       </td>
       <td style="width:50%">
-        <EventsList :events="events" @timeSelected="setPeriod"
-            @addEvent="addEvent" :numbers="numbers"
-            @removeEvent="removeEvent" />
+        <EventsList @addEvent="addEvent" @removeEvent="removeEvent"
+          @timeSelected="setPeriod" :selectedCompany="selectedCompany" />
       </td>
     </tr>
   </table>
@@ -133,8 +134,6 @@ export default {
   data(){
     return {
       companies: [],
-      events: [],
-      numbers: new Array(16).fill(''),
       selectedCompany: null,
       dataSource: 1,
       isAccredited: false,
@@ -156,19 +155,10 @@ export default {
     setPeriod(p = {year: '', quarter: ''}) {
       this.$data.period = p;
     },
-    addEvent(e) {
-      if (!this.$data.events) {
-        this.$data.events = [];
-      }
-      this.$data.events.push(e)
-    },
-    removeEvent(e) {
-      this.$data.events = this.$data.events.filter(c => c.id !== e.id)
-    },
     removeCompany(e) {
       // Удалить компанию из списка компаний
       this.$data.companies = this.$data.companies.filter(c => c.IID !== e.IID)
-      
+      this.storeCompaniesLocally()      
       if(this.$data.selectedCompany?.IID === e?.IID){
         this.setSelectedCompany(null)
       }
@@ -213,17 +203,10 @@ export default {
         } else throw 'Сохранение в файл не поддерживается для этого браузера';
       }
     },
-    getNumbers() {
-      const children = this.$el.querySelectorAll('.timeline');
-      const xs = [];
-      children.forEach(e=>{
-        xs.push(e.value)
-      })
-      return xs;
-    },
     updateSelectedCompanyData(val){
       const idx = this.$data.companies.indexOf(this.$data.selectedCompany)
       this.$data.companies.splice(idx, 1, val) // https://v2.vuejs.org/v2/guide/reactivity.html#For-Arrays
+      this.storeCompaniesLocally()
       this.setSelectedCompany(null)
     },
     setSelectedCompany(val){
@@ -233,6 +216,16 @@ export default {
     },
     addNewCompany(val){
       this.$data.companies.push(val)
+      this.storeCompaniesLocally()
+    },
+    addEvent(e) {
+      if (!this.$data.selectedCompany.events) {
+        this.$data.selectedCompany.events = [];
+      }
+      this.$data.selectedCompany.events.push({...e})
+    },
+    removeEvent(e) {
+      this.$data.selectedCompany.events = this.$data.selectedCompany.events.filter(c => c.id !== e.id)
     },
     readConfig() {
       const json = localStorage['APP_CONFIG'];

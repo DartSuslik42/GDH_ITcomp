@@ -21,6 +21,7 @@ export default{
         params: Object,
         companies: Array,
         selected: Object,
+        period: Object
     },
     components:{
         chart_img
@@ -153,45 +154,53 @@ export default{
         },
         points(){
             return this.$props.companies
-                .reduce((prev, el, idx) => {
-                    const isSelected = el.IID === this.$props.selected?.IID
-                    if(isSelected){
-                        // Начало стрелки в точке выбранной компании
-                        prev.push([
-                            +el[this.$props.params.AxisSrc.x],
-                            null,
-                            null,
-                            null,
-                            +el[this.$props.params.AxisSrc.y],
-                            point_style['selected'], 
-                            this.getPointTooltipHTML(el),
-                            idx
-                        ])
-                        // Конец стрелки в точке прогноза для выбранной компании
-                        prev.push([
-                            +el.predict[this.$props.params.AxisSrc.x],
-                            null,
-                            null,
-                            null,
-                            +el.predict[this.$props.params.AxisSrc.y],
-                            point_style['selected_predict'],
-                            this.getPointTooltipHTML(el.predict),
-                            idx
-                        ])
-                    }else{
-                        prev.push([
-                            +el[this.$props.params.AxisSrc.x],
-                            +el[this.$props.params.AxisSrc.y],
-                            point_style['not_selected'],
-                            this.getPointTooltipHTML(el),
-                            null,
-                            null,
-                            null,
-                            idx
-                        ])
-                    } 
-                    return prev
-                }, [])
+            .map(c => {
+                const xs = c.data.find(e => e.year === this.$props.period?.year && e.quarter === this.$props.period?.quarter)       
+                return {
+                    IID:c.IID,
+                    predict:c.predict,
+                    ...xs
+                }
+            })   
+            .reduce((prev, el, idx) => {
+                const isSelected = el.IID === this.$props.selected?.IID
+                if(isSelected){
+                    // Начало стрелки в точке выбранной компании
+                    prev.push([
+                        +el[this.$props.params.AxisSrc.x],
+                        null,
+                        null,
+                        null,
+                        +el[this.$props.params.AxisSrc.y],
+                        point_style['selected'], 
+                        this.getPointTooltipHTML(el),
+                        idx
+                    ])
+                    // Конец стрелки в точке прогноза для выбранной компании
+                    prev.push([
+                        +el.predict[this.$props.params.AxisSrc.x],
+                        null,
+                        null,
+                        null,
+                        +el.predict[this.$props.params.AxisSrc.y],
+                        point_style['selected_predict'],
+                        this.getPointTooltipHTML(el.predict),
+                        idx
+                    ])
+                }else{
+                    prev.push([
+                        +el[this.$props.params.AxisSrc.x],
+                        +el[this.$props.params.AxisSrc.y],
+                        point_style['not_selected'],
+                        this.getPointTooltipHTML(el),
+                        null,
+                        null,
+                        null,
+                        idx
+                    ])
+                }
+                return prev
+            }, [])
         }
     },
     watch:{

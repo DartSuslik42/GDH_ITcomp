@@ -7,7 +7,7 @@
                         <span>Название</span>
                     </div>
                     <div class="col">
-                        <input type="text" name="IID" placeholder="Введите имя компании" v-model="dummy.IID">
+                        <input type="text" name="IID" placeholder="Введите имя компании" v-model="currentCompany.IID">
                     </div>
                 </div>
                 <div class="row">
@@ -15,7 +15,7 @@
                         <span>ОГРН</span>
                     </div>
                     <div class="col">
-                        <input type="number" pattern="\d*" name="ogrn" v-model="dummy.ogrn">
+                        <input type="number" pattern="\d*" name="ogrn" v-model="currentCompany.ogrn">
                     </div>
                 </div>
                 <div class="row">
@@ -23,7 +23,7 @@
                         <span>Доход</span>
                     </div>
                     <div class="col">
-                        <input type="number" pattern="\d*" name="income" placeholder="0" v-model="dummy.income">
+                        <input type="number" pattern="\d*" name="income" placeholder="0" v-model="currentItem.income">
                     </div>
                 </div>
                 <div class="row">
@@ -31,7 +31,7 @@
                     <span>Доход с лицензий</span>
                     </div>
                     <div class="col">
-                    <input type="number" pattern="\d*" name="income_lic" placeholder="0" v-model="dummy.income_lic">
+                    <input type="number" pattern="\d*" name="income_lic" placeholder="0" v-model="currentItem.income_lic">
                     </div>
                 </div>
                 <div class="row">
@@ -39,7 +39,7 @@
                     <span>Фонд оплаты труда</span>
                     </div>
                     <div class="col">
-                    <input type="number" pattern="\d*" name="fot" placeholder="0" v-model="dummy.fot">
+                    <input type="number" pattern="\d*" name="fot" placeholder="0" v-model="currentItem.fot">
                     </div>
                 </div>
                 <div class="row">
@@ -47,7 +47,7 @@
                     <span>Налог с прибыли</span>
                     </div>
                     <div class="col">
-                    <input type="number" pattern="\d*" name="taxesProfit" placeholder="0" v-model="dummy.taxesProfit">
+                    <input type="number" pattern="\d*" name="taxesProfit" placeholder="0" v-model="currentItem.taxesProfit">
                     </div>
                 </div>
                 <div class="row">
@@ -55,7 +55,7 @@
                     <span>НДС</span>
                     </div>
                     <div class="col">
-                    <input type="number" pattern="\d*" name="taxesVAT" placeholder="0" v-model="dummy.taxesVAT">
+                    <input type="number" pattern="\d*" name="taxesVAT" placeholder="0" v-model="currentItem.taxesVAT">
                     </div>
                 </div>
                 <div class="row">
@@ -63,7 +63,7 @@
                     <span>НДФЛ</span>
                     </div>
                     <div class="col">
-                    <input type="number" pattern="\d*" name="taxesEmplSal" placeholder="0" v-model="dummy.taxesEmplSal">
+                    <input type="number" pattern="\d*" name="taxesEmplSal" placeholder="0" v-model="currentItem.taxesEmplSal">
                     </div>
                 </div>
                 <div class="row">
@@ -71,7 +71,7 @@
                     <span>Страховые сборы</span>
                     </div>
                     <div class="col">
-                    <input type="number" pattern="\d*" name="insurance" placeholder="0" v-model="dummy.insurance">
+                    <input type="number" pattern="\d*" name="insurance" placeholder="0" v-model="currentItem.insurance">
                     </div>
                 </div>
                 <div class="row">
@@ -79,13 +79,13 @@
                         <span>Количество сотрудников</span>
                     </div>
                     <div class="col">
-                        <input type="number" pattern="\d*" name="employee_num" placeholder="0" v-model="dummy.employee_num">
+                        <input type="number" pattern="\d*" name="employee_num" placeholder="0" v-model="currentItem.employee_num">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col">
                         <button type="submit" class="btn btn-primary">
-                            {{dummyCompany ? "Сохранить изменения":"Добавить компанию"}}
+                            {{selectedCompany ? "Сохранить изменения":"Добавить компанию"}}
                         </button>
                     </div>
                 </div> 
@@ -95,52 +95,86 @@
 </template>
 
 <script>
-import {dummyFormCompany as d} from "@/js/const.js"
+import {dummyFormCompany, сompanyDataItem} from "@/js/const.js"
 export default{
     props:{
-        dummyCompany:{
+        selectedCompany:{
+            type: Object,
+            default: null
+        },
+        period:{
             type: Object,
             default: null
         }
     },
     data(){
         return{
-            dummy: {...(this.dummyCompany ? this.dummyCompany : d)}
+            currentCompany: {...(this.selectedCompany || dummyFormCompany)},
+            currentItem: {...сompanyDataItem}
         }
     },  
     methods:{
         addNewCompany(){
-            for(const [key, value] of Object.entries(this.$data.dummy)){
-                if(key !== "IID"){
-                    this.$data.dummy[key] = +value
+            if (!this.$props.period.year || !this.$props.period.quarter) {
+                alert('Выберите квартал');
+                return;
+            } else {
+                this.$data.currentItem.year = this.$props.period.year;
+                this.$data.currentItem.quarter = this.$props.period.quarter;
+            }
+            for(const [key, value] of Object.entries(this.$data.currentCompany)){
+                if(key === "ogrn"){
+                    this.$data.currentCompany[key] = +value;
                 }
             }
+            for(const [key, value] of Object.entries(this.$data.currentItem)){
+                this.$data.currentItem[key] = +value;
+            }
             if(this.fildsValid()){
-                if(this.dummyCompany){
-                    this.$emit("updateCompany", this.$data.dummy)
+                const idx = this.$data.currentCompany.data.findIndex(
+                    e => e.year == this.$props.period.year &&
+                    e.quarter == this.$props.period.quarter);
+                if (idx >= 0) {
+                    this.$data.currentCompany.data.splice(idx, 1, this.$data.currentItem)
+                } else {
+                    this.$data.currentCompany.data.push(this.$data.currentItem)
+                }
+            if(this.selectedCompany){
+                    this.$emit("updateCompany", this.$data.currentCompany);
                 }else{
-                    this.$emit("addCompany", this.$data.dummy)
-                    this.$data.dummy = {...d}
+                    this.$emit("addCompany", this.$data.currentCompany);
+                    this.$data.currentCompany = {...dummyFormCompany};
+                    this.$data.currentItem = {...сompanyDataItem};
                 }
             }else{
                 alert("Введите имя компании")
             }
         },
         fildsValid(){
-            for(const [key, value] of Object.entries(this.$data.dummy)){
-                if (key === 'IID'){
-                    if (typeof(value) !== "string" || value.length === 0 ) return false
+            for(const [key, value] of Object.entries(this.$data.currentCompany)){
+                if (key === 'IID') {
+                    if (typeof(value) !== "string" || value.length === 0) return false; 
                 }
-                if (key !== 'IID') {
-                    if(typeof(value) !== "number" || value < 0 ) return false
+                if (key === 'ogrn') {
+                    if (typeof(value) !== "number" || value < 0) return false; 
                 }
-                return true 
             }
+            for(const [_, value] of Object.entries(this.$data.currentItem)){
+                if (typeof(value) !== "number" || value < 0) return false; 
+            }
+            return true;
         }
     },
     watch:{
-        dummyCompany(val){
-            this.$data.dummy = {...(val ? val : d)}
+        selectedCompany(val){
+            const selectedItem = val?.data?.find(e => e?.year === this.$props.period?.year &&
+                 e?.quarter === this.$props.period?.quarter) || сompanyDataItem;
+            this.$data.currentCompany = {...(val || dummyFormCompany)};
+            this.$data.currentItem =  {...(selectedItem)};
+        },
+        period(p) {
+            this.$data.currentItem = this.$data.currentCompany?.data?.find(e =>
+                e?.year === p?.year && e?.quarter === p?.quarter) || сompanyDataItem;
         }
     }
 }
