@@ -76,17 +76,14 @@ export default {
         alert("Выберите квартал года");
         return;
       }
-      if (!this.selectedCompany) {
+      if (!this.$props.selectedCompany) {
         alert("Выберите компанию");
         return;
       }
-      if (!this.selectedCompany.events) {
-        this.selectedCompany.events = [];
-      }
-      this.selectedCompany.events.push({...this.$data.current})
+      this.$emit("addEvent", {...this.$data.current}); 
     },
     removeEvent(e) {
-      this.selectedCompany.events = this.selectedCompany.events.filter(c => c.id !== e.id)
+      this.$emit("removeEvent", e); 
     },
     selectYear(year) {
       this.current.year = year; 
@@ -102,12 +99,12 @@ export default {
   computed: {
     filteredEvents() {
       if (this.current.quarter) { 
-        return this.selectedCompany?.events.filter(item => item.quarter === this.current.quarter)
+        return this.$props.selectedCompany?.events.filter(item => item.quarter === this.current.quarter)
       }
       if (this.current.year) { 
-        return this.selectedCompany?.events.filter(item => item.year === this.current.year)
+        return this.$props.selectedCompany?.events.filter(item => item.year === this.current.year)
       }
-      return this.selectedCompany?.events
+      return this.$props.selectedCompany?.events
     }
   },
   watch: {

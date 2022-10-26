@@ -103,7 +103,8 @@
         </div>
       </td>
       <td style="width:50%">
-        <EventsList @timeSelected="setPeriod" :selectedCompany="selectedCompany" />
+        <EventsList @addEvent="addEvent" @removeEvent="removeEvent"
+          @timeSelected="setPeriod" :selectedCompany="selectedCompany" />
       </td>
     </tr>
   </table>
@@ -216,6 +217,15 @@ export default {
     addNewCompany(val){
       this.$data.companies.push(val)
       this.storeCompaniesLocally()
+    },
+    addEvent(e) {
+      if (!this.$data.selectedCompany.events) {
+        this.$data.selectedCompany.events = [];
+      }
+      this.$data.selectedCompany.events.push({...e})
+    },
+    removeEvent(e) {
+      this.$data.selectedCompany.events = this.$data.selectedCompany.events.filter(c => c.id !== e.id)
     },
     readConfig() {
       const json = localStorage['APP_CONFIG'];

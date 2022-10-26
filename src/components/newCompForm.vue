@@ -167,17 +167,14 @@ export default{
     },
     watch:{
         selectedCompany(val){
-            const selectedItems = val?.data?.filter(e => e?.year === this.$props.period?.year &&
-                 e?.quarter === this.$props.period?.quarter);
-            const selectedItem = selectedItems && selectedItems.length ? selectedItems[0] : сompanyDataItem;
+            const selectedItem = val?.data?.find(e => e?.year === this.$props.period?.year &&
+                 e?.quarter === this.$props.period?.quarter) || сompanyDataItem;
             this.$data.currentCompany = {...(val || dummyFormCompany)};
             this.$data.currentItem =  {...(selectedItem)};
         },
         period(p) {
             this.$data.currentItem = this.$data.currentCompany?.data?.find(e =>
                 e?.year === p?.year && e?.quarter === p?.quarter) || сompanyDataItem;
-            // const selectedItem = selectedItems && selectedItems.length ? selectedItems[0] : сompanyDataItem;
-            // this.$data.currentItem =  {...(selectedItem)};
         }
     }
 }
