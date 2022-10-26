@@ -133,8 +133,12 @@ export default{
             if(this.fildsValid()){
                 const idx = this.$data.currentCompany.data.findIndex(
                     e => e.year == this.$props.period.year &&
-                     e.quarter == this.$props.period.quarter);
-                this.$data.currentCompany.data.splice(idx, 1, this.$data.currentItem)
+                    e.quarter == this.$props.period.quarter);
+                if (idx >= 0) {
+                    this.$data.currentCompany.data.splice(idx, 1, this.$data.currentItem)
+                } else {
+                    this.$data.currentCompany.data.push(this.$data.currentItem)
+                }
             if(this.selectedCompany){
                     this.$emit("updateCompany", this.$data.currentCompany);
                 }else{
