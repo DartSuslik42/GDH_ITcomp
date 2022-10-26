@@ -89,6 +89,15 @@ export const options_trans = {
   aggregationTarget: "none",
   tooltip:{
     isHtml: true
+  },
+  series:{
+    0:{
+    },
+    1:{
+      lineWidth: 2,
+      color: "purple",
+      lineDashStyle: [3,3],
+    }
   }
 }
 export const plot1_point_styling_p = {
@@ -99,6 +108,13 @@ export const plot1_point_styling_p = {
         size:4;
         visible:true; 
     }`,
+  selected_predict: `point {
+      fill-color:magenta;
+      stroke-color: purple;
+      stroke-width: 2;
+      size:4;
+      visible:true; 
+  }`,
   not_selected: `point {
         fill-color: yellow;
         stroke-color: red;
