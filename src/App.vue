@@ -134,6 +134,8 @@ export default {
   data(){
     return {
       selectedCompany: null,
+      selectedFile: null,
+
       dataSource: 1,
       isAccredited: false,
       AbcAxis:{
@@ -147,7 +149,6 @@ export default {
         year: '',
         quarter: ''
       },
-      selectedFile: null,
     }
   },
   methods:{
@@ -219,44 +220,46 @@ export default {
       this.$data.selectedCompany.events = this.$data.selectedCompany.events.filter(c => c.id !== e.id)
     },
     readConfig() {
-      const json = localStorage['APP_CONFIG'];
-      return json ? JSON.parse(json) : {};
+      return this.$store.state.config.value
     },
     saveDataSource() {
       const config = this.readConfig();
       config.dataSource = this.$data.dataSource;
-      localStorage['APP_CONFIG'] = JSON.stringify(config);
+      this.$store.commit('config/set', config)
+      this.$store.dispatch('config/save')
     },
     saveIsAccredited() {
       const config = this.readConfig();
       config.isAccredited = this.$data.isAccredited;
-      localStorage['APP_CONFIG'] = JSON.stringify(config);
+      this.$store.commit('config/set', config)
+      this.$store.dispatch('config/save')
     },
     saveAbcAxis() {
       const config = this.readConfig();
       config.abcAxis = this.$data.AbcAxis;
-      localStorage['APP_CONFIG'] = JSON.stringify(config);
+      this.$store.commit('config/set', config)
+      this.$store.dispatch('config/save')
     },
     saveScatterAxis() {
       const config = this.readConfig();
       config.scatterAxis = this.$data.ScatterAxis;
-      localStorage['APP_CONFIG'] = JSON.stringify(config);
+      this.$store.commit('config/set', config)
+      this.$store.dispatch('config/save')
     },
     savePeriod() {
       const config = this.readConfig();
       config.period = this.$data.period;
-      localStorage['APP_CONFIG'] = JSON.stringify(config);
+      this.$store.commit('config/set', config)
+      this.$store.dispatch('config/save')
     },
     loadConfig() {
-      const json = localStorage['APP_CONFIG'];
-      if (json) {
-        const config = JSON.parse(json);
-        if (config.dataSource != undefined) this.$data.dataSource = config.dataSource;
-        if (config.isAccredited != undefined) this.$data.isAccredited = config.isAccredited;
-        if (config.abcAxis && config.abcAxis.y != undefined) this.$data.AbcAxis = config.abcAxis;
-        if (config.scatterAxis && config.scatterAxis.x != undefined && config.scatterAxis.y != undefined ) this.$data.ScatterAxis = config.scatterAxis;
-        if (config.period != undefined) this.$data.period = config.period;
-      }
+      this.$store.dispatch('config/load')
+      const config = this.$store.state.config.value
+      if (config.dataSource != undefined) this.$data.dataSource = config.dataSource;
+      if (config.isAccredited != undefined) this.$data.isAccredited = config.isAccredited;
+      if (config?.abcAxis?.y != undefined) this.$data.AbcAxis = config.abcAxis;
+      if (config?.scatterAxis?.x != undefined && config?.scatterAxis?.y != undefined ) this.$data.ScatterAxis = config.scatterAxis;
+      if (config.period != undefined) this.$data.period = config.period;
     }
   },
   computed:{

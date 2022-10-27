@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 import companies from "./companies_store.js"
+import config from "./chartOptions_store.js"
 
 Vue.use(Vuex)
 
@@ -49,6 +50,7 @@ export default new Vuex.Store({
   actions: {
   },
   modules: {
-    companies
+    companies,
+    config
   },
 })
