@@ -157,7 +157,8 @@ export default{
                     this.$emit("updateCompany", this.$data.currentCompany);
                 }else{
                     this.$emit("addCompany", this.$data.currentCompany);
-                    this.$data.currentCompany = {...dummyFormCompany};
+                    this.$data.currentCompany = JSON.parse(JSON.stringify(dummyFormCompany));
+                    this.$data.currentItem = this.emptyDataItem()
                 }
             }else{
                 alert("Введите имя компании")
