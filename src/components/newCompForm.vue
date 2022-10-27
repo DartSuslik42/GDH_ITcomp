@@ -184,7 +184,7 @@ export default{
             const selectedItem = val?.data?.find(e => e?.year === this.$props.period?.year &&
                  e?.quarter === this.$props.period?.quarter) || this.emptyDataItem();
             this.$data.currentCompany = {...(val || dummyFormCompany)};
-            this.$data.currentItem =  this.emptyDataItem();
+            this.$data.currentItem =  selectedItem || this.emptyDataItem();
         },
         period(p) {
             this.$data.currentItem = this.$data.currentCompany?.data?.find(e =>
