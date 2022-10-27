@@ -168,13 +168,13 @@ export default{
     watch:{
         selectedCompany(val){
             const selectedItem = val?.data?.find(e => e?.year === this.$props.period?.year &&
-                 e?.quarter === this.$props.period?.quarter) || сompanyDataItem;
+                 e?.quarter === this.$props.period?.quarter) || {...сompanyDataItem};
             this.$data.currentCompany = {...(val || dummyFormCompany)};
             this.$data.currentItem =  {...(selectedItem)};
         },
         period(p) {
             this.$data.currentItem = this.$data.currentCompany?.data?.find(e =>
-                e?.year === p?.year && e?.quarter === p?.quarter) || сompanyDataItem;
+                e?.year === p?.year && e?.quarter === p?.quarter) || {...сompanyDataItem};
         }
     }
 }
