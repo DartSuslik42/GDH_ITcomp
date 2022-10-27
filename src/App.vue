@@ -5,12 +5,12 @@
         <div id="chart" class="chart container">
           
           <div id="select_yd">
-            <SelectAxisType class="select_y" v-model="ScatterAxis.y" @input="saveScatterAxis"/>
-            <select class="select_d" v-model="dataSource" v-on:change="saveDataSource">
+            <SelectAxisType class="select_y" v-model="ScatterAxis.y" @input="saveConfig"/>
+            <select class="select_d" v-model="dataSource" v-on:change="saveConfig">
               <option value="1"> Версия 1 </option>
               <option value="2"> Версия 2 </option>
             </select>
-            <input type="checkbox" id="accredited" v-model="isAccredited" v-on:change="saveIsAccredited"> Аккредитованные
+            <input type="checkbox" id="accredited" v-model="isAccredited" v-on:change="saveConfig"> Аккредитованные
           </div>
           <ScatterChart class="chart diagram"
             :params="ScatterChartParams" 
@@ -47,14 +47,14 @@
             }'
             @select="setSelectedCompany"
           />
-          <SelectAxisType class="select_x" v-model="ScatterAxis.x" @input="saveScatterAxis"/>
+          <SelectAxisType class="select_x" v-model="ScatterAxis.x" @input="saveConfig"/>
 
         </div>
       </td>
       <td class="charts border-bt">
         <div id="chart2" class="chart container">
 
-          <SelectAxisType class="select_y" v-model="AbcAxis.y"  @input="saveAbcAxis"/>
+          <SelectAxisType class="select_y" v-model="AbcAxis.y"  @input="saveConfig"/>
           <AbcChart :params="AbcChartParams" class="chart diagram"/>
           <select class="select_x" disabled>
             <option selected>Число компаний</option>
@@ -118,6 +118,7 @@ import DownloadButton from './components/downloadButton.vue'
 import UploadButton from './components/uploadButton.vue'
 import CompaniesList from './components/companiesList.vue'
 import EventsList from './components/eventsList.vue'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'root',
@@ -133,8 +134,9 @@ export default {
 },
   data(){
     return {
-      companies: [],
       selectedCompany: null,
+      selectedFile: null,
+
       dataSource: 1,
       isAccredited: false,
       AbcAxis:{
@@ -148,34 +150,32 @@ export default {
         year: '',
         quarter: ''
       },
-      selectedFile: null,
     }
   },
   methods:{
+    // В идеале вынести этот функционал в соответствующий модуль. 
+    // А тут получать через this.$store.config.value
     setPeriod(p = {year: '', quarter: ''}) {
       this.$data.period = p;
+      this.saveConfig()
     },
     removeCompany(e) {
-      // Удалить компанию из списка компаний
-      this.$data.companies = this.$data.companies.filter(c => c.IID !== e.IID)
-      this.storeCompaniesLocally()      
+      this.$store.commit('companies/remove', e)
+      this.$store.dispatch('companies/save')  
       if(this.$data.selectedCompany?.IID === e?.IID){
         this.setSelectedCompany(null)
       }
     },
     loadCompanies() {
-      if(!this.$data.selectedFile) {
-        const json = localStorage['COMPANY_LIST'];
-        this.$data.companies = json ? JSON.parse(json) : []
-      } else {
+      if(this.$data.selectedFile) {
         const reader = new FileReader(); // без аргументов
         reader.readAsText(this.$data.selectedFile);
         reader.onload = () => {
           try {
             const json = reader.result;
             const parsed = JSON.parse(json);
-            localStorage['COMPANY_LIST'] = json;
-            this.$data.companies = parsed;
+            this.$store.commit("companies/set", parsed)
+            this.$store.dispatch("companies/save")
           } catch {
             alert("Некорректный файл " + this.$data.selectedFile.name)
           }
@@ -185,16 +185,13 @@ export default {
         };  
       }  
     },
-    storeCompaniesLocally() {
-      localStorage['COMPANY_LIST'] = JSON.stringify(this.$data.companies);
-    },
     storeCompanies() {
       const fileName = this.$data.selectedFile ?
         this.$data.selectedFile.name : '_companies';
-      if (this.$data.companies) {
+      if (this.companies){
         const tempLink = document.createElement("a");
         if ('download' in tempLink) {
-          const json = JSON.stringify(this.$data.companies);
+          const json = JSON.stringify(this.companies);
           const taBlob = new Blob([json], {type: 'application/json'});
           tempLink.setAttribute('href', URL.createObjectURL(taBlob));
           tempLink.setAttribute('download', fileName);
@@ -204,9 +201,8 @@ export default {
       }
     },
     updateSelectedCompanyData(val){
-      const idx = this.$data.companies.indexOf(this.$data.selectedCompany)
-      this.$data.companies.splice(idx, 1, val) // https://v2.vuejs.org/v2/guide/reactivity.html#For-Arrays
-      this.storeCompaniesLocally()
+      this.$store.commit('companies/update', val)
+      this.$store.dispatch('companies/save')
       this.setSelectedCompany(null)
     },
     setSelectedCompany(val){
@@ -215,8 +211,8 @@ export default {
       this.$data.selectedCompany = isAlreadySelected ? null : val
     },
     addNewCompany(val){
-      this.$data.companies.push(val)
-      this.storeCompaniesLocally()
+      this.$store.commit('companies/add', val)
+      this.$store.dispatch('companies/save')
     },
     addEvent(e) {
       if (!this.$data.selectedCompany.events) {
@@ -227,76 +223,42 @@ export default {
     removeEvent(e) {
       this.$data.selectedCompany.events = this.$data.selectedCompany.events.filter(c => c.id !== e.id)
     },
-    readConfig() {
-      const json = localStorage['APP_CONFIG'];
-      return json ? JSON.parse(json) : {};
-    },
-    saveDataSource() {
-      const config = this.readConfig();
-      config.dataSource = this.$data.dataSource;
-      localStorage['APP_CONFIG'] = JSON.stringify(config);
-    },
-    saveIsAccredited() {
-      const config = this.readConfig();
-      config.isAccredited = this.$data.isAccredited;
-      localStorage['APP_CONFIG'] = JSON.stringify(config);
-    },
-    saveAbcAxis() {
-      const config = this.readConfig();
-      config.abcAxis = this.$data.AbcAxis;
-      localStorage['APP_CONFIG'] = JSON.stringify(config);
-    },
-    saveScatterAxis() {
-      const config = this.readConfig();
-      config.scatterAxis = this.$data.ScatterAxis;
-      localStorage['APP_CONFIG'] = JSON.stringify(config);
-    },
-    savePeriod() {
-      const config = this.readConfig();
-      config.period = this.$data.period;
-      localStorage['APP_CONFIG'] = JSON.stringify(config);
+    saveConfig(){
+      // Сохраняет текущий config в localStore
+      this.$store.commit('config/set', {
+        dataSource: this.dataSource,
+        isAccredited: this.isAccredited,
+        AbcAxis: this.AbcAxis,
+        ScatterAxis: this.ScatterAxis,
+        period: this.period,
+        dataSource: this.dataSource,
+      })
+      this.$store.dispatch('config/save')
     },
     loadConfig() {
-      const json = localStorage['APP_CONFIG'];
-      if (json) {
-        const config = JSON.parse(json);
-        if (config.dataSource != undefined) this.$data.dataSource = config.dataSource;
-        if (config.isAccredited != undefined) this.$data.isAccredited = config.isAccredited;
-        if (config.abcAxis && config.abcAxis.y != undefined) this.$data.AbcAxis = config.abcAxis;
-        if (config.scatterAxis && config.scatterAxis.x != undefined && config.scatterAxis.y != undefined ) this.$data.ScatterAxis = config.scatterAxis;
-        if (config.period != undefined) this.$data.period = config.period;
-      }
+      this.$store.dispatch('config/load')
+      // Это не полная связность Vuex и model.data! В идеале полностью убрать this.$data.config
+      // а все значения брать из this.$store.config.value
+      const config = this.$store.state.config.value
+      if (config.dataSource != undefined) this.$data.dataSource = config.dataSource;
+      if (config.isAccredited != undefined) this.$data.isAccredited = config.isAccredited;
+      if (config?.abcAxis?.y != undefined) this.$data.AbcAxis = config.abcAxis;
+      if (config?.scatterAxis?.x != undefined && config?.scatterAxis?.y != undefined ) this.$data.ScatterAxis = config.scatterAxis;
+      if (config.period != undefined) this.$data.period = config.period;
     }
   },
   computed:{
-    ScatterChartParams: function(){
-      return {
-        AxisSrc:{
-          x:this.$data.ScatterAxis.x,
-          y:this.$data.ScatterAxis.y,
-          z:this.$data.AbcAxis.y,
-          d:this.$data.dataSource,
-          a:this.$data.isAccredited
-        },
-        Period:this.$data.period,
-      }
+    companies(){
+      return this.$store.state.companies.value
     },
-    AbcChartParams: function(){
-      return {
-        AxisSrc:{
-          y:this.$data.AbcAxis.y,
-          d:this.$data.dataSource
-        },
-        Period:this.$data.period,
-      }
-    }
-  },
-  created() { 
-    // beforeDestroy и destroy хуки vue не работают при закрытии страницы, а это работает
-    window.addEventListener("beforeunload", this.storeCompaniesLocally);
+    ...mapGetters({
+      ScatterChartParams: 'config/ScatterChartParams',
+      AbcChartParams: 'config/AbcChartParams'
+    })
   },
   mounted() {
-      this.loadConfig();
+    this.$store.dispatch("companies/load")
+    this.loadConfig();
   }  
 }
 </script>
