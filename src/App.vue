@@ -20,14 +20,14 @@
               predict: {
                 "IID": el.IID,
                 "ogrn":0,
-                "income":3000,
+                "income":formData()?.income + period.grunt || 0,
                 "income_lic":0,
                 "fot":0,
                 "taxesProfit":0,
                 "taxesVAT":0,
                 "taxesEmplSal":0,
                 "insurance":0,
-                "employee_num":3000,
+                "employee_num":formData()?.employee_num,
               }
             }})'
             :selected='{
@@ -146,12 +146,17 @@ export default {
       },
       period: {
         year: '',
-        quarter: ''
+        quarter: '',
+        grunt: 0
       },
       selectedFile: null,
     }
   },
   methods:{
+    formData() {
+      return this.$data.selectedCompany?.data?.find(
+        e => e?.year === this.$data.period?.year && e?.quarter === this.$data.period?.quarter);
+    },
     setPeriod(p = {year: '', quarter: ''}) {
       this.$data.period = p;
     },
