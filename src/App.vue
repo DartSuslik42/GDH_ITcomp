@@ -165,8 +165,7 @@ export default {
     },
     loadCompanies() {
       if(!this.$data.selectedFile) {
-        const json = localStorage['COMPANY_LIST'];
-        this.$data.companies = json ? JSON.parse(json) : []
+        this.$data.companies = this.$store.state.companies.value
       } else {
         const reader = new FileReader(); // без аргументов
         reader.readAsText(this.$data.selectedFile);
@@ -174,8 +173,8 @@ export default {
           try {
             const json = reader.result;
             const parsed = JSON.parse(json);
-            localStorage['COMPANY_LIST'] = json;
             this.$data.companies = parsed;
+            this.storeCompaniesLocally()
           } catch {
             alert("Некорректный файл " + this.$data.selectedFile.name)
           }
@@ -186,7 +185,7 @@ export default {
       }  
     },
     storeCompaniesLocally() {
-      localStorage['COMPANY_LIST'] = JSON.stringify(this.$data.companies);
+      this.$store.commit('companies/set', this.$data.companies);
     },
     storeCompanies() {
       const fileName = this.$data.selectedFile ?
