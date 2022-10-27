@@ -2,7 +2,7 @@ const ls_id = 'COMPANY_LIST'
 
 export default {
     state:()=>({
-        value: (localStorage[ls_id] && localStorage[ls_id] !== 'undefined' ? JSON.parse(localStorage[ls_id]) : []),
+        value: [],
     }),
     getters:{},
     mutations:{
@@ -24,6 +24,12 @@ export default {
     actions:{
         save({state}){
             localStorage[ls_id] = JSON.stringify(state.value)
+        },
+        load({state}){
+            const a = localStorage[ls_id]
+            if(a && a !== 'undefined'){
+                state.value = JSON.parse(a)
+            }
         }
     },
     namespaced:true,

@@ -285,12 +285,9 @@ export default {
       }
     }
   },
-  created() { 
-    // beforeDestroy и destroy хуки vue не работают при закрытии страницы, а это работает
-    window.addEventListener("beforeunload", this.$store.dispatch('companies/save'));
-  },
   mounted() {
-      this.loadConfig();
+    this.$store.dispatch("companies/load")
+    this.loadConfig();
   }  
 }
 </script>
