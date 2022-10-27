@@ -95,7 +95,7 @@
 </template>
 
 <script>
-import {dummyFormCompany, сompanyDataItem} from "@/js/const.js"
+import {dummyFormCompany} from "@/js/const.js"
 export default{
     props:{
         selectedCompany:{
@@ -110,10 +110,24 @@ export default{
     data(){
         return{
             currentCompany: {...(this.selectedCompany || dummyFormCompany)},
-            currentItem: {...сompanyDataItem}
+            currentItem: emptyDataItem()
         }
     },  
     methods:{
+        emptyDataItem() {
+            return {
+                year: this.$props.period.year,
+                quarter: this.$props.period.quarter,
+                income: "",
+                income_lic: "",
+                fot: "",
+                taxesProfit: "",
+                taxesVAT: "",
+                taxesEmplSal: "",
+                insurance: "",
+                employee_num: "",
+            }
+        },
         addNewCompany(){
             if (!this.$props.period.year || !this.$props.period.quarter) {
                 alert('Выберите квартал');
@@ -144,7 +158,6 @@ export default{
                 }else{
                     this.$emit("addCompany", this.$data.currentCompany);
                     this.$data.currentCompany = {...dummyFormCompany};
-                    this.$data.currentItem = {...сompanyDataItem};
                 }
             }else{
                 alert("Введите имя компании")
@@ -168,13 +181,13 @@ export default{
     watch:{
         selectedCompany(val){
             const selectedItem = val?.data?.find(e => e?.year === this.$props.period?.year &&
-                 e?.quarter === this.$props.period?.quarter) || {...сompanyDataItem};
+                 e?.quarter === this.$props.period?.quarter) || emptyDataItem();
             this.$data.currentCompany = {...(val || dummyFormCompany)};
-            this.$data.currentItem =  {...(selectedItem)};
+            this.$data.currentItem =  emptyDataItem();
         },
         period(p) {
             this.$data.currentItem = this.$data.currentCompany?.data?.find(e =>
-                e?.year === p?.year && e?.quarter === p?.quarter) || {...сompanyDataItem};
+                e?.year === p?.year && e?.quarter === p?.quarter) || emptyDataItem();
         }
     }
 }
