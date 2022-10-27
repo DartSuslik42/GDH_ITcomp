@@ -5,12 +5,12 @@
         <div id="chart" class="chart container">
           
           <div id="select_yd">
-            <SelectAxisType class="select_y" v-model="ScatterAxis.y" @input="saveScatterAxis"/>
-            <select class="select_d" v-model="dataSource" v-on:change="saveDataSource">
+            <SelectAxisType class="select_y" v-model="ScatterAxis.y" @input="saveConfig"/>
+            <select class="select_d" v-model="dataSource" v-on:change="saveConfig">
               <option value="1"> Версия 1 </option>
               <option value="2"> Версия 2 </option>
             </select>
-            <input type="checkbox" id="accredited" v-model="isAccredited" v-on:change="saveIsAccredited"> Аккредитованные
+            <input type="checkbox" id="accredited" v-model="isAccredited" v-on:change="saveConfig"> Аккредитованные
           </div>
           <ScatterChart class="chart diagram"
             :params="ScatterChartParams" 
@@ -47,14 +47,14 @@
             }'
             @select="setSelectedCompany"
           />
-          <SelectAxisType class="select_x" v-model="ScatterAxis.x" @input="saveScatterAxis"/>
+          <SelectAxisType class="select_x" v-model="ScatterAxis.x" @input="saveConfig"/>
 
         </div>
       </td>
       <td class="charts border-bt">
         <div id="chart2" class="chart container">
 
-          <SelectAxisType class="select_y" v-model="AbcAxis.y"  @input="saveAbcAxis"/>
+          <SelectAxisType class="select_y" v-model="AbcAxis.y"  @input="saveConfig"/>
           <AbcChart :params="AbcChartParams" class="chart diagram"/>
           <select class="select_x" disabled>
             <option selected>Число компаний</option>
@@ -118,6 +118,7 @@ import DownloadButton from './components/downloadButton.vue'
 import UploadButton from './components/uploadButton.vue'
 import CompaniesList from './components/companiesList.vue'
 import EventsList from './components/eventsList.vue'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'root',
@@ -152,8 +153,11 @@ export default {
     }
   },
   methods:{
+    // В идеале вынести этот функционал в соответствующий модуль. 
+    // А тут получать через this.$store.config.value
     setPeriod(p = {year: '', quarter: ''}) {
       this.$data.period = p;
+      this.saveConfig()
     },
     removeCompany(e) {
       this.$store.commit('companies/remove', e)
@@ -219,41 +223,22 @@ export default {
     removeEvent(e) {
       this.$data.selectedCompany.events = this.$data.selectedCompany.events.filter(c => c.id !== e.id)
     },
-    readConfig() {
-      return this.$store.state.config.value
-    },
-    saveDataSource() {
-      const config = this.readConfig();
-      config.dataSource = this.$data.dataSource;
-      this.$store.commit('config/set', config)
-      this.$store.dispatch('config/save')
-    },
-    saveIsAccredited() {
-      const config = this.readConfig();
-      config.isAccredited = this.$data.isAccredited;
-      this.$store.commit('config/set', config)
-      this.$store.dispatch('config/save')
-    },
-    saveAbcAxis() {
-      const config = this.readConfig();
-      config.abcAxis = this.$data.AbcAxis;
-      this.$store.commit('config/set', config)
-      this.$store.dispatch('config/save')
-    },
-    saveScatterAxis() {
-      const config = this.readConfig();
-      config.scatterAxis = this.$data.ScatterAxis;
-      this.$store.commit('config/set', config)
-      this.$store.dispatch('config/save')
-    },
-    savePeriod() {
-      const config = this.readConfig();
-      config.period = this.$data.period;
-      this.$store.commit('config/set', config)
+    saveConfig(){
+      // Сохраняет текущий config в localStore
+      this.$store.commit('config/set', {
+        dataSource: this.dataSource,
+        isAccredited: this.isAccredited,
+        AbcAxis: this.AbcAxis,
+        ScatterAxis: this.ScatterAxis,
+        period: this.period,
+        dataSource: this.dataSource,
+      })
       this.$store.dispatch('config/save')
     },
     loadConfig() {
       this.$store.dispatch('config/load')
+      // Это не полная связность Vuex и model.data! В идеале полностью убрать this.$data.config
+      // а все значения брать из this.$store.config.value
       const config = this.$store.state.config.value
       if (config.dataSource != undefined) this.$data.dataSource = config.dataSource;
       if (config.isAccredited != undefined) this.$data.isAccredited = config.isAccredited;
@@ -266,27 +251,10 @@ export default {
     companies(){
       return this.$store.state.companies.value
     },
-    ScatterChartParams: function(){
-      return {
-        AxisSrc:{
-          x:this.$data.ScatterAxis.x,
-          y:this.$data.ScatterAxis.y,
-          z:this.$data.AbcAxis.y,
-          d:this.$data.dataSource,
-          a:this.$data.isAccredited
-        },
-        Period:this.$data.period,
-      }
-    },
-    AbcChartParams: function(){
-      return {
-        AxisSrc:{
-          y:this.$data.AbcAxis.y,
-          d:this.$data.dataSource
-        },
-        Period:this.$data.period,
-      }
-    }
+    ...mapGetters({
+      ScatterChartParams: 'config/ScatterChartParams',
+      AbcChartParams: 'config/AbcChartParams'
+    })
   },
   mounted() {
     this.$store.dispatch("companies/load")

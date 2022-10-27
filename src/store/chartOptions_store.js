@@ -86,8 +86,10 @@ export default {
     },
     mutations:{
         set(state, new_options){
+            // new_options оформляются по шаблону dummy_state.
             if(new_options && typeof(new_options) ==='object'){
-                const new_clean_opt = clean_obj(new_options) 
+                // оставляем только заполненные поля из шаблона dummy_state
+                const new_clean_opt = clean_obj(new_options) // {...} || undefined - нет заполненных полей 
                 if(typeof new_clean_opt === 'object'){
                     state.value = MergeRecursive(state.value, new_clean_opt)
                 }
