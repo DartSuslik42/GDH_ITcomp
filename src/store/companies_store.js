@@ -6,20 +6,25 @@ export default {
     }),
     getters:{},
     mutations:{
-        // remove(state, company_to_remove){
-        //     // Удалить компанию из списка компаний
-        //     this.$data.companies = this.$data.companies.filter(c => c.IID !== e.IID)
-        //     this.storeCompaniesLocally()      
-        //     if(this.$data.selectedCompany?.IID === e?.IID){
-        //       this.setSelectedCompany(null)
-        //     }
-        // },
+        remove(state, remove_comp) {
+            state.value = state.value.filter(c => c.IID !== remove_comp.IID)
+        },
+        add(state, add_comp){
+            state.value.push(add_comp)
+        },
         set(state, newVal){
             if(!Array.isArray(newVal)) return
             state.value = newVal
-            localStorage[ls_id] = JSON.stringify(newVal)
         },
+        update(state, update_comp){
+            const idx = state.value.indexOf(update_comp)
+            state.value.splice(idx, 1, update_comp)
+        }
     },
-    actions:{},
+    actions:{
+        save({state}){
+            localStorage[ls_id] = JSON.stringify(state.value)
+        }
+    },
     namespaced:true,
 }

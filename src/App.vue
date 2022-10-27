@@ -133,7 +133,6 @@ export default {
 },
   data(){
     return {
-      companies: [],
       selectedCompany: null,
       dataSource: 1,
       isAccredited: false,
@@ -156,25 +155,22 @@ export default {
       this.$data.period = p;
     },
     removeCompany(e) {
-      // Удалить компанию из списка компаний
-      this.$data.companies = this.$data.companies.filter(c => c.IID !== e.IID)
-      this.storeCompaniesLocally()      
+      this.$store.commit('companies/remove', e)
+      this.$store.dispatch('companies/save')  
       if(this.$data.selectedCompany?.IID === e?.IID){
         this.setSelectedCompany(null)
       }
     },
     loadCompanies() {
-      if(!this.$data.selectedFile) {
-        this.$data.companies = this.$store.state.companies.value
-      } else {
+      if(this.$data.selectedFile) {
         const reader = new FileReader(); // без аргументов
         reader.readAsText(this.$data.selectedFile);
         reader.onload = () => {
           try {
             const json = reader.result;
             const parsed = JSON.parse(json);
-            this.$data.companies = parsed;
-            this.storeCompaniesLocally()
+            this.$store.commit("companies/set", parsed)
+            this.$store.dispatch("companies/save")
           } catch {
             alert("Некорректный файл " + this.$data.selectedFile.name)
           }
@@ -184,16 +180,13 @@ export default {
         };  
       }  
     },
-    storeCompaniesLocally() {
-      this.$store.commit('companies/set', this.$data.companies);
-    },
     storeCompanies() {
       const fileName = this.$data.selectedFile ?
         this.$data.selectedFile.name : '_companies';
-      if (this.$data.companies) {
+      if (this.companies){
         const tempLink = document.createElement("a");
         if ('download' in tempLink) {
-          const json = JSON.stringify(this.$data.companies);
+          const json = JSON.stringify(this.companies);
           const taBlob = new Blob([json], {type: 'application/json'});
           tempLink.setAttribute('href', URL.createObjectURL(taBlob));
           tempLink.setAttribute('download', fileName);
@@ -203,9 +196,8 @@ export default {
       }
     },
     updateSelectedCompanyData(val){
-      const idx = this.$data.companies.indexOf(this.$data.selectedCompany)
-      this.$data.companies.splice(idx, 1, val) // https://v2.vuejs.org/v2/guide/reactivity.html#For-Arrays
-      this.storeCompaniesLocally()
+      this.$store.commit('companies/update', val)
+      this.$store.dispatch('companies/save')
       this.setSelectedCompany(null)
     },
     setSelectedCompany(val){
@@ -214,8 +206,8 @@ export default {
       this.$data.selectedCompany = isAlreadySelected ? null : val
     },
     addNewCompany(val){
-      this.$data.companies.push(val)
-      this.storeCompaniesLocally()
+      this.$store.commit('companies/add', val)
+      this.$store.dispatch('companies/save')
     },
     addEvent(e) {
       if (!this.$data.selectedCompany.events) {
@@ -268,6 +260,9 @@ export default {
     }
   },
   computed:{
+    companies(){
+      return this.$store.state.companies.value
+    },
     ScatterChartParams: function(){
       return {
         AxisSrc:{
@@ -292,7 +287,7 @@ export default {
   },
   created() { 
     // beforeDestroy и destroy хуки vue не работают при закрытии страницы, а это работает
-    window.addEventListener("beforeunload", this.storeCompaniesLocally);
+    window.addEventListener("beforeunload", this.$store.dispatch('companies/save'));
   },
   mounted() {
       this.loadConfig();
