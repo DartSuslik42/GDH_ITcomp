@@ -110,7 +110,7 @@ export default{
     data(){
         return{
             currentCompany: {...(this.selectedCompany || dummyFormCompany)},
-            currentItem: emptyDataItem()
+            currentItem: this.emptyDataItem()
         }
     },  
     methods:{
@@ -181,13 +181,13 @@ export default{
     watch:{
         selectedCompany(val){
             const selectedItem = val?.data?.find(e => e?.year === this.$props.period?.year &&
-                 e?.quarter === this.$props.period?.quarter) || emptyDataItem();
+                 e?.quarter === this.$props.period?.quarter) || this.emptyDataItem();
             this.$data.currentCompany = {...(val || dummyFormCompany)};
-            this.$data.currentItem =  emptyDataItem();
+            this.$data.currentItem =  selectedItem || this.emptyDataItem();
         },
         period(p) {
             this.$data.currentItem = this.$data.currentCompany?.data?.find(e =>
-                e?.year === p?.year && e?.quarter === p?.quarter) || emptyDataItem();
+                e?.year === p?.year && e?.quarter === p?.quarter) || this.emptyDataItem();
         }
     }
 }
