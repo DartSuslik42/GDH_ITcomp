@@ -65,12 +65,15 @@ export default {
   },
   data() {
     return {
-      grunts: dummyFormCompany.grunts,
+      grunts: this.emptyGrunts(),
       current: dummyFormEvent,
       years: [startYear, startYear + 1, startYear + 2, startYear + 3]
     };
   },
   methods: {
+    emptyGrunts() {
+      return new Array(16).fill('');
+    },
     addNewEvent(e) {
       if (!this.$data.current.year && !this.$data.current.quarter) {
         alert("Выберите квартал года");
@@ -109,7 +112,7 @@ export default {
   },
   watch: {
     selectedCompany(val){
-      this.$data.grunts = val ? val.grunts : dummyFormCompany.grunts;
+      this.$data.grunts = val ? val.grunts : this.emptyGrunts();
     }
   },
   components: { Event },
