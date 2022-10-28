@@ -88,15 +88,26 @@ export default {
     removeEvent(e) {
       this.$emit("removeEvent", e); 
     },
+    sumGrunts() {
+      let sum = 0;
+      if (this.current.quarter > 0) {
+        for (let i = this.current.quarter - 1; i < this.$data.grunts.length; i++) {
+          sum += + this.$data.grunts[i];
+        }
+      }
+      return sum;
+    },
     selectYear(year) {
-      this.current.year = year; 
-      this.current.quarter = year ? (year - startYear) * 4 + 1 : '';
-      this.$emit("timeSelected", {year: this.current.year, quarter: this.current.quarter}); 
+      this.selectQuarter((year - startYear) * 4 + 1);
     },
     selectQuarter(quarter) {
       this.current.quarter = quarter;
       this.current.year = Math.floor(startYear + (quarter-1) / 4); 
-      this.$emit("timeSelected", {year: this.current.year, quarter: ((this.current.quarter - 1) % 4) + 1}); 
+      this.$emit("timeSelected", {
+        year: this.current.year, 
+        quarter: ((this.current.quarter - 1) % 4) + 1,
+        grunt: this.sumGrunts()
+      }); 
     }
   },
   computed: {
