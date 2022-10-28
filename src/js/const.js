@@ -208,5 +208,5 @@ export const dummyFormEvent = {
   quarter: "",
 }
 
-export const server = "https://greencert.car.cos.ru/";
+export const server = " https://itmod.car.cos.ru/";
 export const startYear = 2019;
