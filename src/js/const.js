@@ -183,9 +183,7 @@ export const Fields_All = {
   ...Fields_Columns,
   ...Fields_Info
 }
-export const сompanyDataItem = {
-  year: "",
-  quarter: "",
+export const companyData_perPeriod = {
   income: "",
   income_lic: "",
   fot: "",
@@ -194,6 +192,11 @@ export const сompanyDataItem = {
   taxesEmplSal: "",
   insurance: "",
   employee_num: "",
+}
+export const сompanyDataItem = {
+  year: "",
+  quarter: "",
+  ...companyData_perPeriod
 }
 export const dummyFormCompany = {
   IID: "",
