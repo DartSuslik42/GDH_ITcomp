@@ -1,14 +1,14 @@
 <template>
   <div id="q4">
-    <div class="year-quarter" title="Снять выбор года и квартала" @click="selectYear('')" style="min-width: 1.5rem"></div>
-    <div class="year-quarter" title="Выбор года">
+    <div class="year-quarter" v-b-tooltip.hover="'Снять выбор года и квартала'" @click="selectYear('')" style="min-width: 1.5rem"></div>
+    <div class="year-quarter" v-b-tooltip.hover="'Выбор года'">
       <div class="year" v-bind:class="{ highl: year === current.year}"
       v-for="year in years" :key="year" @click="selectYear(year)"
       >
         {{ year }}
       </div>
     </div>
-    <div class="year-quarter" title="Выбор года и квартала">
+    <div class="year-quarter" v-b-tooltip.hover="'Выбор года и квартала'">
       <div class="quarter" v-bind:class="{ highl: quarter === current.quarter}" 
       v-for="quarter in 16" :key="quarter" @click="selectQuarter(quarter)">
         Q{{ ((quarter - 1) % 4) + 1 }}
@@ -16,7 +16,7 @@
     </div>
     <div class="year-quarter">
       <div class="quarter" v-for="n in 16" :key="n" style="border: none">
-        <input type="number" pattern="\d*" class="timeline" v-model="grunts[n-1]" />
+        <b-form-input class="timeline num-field" v-model="grunts[n-1]" lazy-formatter :formatter="formatter"></b-form-input>
       </div>
     </div>
     <div class="events">
@@ -55,7 +55,7 @@
 </template>
 <script>
 import Event from "./event.vue";
-import { dummyFormEvent, dummyFormCompany, сompanyDataItem, startYear } from "@/js/const.js";
+import { dummyFormEvent, formatter, startYear } from "@/js/const.js";
 export default {
   props: {
     selectedCompany: {
@@ -71,6 +71,7 @@ export default {
     };
   },
   methods: {
+    formatter,
     emptyGrunts() {
       return new Array(16).fill('');
     },

@@ -208,5 +208,14 @@ export const dummyFormEvent = {
   quarter: "",
 }
 
+export const formatter = (n) => {
+  if (n === 0) return '0';
+  var output = [];
+  for (; n > 0; n = Math.floor(n/1000)) {
+    output.unshift(n % 1000);
+  }
+  return output.join(',');
+};
+
 export const server = " https://itmod.car.cos.ru/";
 export const startYear = 2019;

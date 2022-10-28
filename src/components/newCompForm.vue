@@ -7,7 +7,7 @@
                         <span>Название</span>
                     </div>
                     <div class="col">
-                        <input type="text" name="IID" placeholder="Введите имя компании" v-model="currentCompany.IID">
+                        <b-form-input name="IID" v-model="currentCompany.IID" placeholder="Введите имя компании" ></b-form-input>
                     </div>
                 </div>
                 <div class="row">
@@ -15,7 +15,7 @@
                         <span>ОГРН</span>
                     </div>
                     <div class="col">
-                        <input type="number" pattern="\d*" name="ogrn" v-model="currentCompany.ogrn">
+                        <b-form-input name="ogrn" v-model="currentCompany.ogrn" lazy-formatter :formatter="formatter" class="num-field"></b-form-input>
                     </div>
                 </div>
                 <div class="row">
@@ -23,7 +23,7 @@
                         <span>Доход</span>
                     </div>
                     <div class="col">
-                        <input type="number" pattern="\d*" name="income" placeholder="0" v-model="currentItem.income">
+                        <b-form-input name="income" placeholder="0" v-model="currentItem.income" lazy-formatter :formatter="formatter" class="num-field"></b-form-input>
                     </div>
                 </div>
                 <div class="row">
@@ -31,7 +31,7 @@
                     <span>Доход с лицензий</span>
                     </div>
                     <div class="col">
-                    <input type="number" pattern="\d*" name="income_lic" placeholder="0" v-model="currentItem.income_lic">
+                        <b-form-input name="income_lic" placeholder="0" v-model="currentItem.income_lic" lazy-formatter :formatter="formatter" class="num-field"></b-form-input>
                     </div>
                 </div>
                 <div class="row">
@@ -39,7 +39,7 @@
                     <span>Фонд оплаты труда</span>
                     </div>
                     <div class="col">
-                    <input type="number" pattern="\d*" name="fot" placeholder="0" v-model="currentItem.fot">
+                        <b-form-input name="fot" placeholder="0" v-model="currentItem.fot" lazy-formatter :formatter="formatter" class="num-field"></b-form-input>
                     </div>
                 </div>
                 <div class="row">
@@ -47,7 +47,7 @@
                     <span>Налог с прибыли</span>
                     </div>
                     <div class="col">
-                    <input type="number" pattern="\d*" name="taxesProfit" placeholder="0" v-model="currentItem.taxesProfit">
+                        <b-form-input name="taxesProfit" placeholder="0" v-model="currentItem.taxesProfit" lazy-formatter :formatter="formatter" class="num-field"></b-form-input>
                     </div>
                 </div>
                 <div class="row">
@@ -55,7 +55,7 @@
                     <span>НДС</span>
                     </div>
                     <div class="col">
-                    <input type="number" pattern="\d*" name="taxesVAT" placeholder="0" v-model="currentItem.taxesVAT">
+                        <b-form-input name="taxesVAT" placeholder="0" v-model="currentItem.taxesVAT" lazy-formatter :formatter="formatter" class="num-field"></b-form-input>
                     </div>
                 </div>
                 <div class="row">
@@ -63,7 +63,7 @@
                     <span>НДФЛ</span>
                     </div>
                     <div class="col">
-                    <input type="number" pattern="\d*" name="taxesEmplSal" placeholder="0" v-model="currentItem.taxesEmplSal">
+                        <b-form-input name="taxesEmplSal" placeholder="0" v-model="currentItem.taxesEmplSal" lazy-formatter :formatter="formatter" class="num-field"></b-form-input>
                     </div>
                 </div>
                 <div class="row">
@@ -71,7 +71,7 @@
                     <span>Страховые сборы</span>
                     </div>
                     <div class="col">
-                    <input type="number" pattern="\d*" name="insurance" placeholder="0" v-model="currentItem.insurance">
+                        <b-form-input name="insurance" placeholder="0" v-model="currentItem.insurance" lazy-formatter :formatter="formatter" class="num-field"></b-form-input>
                     </div>
                 </div>
                 <div class="row">
@@ -79,7 +79,7 @@
                         <span>Количество сотрудников</span>
                     </div>
                     <div class="col">
-                        <input type="number" pattern="\d*" name="employee_num" placeholder="0" v-model="currentItem.employee_num">
+                        <b-form-input name="employee_num" placeholder="0" v-model="currentItem.employee_num" lazy-formatter :formatter="formatter" class="num-field"></b-form-input>
                     </div>
                 </div>
                 <div class="row">
@@ -95,7 +95,7 @@
 </template>
 
 <script>
-import {dummyFormCompany} from "@/js/const.js"
+import {dummyFormCompany, formatter} from "@/js/const.js"
 export default{
     props:{
         selectedCompany:{
@@ -114,6 +114,7 @@ export default{
         }
     },  
     methods:{
+        formatter,
         emptyDataItem() {
             return {
                 year: this.$props.period.year,
@@ -136,14 +137,14 @@ export default{
                 this.$data.currentItem.year = this.$props.period.year;
                 this.$data.currentItem.quarter = this.$props.period.quarter;
             }
-            for(const [key, value] of Object.entries(this.$data.currentCompany)){
-                if(key === "ogrn"){
-                    this.$data.currentCompany[key] = +value;
-                }
-            }
-            for(const [key, value] of Object.entries(this.$data.currentItem)){
-                this.$data.currentItem[key] = +value;
-            }
+            // for(const [key, value] of Object.entries(this.$data.currentCompany)){
+            //     if(key === "ogrn"){
+            //         this.$data.currentCompany[key] = +value;
+            //     }
+            // }
+            // for(const [key, value] of Object.entries(this.$data.currentItem)){
+            //     this.$data.currentItem[key] = +value;
+            // }
             if(this.fildsValid()){
                 const idx = this.$data.currentCompany.data.findIndex(
                     e => e.year == this.$props.period.year &&
@@ -169,13 +170,13 @@ export default{
                 if (key === 'IID') {
                     if (typeof(value) !== "string" || value.length === 0) return false; 
                 }
-                if (key === 'ogrn') {
-                    if (typeof(value) !== "number" || value < 0) return false; 
-                }
+                // if (key === 'ogrn') {
+                //     if (typeof(value) !== "number" || value < 0) return false; 
+                // }
             }
-            for(const [_, value] of Object.entries(this.$data.currentItem)){
-                if (typeof(value) !== "number" || value < 0) return false; 
-            }
+            // for(const [_, value] of Object.entries(this.$data.currentItem)){
+            //     if (typeof(value) !== "number" || value < 0) return false; 
+            // }
             return true;
         }
     },

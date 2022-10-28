@@ -217,3 +217,13 @@ input[type=file].custom-file-input {
     color: gray;
     border-radius: 5px;
 }
+
+.num-field {
+    text-align: right;
+    padding: 0;
+}
+
+.form-control {
+    padding: 0;
+    font-size: .8rem;
+}
