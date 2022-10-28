@@ -209,13 +209,19 @@ export const dummyFormEvent = {
 }
 
 export const formatter = (n) => {
-  if (n === 0) return '0';
-  var output = [];
-  for (; n > 0; n = Math.floor(n/1000)) {
-    output.unshift(n % 1000);
+  const num = getNumber('' + n);
+  return num == 0 ? '' : num.toLocaleString();
+}
+function getNumber(_str){
+  const arr = _str.split('');
+  const out = [];
+  for(let cnt = 0; cnt < arr.length; cnt++) {
+    if(!isNaN(arr[cnt])) {
+      out.push(arr[cnt]);
+    }
   }
-  return output.join(',');
-};
+  return Number(out.join(''));
+}
 
 export const server = " https://itmod.car.cos.ru/";
 export const startYear = 2019;
