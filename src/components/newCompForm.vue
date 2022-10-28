@@ -28,9 +28,7 @@
                         <span>{{comp_field_names[comp_field]}}</span>
                     </div>
                     <div class="col">
-                        <input type="number" pattern="\d*" name="comp_field" placeholder="0" 
-                            v-model="currentItem[comp_field]"
-                        >
+                        <InputNumber v-model="currentItem[comp_field]"/>
                     </div>
                 </div>
 
@@ -48,7 +46,11 @@
 
 <script>
 import {dummyFormCompany} from "@/js/const.js"
+import InputNumber from '@/components/input_number.vue'
 export default{
+    components:{
+        InputNumber
+    },
     props:{
         selectedCompany:{
             type: Object,
