@@ -35,14 +35,14 @@
               predict: {
                 "IID": selectedCompany?.IID,
                 "ogrn":0,
-                "income":3000,
+                "income":formData()?.income + period.grunt,
                 "income_lic":0,
                 "fot":0,
                 "taxesProfit":0,
                 "taxesVAT":0,
                 "taxesEmplSal":0,
                 "insurance":0,
-                "employee_num":3000,
+                "employee_num":formData()?.employee_num,
               }
             }'
             @select="setSelectedCompany"
