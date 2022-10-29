@@ -2,6 +2,7 @@
     <input ref="input" type="text" :placeholder="placeholder"
         @input="input"
         @focusout="$emit('input', real_num)"
+        @keydown.enter="$emit('input', real_num)"
     >
 </template>
 <script>
