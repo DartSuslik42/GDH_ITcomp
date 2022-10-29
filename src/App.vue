@@ -21,13 +21,14 @@
                 "IID": el.IID,
                 "ogrn":0,
                 "income":formData()?.income + period.grunt || 0,
-                "income_lic":0,
-                "fot":0,
-                "taxesProfit":0,
-                "taxesVAT":0,
-                "taxesEmplSal":0,
-                "insurance":0,
+                "income_lic":100,
+                "fot":100,
+                "taxesProfit":100,
+                "taxesVAT":100,
+                "taxesEmplSal":100,
+                "insurance":100,
                 "employee_num":formData()?.employee_num,
+                "taxes":100,
               }
             }})'
             :selected='{
@@ -36,13 +37,14 @@
                 "IID": selectedCompany?.IID,
                 "ogrn":0,
                 "income":formData()?.income + period.grunt,
-                "income_lic":0,
-                "fot":0,
-                "taxesProfit":0,
-                "taxesVAT":0,
-                "taxesEmplSal":0,
-                "insurance":0,
+                "income_lic":100,
+                "fot":100,
+                "taxesProfit":100,
+                "taxesVAT":100,
+                "taxesEmplSal":100,
+                "insurance":100,
                 "employee_num":formData()?.employee_num,
+                "taxes":100,
               }
             }'
             @select="setSelectedCompany"
