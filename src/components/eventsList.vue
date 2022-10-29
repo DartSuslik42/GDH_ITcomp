@@ -4,7 +4,6 @@
 
 <template>
   <div id="q4">
-    <div class="year-quarter" title="Снять выбор года и квартала" @click="selectYear('')" style="min-width: 1.5rem"></div>
     <div class="year-quarter" title="Выбор года">
       <div class="year" v-bind:class="{ highl: year === period.year}"
       v-for="year in years" :key="year" @click="selectYear(year)"
@@ -137,3 +136,8 @@ export default {
   components: { Event },
 };
 </script>
+<style scoped>
+#q4{
+  padding-left: 12px;
+}
+</style>
