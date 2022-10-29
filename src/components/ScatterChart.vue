@@ -165,17 +165,6 @@ export default{
             .reduce((prev, el, idx) => {
                 const isSelected = el.IID === this.$props.selected?.IID
                 if(isSelected){
-                    // Начало стрелки в точке выбранной компании
-                    prev.push([
-                        +el[this.$props.params.AxisSrc.x],
-                        null,
-                        null,
-                        null,
-                        +el[this.$props.params.AxisSrc.y],
-                        point_style['selected'], 
-                        this.getPointTooltipHTML(el),
-                        idx
-                    ])
                     // Конец стрелки в точке прогноза для выбранной компании
                     prev.push([
                         +el.predict[this.$props.params.AxisSrc.x],
@@ -187,6 +176,18 @@ export default{
                         this.getPointTooltipHTML(el.predict),
                         idx
                     ])
+                    // Начало стрелки в точке выбранной компании
+                    prev.push([
+                        +el[this.$props.params.AxisSrc.x],
+                        null,
+                        null,
+                        null,
+                        +el[this.$props.params.AxisSrc.y],
+                        point_style['selected'], 
+                        this.getPointTooltipHTML(el),
+                        idx
+                    ])
+                    
                 }else{
                     prev.push([
                         +el[this.$props.params.AxisSrc.x],
