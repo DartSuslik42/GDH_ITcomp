@@ -106,9 +106,11 @@ export default{
                 taxesEmplSal: "",
                 insurance: "",
                 employee_num: "",
+                taxes: "",
             }
         },
         addNewCompany(){
+            // Period setup
             if (!this.$props.period.year || !this.$props.period.quarter) {
                 alert('Выберите квартал');
                 return;
@@ -116,14 +118,24 @@ export default{
                 this.$data.currentItem.year = this.$props.period.year;
                 this.$data.currentItem.quarter = this.$props.period.quarter;
             }
+            // CurrentCompany setup
             for(const [key, value] of Object.entries(this.$data.currentCompany)){
                 if(key === "ogrn"){
                     this.$data.currentCompany[key] = +value;
                 }
             }
+            // CurrentItem setup
             for(const [key, value] of Object.entries(this.$data.currentItem)){
                 this.$data.currentItem[key] = +value;
             }
+            this.$data.currentItem.taxes = (
+                this.$data.currentItem.taxesProfit +
+                this.$data.currentItem.taxesVAT +
+                this.$data.currentItem.taxesEmplSal +
+                this.$data.currentItem.insurance
+            )
+
+            // Setup&Emit update event
             if(this.fildsValid()){
                 const idx = this.$data.currentCompany.data.findIndex(
                     e => e.year == this.$props.period.year &&

@@ -1,3 +1,7 @@
+<script setup>
+  import {startYear} from '@/js/const.js'
+</script>
+
 <template>
   <div id="q4">
     <div class="year-quarter" title="Снять выбор года и квартала" @click="selectYear('')" style="min-width: 1.5rem"></div>
@@ -9,7 +13,7 @@
       </div>
     </div>
     <div class="year-quarter" title="Выбор года и квартала">
-      <div class="quarter" v-bind:class="{ highl: quarter === period.quarter}" 
+      <div class="quarter" v-bind:class="{ highl: quarter === (period.year - startYear) * 4 + period.quarter}"
       v-for="quarter in 16" :key="quarter" @click="selectQuarter(quarter)">
         Q{{ ((quarter - 1) % 4) + 1 }}
       </div>
@@ -55,7 +59,7 @@
 </template>
 <script>
 import Event from "./event.vue";
-import { dummyFormEvent, dummyFormCompany, сompanyDataItem, startYear } from "@/js/const.js";
+import { dummyFormEvent} from "@/js/const.js";
 export default {
   props: {
     selectedCompany: {
