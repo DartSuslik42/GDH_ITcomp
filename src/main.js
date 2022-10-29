@@ -8,6 +8,10 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import '@/assets/index.css'
 
 Vue.config.productionTip = false
+Vue.config.keyCodes = {
+  ArrowDown: 40,
+  ArrowUp: 38
+}
 Vue.use(BootstrapVue)
 Vue.use(BootstrapVueIcons)
 

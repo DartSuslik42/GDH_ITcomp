@@ -1,3 +1,7 @@
+<script setup>
+    import {companyData_perPeriod, Fields_Columns_Names as comp_field_names} from "@/js/const.js"
+</script>
+
 <template>
     <div id="form_comp">
         <form action="#" @submit.prevent="addNewCompany">
@@ -7,7 +11,13 @@
                         <span>Название</span>
                     </div>
                     <div class="col">
-                        <input type="text" name="IID" placeholder="Введите имя компании" v-model="currentCompany.IID">
+                        <input type="text" name="IID" placeholder="Введите имя компании" v-model="currentCompany.IID"
+                        @keydown.enter.prevent="(event)=>{
+                            IterateThroughFormField(event.target, 'next')
+                        }"
+                        @keydown.ArrowDown.prevent="(event)=>{
+                            IterateThroughFormField(event.target, 'next')
+                        }">
                     </div>
                 </div>
                 <div class="row">
@@ -15,76 +25,34 @@
                         <span>ОГРН</span>
                     </div>
                     <div class="col">
-                        <input type="number" pattern="\d*" name="ogrn" v-model="currentCompany.ogrn">
+                        <input type="number" pattern="\d*" name="ogrn" v-model="currentCompany.ogrn"
+                        @keydown.enter.prevent="(event)=>{
+                            IterateThroughFormField(event.target, 'next')
+                        }"
+                        @keydown.ArrowDown.prevent="(event)=>{
+                            IterateThroughFormField(event.target, 'next')
+                        }"
+                        @keydown.ArrowUp.prevent="(event)=>{
+                            IterateThroughFormField(event.target, 'prev')
+                        }">
                     </div>
                 </div>
-                <div class="row">
+                
+                <div class="row" v-for="(comp_field, idx) in Object.keys(companyData_perPeriod)" :key="idx">
                     <div class="col">
-                        <span>Доход</span>
+                        <span>{{comp_field_names[comp_field]}}</span>
                     </div>
                     <div class="col">
-                        <input type="number" pattern="\d*" name="income" placeholder="0" v-model="currentItem.income">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                    <span>Доход с лицензий</span>
-                    </div>
-                    <div class="col">
-                    <input type="number" pattern="\d*" name="income_lic" placeholder="0" v-model="currentItem.income_lic">
+                        <InputNumber v-model="currentItem[comp_field]"/>
                     </div>
                 </div>
+
                 <div class="row">
                     <div class="col">
-                    <span>Фонд оплаты труда</span>
-                    </div>
-                    <div class="col">
-                    <input type="number" pattern="\d*" name="fot" placeholder="0" v-model="currentItem.fot">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                    <span>Налог с прибыли</span>
-                    </div>
-                    <div class="col">
-                    <input type="number" pattern="\d*" name="taxesProfit" placeholder="0" v-model="currentItem.taxesProfit">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                    <span>НДС</span>
-                    </div>
-                    <div class="col">
-                    <input type="number" pattern="\d*" name="taxesVAT" placeholder="0" v-model="currentItem.taxesVAT">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                    <span>НДФЛ</span>
-                    </div>
-                    <div class="col">
-                    <input type="number" pattern="\d*" name="taxesEmplSal" placeholder="0" v-model="currentItem.taxesEmplSal">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                    <span>Страховые сборы</span>
-                    </div>
-                    <div class="col">
-                    <input type="number" pattern="\d*" name="insurance" placeholder="0" v-model="currentItem.insurance">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <span>Количество сотрудников</span>
-                    </div>
-                    <div class="col">
-                        <input type="number" pattern="\d*" name="employee_num" placeholder="0" v-model="currentItem.employee_num">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <button type="submit" class="btn btn-primary">
+                        <button type="submit" class="btn btn-primary"
+                        @keydown.ArrowUp.prevent="(event)=>{
+                            IterateThroughFormField(event.target, 'prev')
+                        }">
                             {{selectedCompany ? "Сохранить изменения":"Добавить компанию"}}
                         </button>
                     </div>
@@ -96,7 +64,11 @@
 
 <script>
 import {dummyFormCompany} from "@/js/const.js"
+import InputNumber from '@/components/input_number.vue'
 export default{
+    components:{
+        InputNumber
+    },
     props:{
         selectedCompany:{
             type: Object,
@@ -114,6 +86,14 @@ export default{
         }
     },  
     methods:{
+        IterateThroughFormField(elem, dir){
+            dir = ['next','prev'].indexOf(dir) > -1 ? dir : 'next'
+
+            const currentIndex = Array.from(elem.form.elements).indexOf(elem);
+            elem.form.elements.item(
+                currentIndex < elem.form.elements.length ? currentIndex + (dir === 'next' ? 1 : -1) : 0
+            ).focus();
+        },
         emptyDataItem() {
             return {
                 year: this.$props.period.year,
@@ -196,5 +176,15 @@ export default{
 <style scoped>
 form{
     margin-block-end:0;
+}
+/* HIDE ARROWS : Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+/* HIDE ARROWS : Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }
 </style>
