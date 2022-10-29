@@ -3,16 +3,13 @@
         @input="input"
         @focusout="$emit('input', real_num)"
         @keydown.enter.prevent="(event)=>{
-            event.preventDefault()
             $emit('input', real_num); 
             IterateThroughFormField(event.target, 'next')
         }"
         @keydown.ArrowDown.prevent="(event)=>{
-            event.preventDefault()
             IterateThroughFormField(event.target, 'next')
         }"
         @keydown.ArrowUp.prevent="(event)=>{
-            event.preventDefault()
             IterateThroughFormField(event.target, 'prev')
         }"
     >
@@ -75,6 +72,7 @@ export default{
                 this.updateInputValue()
                 cursorPos--
             }
+            if(cursorPos < 0) cursorPos = 0
             e.target.setSelectionRange(cursorPos,cursorPos)
         },
         updateInputValue(){
