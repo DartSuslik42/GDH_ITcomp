@@ -136,8 +136,3 @@ export default {
   components: { Event },
 };
 </script>
-<style scoped>
-#q4{
-  padding-left: 12px;
-}
-</style>
