@@ -11,7 +11,13 @@
                         <span>Название</span>
                     </div>
                     <div class="col">
-                        <input type="text" name="IID" placeholder="Введите имя компании" v-model="currentCompany.IID">
+                        <input type="text" name="IID" placeholder="Введите имя компании" v-model="currentCompany.IID"
+                        @keydown.enter.prevent="(event)=>{
+                            IterateThroughFormField(event.target, 'next')
+                        }"
+                        @keydown.ArrowDown.prevent="(event)=>{
+                            IterateThroughFormField(event.target, 'next')
+                        }">
                     </div>
                 </div>
                 <div class="row">
@@ -19,7 +25,16 @@
                         <span>ОГРН</span>
                     </div>
                     <div class="col">
-                        <input type="number" pattern="\d*" name="ogrn" v-model="currentCompany.ogrn">
+                        <input type="number" pattern="\d*" name="ogrn" v-model="currentCompany.ogrn"
+                        @keydown.enter.prevent="(event)=>{
+                            IterateThroughFormField(event.target, 'next')
+                        }"
+                        @keydown.ArrowDown.prevent="(event)=>{
+                            IterateThroughFormField(event.target, 'next')
+                        }"
+                        @keydown.ArrowUp.prevent="(event)=>{
+                            IterateThroughFormField(event.target, 'prev')
+                        }">
                     </div>
                 </div>
                 
@@ -34,7 +49,10 @@
 
                 <div class="row">
                     <div class="col">
-                        <button type="submit" class="btn btn-primary">
+                        <button type="submit" class="btn btn-primary"
+                        @keydown.ArrowUp.prevent="(event)=>{
+                            IterateThroughFormField(event.target, 'prev')
+                        }">
                             {{selectedCompany ? "Сохранить изменения":"Добавить компанию"}}
                         </button>
                     </div>
@@ -68,6 +86,14 @@ export default{
         }
     },  
     methods:{
+        IterateThroughFormField(elem, dir){
+            dir = ['next','prev'].indexOf(dir) > -1 ? dir : 'next'
+
+            const currentIndex = Array.from(elem.form.elements).indexOf(elem);
+            elem.form.elements.item(
+                currentIndex < elem.form.elements.length ? currentIndex + (dir === 'next' ? 1 : -1) : 0
+            ).focus();
+        },
         emptyDataItem() {
             return {
                 year: this.$props.period.year,
