@@ -103,8 +103,12 @@
         </div>
       </td>
       <td style="width:50%">
-        <EventsList @addEvent="addEvent" @removeEvent="removeEvent"
-          @timeSelected="setPeriod" :selectedCompany="selectedCompany" />
+        <EventsList 
+          @addEvent="addEvent" 
+          @removeEvent="removeEvent"
+          @timeSelected="setPeriod" 
+          :selectedCompany="selectedCompany" 
+          :period="period"/>
       </td>
     </tr>
   </table>

@@ -2,14 +2,14 @@
   <div id="q4">
     <div class="year-quarter" title="Снять выбор года и квартала" @click="selectYear('')" style="min-width: 1.5rem"></div>
     <div class="year-quarter" title="Выбор года">
-      <div class="year" v-bind:class="{ highl: year === current.year}"
+      <div class="year" v-bind:class="{ highl: year === period.year}"
       v-for="year in years" :key="year" @click="selectYear(year)"
       >
         {{ year }}
       </div>
     </div>
     <div class="year-quarter" title="Выбор года и квартала">
-      <div class="quarter" v-bind:class="{ highl: quarter === current.quarter}" 
+      <div class="quarter" v-bind:class="{ highl: quarter === period.quarter}" 
       v-for="quarter in 16" :key="quarter" @click="selectQuarter(quarter)">
         Q{{ ((quarter - 1) % 4) + 1 }}
       </div>
@@ -62,6 +62,9 @@ export default {
       type: Object,
       default: null,
     },
+    period:{
+      type: Object
+    }
   },
   data() {
     return {
@@ -75,7 +78,7 @@ export default {
       return new Array(16).fill('');
     },
     addNewEvent(e) {
-      if (!this.$data.current.year && !this.$data.current.quarter) {
+      if (!this.$data.period.year && !this.$data.period.quarter) {
         alert("Выберите квартал года");
         return;
       }
@@ -83,6 +86,9 @@ export default {
         alert("Выберите компанию");
         return;
       }
+      
+      this.$data.current.year = this.$props.period.year
+      this.$data.current.quarter = this.$props.period.quarter
       this.$emit("addEvent", {...this.$data.current}); 
     },
     removeEvent(e) {
@@ -90,8 +96,8 @@ export default {
     },
     sumGrunts() {
       let sum = 0;
-      if (this.current.quarter > 0) {
-        for (let i = this.current.quarter - 1; i < this.$data.grunts.length; i++) {
+      if (this.period.quarter > 0) {
+        for (let i = this.period.quarter - 1; i < this.$data.grunts.length; i++) {
           sum += + this.$data.grunts[i];
         }
       }
@@ -101,22 +107,20 @@ export default {
       this.selectQuarter((year - startYear) * 4 + 1);
     },
     selectQuarter(quarter) {
-      this.current.quarter = quarter;
-      this.current.year = Math.floor(startYear + (quarter-1) / 4); 
       this.$emit("timeSelected", {
-        year: this.current.year, 
-        quarter: ((this.current.quarter - 1) % 4) + 1,
+        year: Math.floor(startYear + (quarter-1) / 4),
+        quarter: ((quarter - 1) % 4) + 1,
         grunt: this.sumGrunts()
       }); 
     }
   },
   computed: {
     filteredEvents() {
-      if (this.current.quarter) { 
-        return this.$props.selectedCompany?.events.filter(item => item.quarter === this.current.quarter)
+      if (this.period.quarter) { 
+        return this.$props.selectedCompany?.events.filter(item => item.quarter === this.period.quarter)
       }
-      if (this.current.year) { 
-        return this.$props.selectedCompany?.events.filter(item => item.year === this.current.year)
+      if (this.period.year) { 
+        return this.$props.selectedCompany?.events.filter(item => item.year === this.period.year)
       }
       return this.$props.selectedCompany?.events
     }
