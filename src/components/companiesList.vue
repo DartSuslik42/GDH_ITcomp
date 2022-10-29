@@ -38,3 +38,9 @@ export default{
     components: { Company }
 }
 </script>
+<style scoped>
+ol{
+    list-style-type: none;    
+    padding-left: 5px;
+}
+</style>

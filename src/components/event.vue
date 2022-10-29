@@ -1,7 +1,7 @@
 <template>
-    <li :id="event.id">
-        {{event.year}} Q{{((event.quarter - 1) % 4) + 1}} {{event.id}}
-        <span  @click.left="removeEvent" class="close">X</span>
+    <li :id="event.id" class="d-flex justify-content-between align-items-center">
+        <span>{{event.year}} Q{{((event.quarter - 1) % 4) + 1}} {{event.id}}</span>
+        <b-icon icon="x-lg" variant="danger" @click.left="removeEvent"></b-icon>
     </li>
 </template>
 <script>
@@ -16,3 +16,5 @@ export default{
     }
 }
 </script>
+<style scoped>
+</style>
