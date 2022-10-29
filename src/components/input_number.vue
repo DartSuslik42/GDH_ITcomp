@@ -2,7 +2,19 @@
     <input ref="input" type="text" :placeholder="placeholder"
         @input="input"
         @focusout="$emit('input', real_num)"
-        @keydown.enter="$emit('input', real_num)"
+        @keydown.enter.prevent="(event)=>{
+            event.preventDefault()
+            $emit('input', real_num); 
+            IterateThroughFormField(event.target, 'next')
+        }"
+        @keydown.ArrowDown.prevent="(event)=>{
+            event.preventDefault()
+            IterateThroughFormField(event.target, 'next')
+        }"
+        @keydown.ArrowUp.prevent="(event)=>{
+            event.preventDefault()
+            IterateThroughFormField(event.target, 'prev')
+        }"
     >
 </template>
 <script>
@@ -29,6 +41,14 @@ export default{
         }
     },
     methods:{
+        IterateThroughFormField(elem, dir){
+            dir = ['next','prev'].indexOf(dir) > -1 ? dir : 'next'
+
+            const currentIndex = Array.from(elem.form.elements).indexOf(elem);
+            elem.form.elements.item(
+                currentIndex < elem.form.elements.length - 1 ? currentIndex + (dir === 'next' ? 1 : -1) : 0
+            ).focus();
+        },
         numFormat(n){
             if (n === 0) return '0';
             var output = [];
