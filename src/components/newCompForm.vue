@@ -177,4 +177,14 @@ export default{
 form{
     margin-block-end:0;
 }
+/* HIDE ARROWS : Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+/* HIDE ARROWS : Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
 </style>
