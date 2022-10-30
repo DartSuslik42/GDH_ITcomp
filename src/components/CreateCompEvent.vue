@@ -46,7 +46,7 @@ export default {
       
       // Default settings
       this.$data.comp_event = {...dummyFormEvent}
-      this.$ref.default_option.value="undefined"
+      this.$refs.default_option.value="undefined"
     },
   },
 };
