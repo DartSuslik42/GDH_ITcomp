@@ -1,9 +1,9 @@
 <template>
     <input ref="input" type="text" :placeholder="placeholder"
         @input="input"
-        @focusout="$emit('input', real_num)"
+        @focusout="$emit('input', emit_num)"
         @keydown.enter.prevent="(event)=>{
-            $emit('input', real_num); 
+            $emit('input', emit_num); 
             IterateThroughFormField(event.target, 'next')
         }"
         @keydown.ArrowDown.prevent="(event)=>{
@@ -23,6 +23,11 @@ export default{
         placeholder:{
             type: [String, Number],
             default: 0
+        },
+        default:{
+            type: Number,
+            required: false,
+            default:0
         },
         value:{
             type: [Number, String],
@@ -84,6 +89,11 @@ export default{
             this.$data.real_num = newVal
             this.updateInputValue()
         },
+    },
+    computed:{
+        emit_num(){
+            return typeof this.$data.real_num === 'undefined' ? this.$props.default : this.$data.real_num
+        }
     }
 }
 </script>
