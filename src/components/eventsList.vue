@@ -17,7 +17,7 @@
         Q{{ ((quarter - 1) % 4) + 1 }}
       </div>
     </div>
-    <div class="year-quarter">
+    <div class="grunt">
       <div class="quarter" v-for="n in 16" :key="n" style="border: none">
         <input type="number" pattern="\d*" class="timeline" v-model="grunts[n-1]" />
       </div>
