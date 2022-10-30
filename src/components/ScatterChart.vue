@@ -20,7 +20,7 @@ export default{
     props:{
         params: Object,
         companies: Array,
-        selected: Object,
+        predict: Object,
     },
     components:{
         chart_img
@@ -158,22 +158,21 @@ export default{
                 const xs = c.data.find(e => e.period.year === this.$props.params.Period.year && e.period.quarter === this.$props.params.Period.quarter)       
                 return {
                     IID:c.IID,
-                    predict:c.predict,
                     ...xs
                 }
             })   
             .reduce((prev, el, idx) => {
-                const isSelected = el.IID === this.$props.selected?.IID
-                if(isSelected){
+                const isPredicted = el.IID === this.$props.predict?.IID
+                if(isPredicted){
                     // Конец стрелки в точке прогноза для выбранной компании
                     prev.push([
-                        +el.predict[this.$props.params.AxisSrc.x],
+                        +this.$props.predict[this.$props.params.AxisSrc.x],
                         null,
                         null,
                         null,
-                        +el.predict[this.$props.params.AxisSrc.y],
+                        +this.$props.predict[this.$props.params.AxisSrc.y],
                         point_style['selected_predict'],
-                        this.getPointTooltipHTML(el.predict),
+                        this.getPointTooltipHTML(this.$props.predict),
                         idx
                     ])
                     // Начало стрелки в точке выбранной компании
@@ -187,7 +186,6 @@ export default{
                         this.getPointTooltipHTML(el),
                         idx
                     ])
-                    
                 }else{
                     prev.push([
                         +el[this.$props.params.AxisSrc.x],
@@ -208,7 +206,7 @@ export default{
         companies(){
             this.update_svg_chart()
         },
-        selected(){
+        predict(){
             this.update_svg_chart()
         },
         params(){

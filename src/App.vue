@@ -19,36 +19,8 @@
             :params="ScatterChartParams" 
             :companies='companies.map((el)=>{return{
               ...el,
-              predict: {
-                "IID": el.IID,
-                "ogrn":0,
-                "income":formData()?.income,
-                "income_lic":100,
-                "fot":100,
-                "taxesProfit":100,
-                "taxesVAT":100,
-                "taxesEmplSal":100,
-                "insurance":100,
-                "employee_num":formData()?.employee_num,
-                "taxes":100,
-              }
             }})'
-            :selected='{
-              ...selectedCompany,
-              predict: {
-                "IID": selectedCompany?.IID,
-                "ogrn":0,
-                "income":formData()?.income,
-                "income_lic":100,
-                "fot":100,
-                "taxesProfit":100,
-                "taxesVAT":100,
-                "taxesEmplSal":100,
-                "insurance":100,
-                "employee_num":formData()?.employee_num,
-                "taxes":100,
-              }
-            }'
+            :predict='predict'
             @select="setSelectedCompany"
           />
           <SelectAxisType class="select_x" v-model="ScatterAxis.x" @input="saveConfig"/>
@@ -132,6 +104,7 @@ import EventsList from './components/eventsList.vue'
 import TimeLine from './components/TimeLine.vue'
 import CreateCompEvent from '@/components/CreateCompEvent.vue'
 import { mapGetters } from 'vuex'
+import { startYear } from "@/js/const.js"
 
 export default {
   name: 'root',
@@ -162,17 +135,12 @@ export default {
         y:'employee_num',
       },
       period: {
-        year: undefined,
-        quarter: undefined,
+        year: startYear,
+        quarter: 1,
       },
     }
   },
   methods:{
-    formData() {
-      const x = this.$data.selectedCompany?.data?.find(
-        e => e?.year === this.$data.period?.year && e?.quarter === this.$data.period?.quarter);
-      return x;  
-    },
     // В идеале вынести этот функционал в соответствующий модуль. 
     // А тут получать через this.$store.config.value
     setPeriod(p) {
@@ -202,8 +170,8 @@ export default {
         };
         reader.onerror = function() {
           console.log(reader.error);
-        };  
-      }  
+        };
+      }
     },
     storeCompanies() {
       const fileName = this.$data.selectedFile ?
@@ -268,6 +236,17 @@ export default {
     }
   },
   computed:{
+    predict(){
+      const x = this.$data.selectedCompany?.data.find(e => e.period.year === this.$data.period.year && e.period.quarter === this.$data.period.quarter);
+      if(!x) return null
+      
+      return {
+        ...x,
+        IID : this.$data.selectedCompany?.IID,
+        ogrn : this.$data.selectedCompany?.ogrn,
+        income : x.income + 100000
+      }
+    },
     companies(){
       return this.$store.state.companies.value
     },
