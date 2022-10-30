@@ -11,7 +11,7 @@
                         <span>Название</span>
                     </div>
                     <div class="col">
-                        <input type="text" name="IID" placeholder="Введите имя компании" v-model="currentCompany.IID"
+                        <input type="text" name="IID" placeholder="Введите название" v-model="currentCompany.IID"
                         @keydown.enter.prevent="(event)=>{
                             IterateThroughFormField(event.target, 'next')
                         }"
@@ -25,7 +25,7 @@
                         <span>ОГРН</span>
                     </div>
                     <div class="col">
-                        <input type="number" pattern="\d*" name="ogrn" v-model="currentCompany.ogrn"
+                        <input type="number" pattern="\d*" placeholder="Введите ОГРН" name="ogrn" v-model="currentCompany.ogrn"
                         @keydown.enter.prevent="(event)=>{
                             IterateThroughFormField(event.target, 'next')
                         }"

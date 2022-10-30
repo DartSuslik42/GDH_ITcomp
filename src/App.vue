@@ -69,13 +69,10 @@
       <td id="cell_bl" class="forms border-bt border-rt">
         <div id="cell_bl_content">
           <div id="org_list">
-            <div>
-              <b>Организации в анализе</b>
-              <CompaniesList :companies="companies" 
-              :selected="selectedCompany" 
-              @removeCompany="removeCompany"
-              @select="setSelectedCompany"/>
-            </div>
+            <CompaniesList :companies="companies" 
+            :selected="selectedCompany" 
+            @removeCompany="removeCompany"
+            @select="setSelectedCompany"/>
             <div>
               <div id="choose-file">
                 <b-form-file v-model="selectedFile" :state="Boolean(selectedFile)"

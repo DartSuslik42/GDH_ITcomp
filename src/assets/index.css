@@ -41,6 +41,10 @@ table td.charts {
     display: flex;
     flex-direction: row;
 }
+#q4{
+    height: 100%;
+    align-self:flex-start;
+}
 
 .year-quarter {
     min-width: 2rem;
@@ -59,7 +63,6 @@ table td.charts {
     min-width: 25vw;
     height: 50vh;
     margin-left: 3rem;
-    border-bottom: 1px solid grey;
 }
 select.select_x,
 select.select_y {
@@ -121,16 +124,14 @@ select:disabled {
     display: flex;
     flex-direction: column;
 }
-
-#cell_bl {
-    padding: 7px 0 0 5px;
+td{
+    padding: 0;
 }
-
 #cell_bl_content {
     width: 100%;
     height: 100%;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
 }
 
 #org_list {
@@ -173,16 +174,8 @@ li.active {
     }
 }
 
-/* #table_point li:hover {
-    background: #0ff7;
-} */
-
 input[type=number] {
     text-align: right;
-}
-
-ol li {
-    margin: 0 1rem 0.2rem 0;
 }
 
 input[type=file] {
