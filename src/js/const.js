@@ -194,8 +194,7 @@ export const companyData_perPeriod = {
   employee_num: undefined,
 }
 export const сompanyDataItem = {
-  year: undefined,
-  quarter: undefined,
+  period: undefined,
   ...companyData_perPeriod
 }
 export const dummyFormCompany = {
@@ -203,7 +202,6 @@ export const dummyFormCompany = {
   ogrn: undefined,
   data: undefined,
   events: undefined,
-  grunts: undefined,
 }
 export const dummyFormEvent = {
   type: undefined,

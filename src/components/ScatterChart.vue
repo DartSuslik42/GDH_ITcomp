@@ -155,7 +155,7 @@ export default{
         points(){
             return this.$props.companies
             .map(c => {
-                const xs = c.data.find(e => e.year === this.$props.params.Period.year && e.quarter === this.$props.params.Period.quarter)       
+                const xs = c.data.find(e => e.period.year === this.$props.params.Period.year && e.period.quarter === this.$props.params.Period.quarter)       
                 return {
                     IID:c.IID,
                     predict:c.predict,

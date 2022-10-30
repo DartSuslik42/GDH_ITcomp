@@ -27,7 +27,7 @@ export default {
       if(this.$props.events)
         if(this.$props.period)
           return this.$props.events
-            .filter(item => item.period === this.$props.period)
+            .filter(item => item.period.year === this.$props.period.year && item.period.quarter === this.$props.period.quarter)
         else return this.$props.events
       else return []
     }

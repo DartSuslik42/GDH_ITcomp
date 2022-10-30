@@ -53,7 +53,7 @@
                         @keydown.ArrowUp.prevent="(event)=>{
                             IterateThroughFormField(event.target, 'prev')
                         }">
-                            {{selectedCompany ? "Сохранить изменения":"Добавить компанию"}}
+                            {{hasSelectedCompany ? "Сохранить изменения":"Добавить компанию"}}
                         </button>
                     </div>
                 </div> 
@@ -81,11 +81,17 @@ export default{
     },
     data(){
         return{
-            currentCompany: {...(this.selectedCompany || dummyFormCompany)},
+            currentCompany: this.selectedCompany || this.getDummyFormCompany(),
             currentItem: this.emptyDataItem()
         }
     },  
     methods:{
+        getDummyFormCompany(){
+            const ret = {...dummyFormCompany}
+            ret.data = new Array()
+            ret.events= new Array()
+            return ret
+        },
         IterateThroughFormField(elem, dir){
             dir = ['next','prev'].indexOf(dir) > -1 ? dir : 'next'
 
@@ -96,91 +102,82 @@ export default{
         },
         emptyDataItem() {
             return {
-                year: this.$props.period.year,
-                quarter: this.$props.period.quarter,
-                income: "",
-                income_lic: "",
-                fot: "",
-                taxesProfit: "",
-                taxesVAT: "",
-                taxesEmplSal: "",
-                insurance: "",
-                employee_num: "",
-                taxes: "",
+                ...companyData_perPeriod,
+                taxes: undefined,
             }
         },
         addNewCompany(){
             // Period setup
             if (!this.$props.period.year || !this.$props.period.quarter) {
-                alert('Выберите квартал');
+                alert('Квартал не выбран');
                 return;
-            } else {
-                this.$data.currentItem.year = this.$props.period.year;
-                this.$data.currentItem.quarter = this.$props.period.quarter;
             }
-            // CurrentCompany setup
-            for(const [key, value] of Object.entries(this.$data.currentCompany)){
-                if(key === "ogrn"){
-                    this.$data.currentCompany[key] = +value;
-                }
-            }
-            // CurrentItem setup
-            for(const [key, value] of Object.entries(this.$data.currentItem)){
-                this.$data.currentItem[key] = +value;
-            }
+
             this.$data.currentItem.taxes = (
                 this.$data.currentItem.taxesProfit +
                 this.$data.currentItem.taxesVAT +
                 this.$data.currentItem.taxesEmplSal +
                 this.$data.currentItem.insurance
             )
-
             // Setup&Emit update event
             if(this.fildsValid()){
                 const idx = this.$data.currentCompany.data.findIndex(
-                    e => e.year == this.$props.period.year &&
-                    e.quarter == this.$props.period.quarter);
-                if (idx >= 0) {
-                    this.$data.currentCompany.data.splice(idx, 1, this.$data.currentItem)
-                } else {
-                    this.$data.currentCompany.data.push(this.$data.currentItem)
-                }
-            if(this.selectedCompany){
+                    e => e.period.year == this.$props.period.year &&
+                    e.period.quarter == this.$props.period.quarter);
+
+                this.$data.currentItem.period = this.$props.period
+                if (idx >= 0) this.$data.currentCompany.data.splice(idx, 1, this.$data.currentItem)
+                else this.$data.currentCompany.data.push(this.$data.currentItem)
+                if(this.hasSelectedCompany){
                     this.$emit("updateCompany", this.$data.currentCompany);
                 }else{
                     this.$emit("addCompany", this.$data.currentCompany);
-                    this.$data.currentCompany = JSON.parse(JSON.stringify(dummyFormCompany));
+                    this.$data.currentCompany = this.getDummyFormCompany();
                     this.$data.currentItem = this.emptyDataItem()
                 }
-            }else{
-                alert("Введите имя компании")
             }
         },
         fildsValid(){
-            for(const [key, value] of Object.entries(this.$data.currentCompany)){
-                if (key === 'IID') {
-                    if (typeof(value) !== "string" || value.length === 0) return false; 
-                }
-                if (key === 'ogrn') {
-                    if (typeof(value) !== "number" || value < 0) return false; 
-                }
+            const isValid_IID = typeof(this.$data.currentCompany.IID) === "string" && this.$data.currentCompany.IID.length > 0
+            if(!isValid_IID) {
+                alert("Введите имя компании")
+                return false
             }
+            const isValid_ogrn = typeof(this.$data.currentCompany.ogrn) === "string" && this.$data.currentCompany.ogrn.length > 0
+            if(!isValid_ogrn){
+                alert("Введите ОГРН компании") 
+                return false
+            }
+            
             for(const [_, value] of Object.entries(this.$data.currentItem)){
                 if (typeof(value) !== "number" || value < 0) return false; 
             }
             return true;
         }
     },
+    computed:{
+        hasSelectedCompany(){
+            return !!this.$props.selectedCompany
+        }
+    },
     watch:{
         selectedCompany(val){
-            const selectedItem = val?.data?.find(e => e?.year === this.$props.period?.year &&
-                 e?.quarter === this.$props.period?.quarter) || this.emptyDataItem();
-            this.$data.currentCompany = {...(val || dummyFormCompany)};
-            this.$data.currentItem =  selectedItem || this.emptyDataItem();
+            if(!val){
+                this.$data.currentItem = this.emptyDataItem();
+                this.$data.currentCompany = this.getDummyFormCompany();
+                return
+            }
+            const selectedItem = val.data.find(e => e.period.year === this.$props.period.year && e.period.quarter === this.$props.period.quarter)
+            this.$data.currentItem = selectedItem || this.emptyDataItem();
+            this.$data.currentCompany = val
         },
-        period(p) {
-            this.$data.currentItem = this.$data.currentCompany?.data?.find(e =>
-                e?.year === p?.year && e?.quarter === p?.quarter) || this.emptyDataItem();
+        period(newVal, oldVal) {
+            if(oldVal){
+                // TODO: Сохранить this.$data.currentItem в this.$data.currentCompany.data за период oldVal
+            }
+            this.$data.currentItem = this.$data.currentCompany.data
+                .find(e => e.period.year === this.$props.period.year && e.period.quarter === this.$props.period.quarter) 
+                || this.emptyDataItem();
         }
     }
 }
