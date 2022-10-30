@@ -207,6 +207,8 @@ export default {
         this.$data.selectedCompany.events = [];
       }
       this.$data.selectedCompany.events.push(e)
+      this.$store.commit('companies/update', this.$data.selectedCompany)
+      this.$store.dispatch('companies/save')
     },
     removeEvent(e) {
       this.$data.selectedCompany.events = this.$data.selectedCompany.events.filter(c => c.type !== e.type)
@@ -239,7 +241,6 @@ export default {
     predict(){
       const x = this.$data.selectedCompany?.data.find(e => e.period.year === this.$data.period.year && e.period.quarter === this.$data.period.quarter);
       if(!x) return null
-      
       return {
         ...x,
         IID : this.$data.selectedCompany?.IID,
