@@ -4,13 +4,16 @@
       <td class="charts border-bt border-rt">
         <div id="chart" class="chart container">
           
-          <div id="select_yd">
+          <div class="d-flex flex-row w-100">
             <SelectAxisType class="select_y" v-model="ScatterAxis.y" @input="saveConfig"/>
-            <select class="select_d" v-model="dataSource" v-on:change="saveConfig">
+            <select class="select_d mx-2" v-model="dataSource" v-on:change="saveConfig">
               <option value="1"> Версия 1 </option>
               <option value="2"> Версия 2 </option>
             </select>
-            <input type="checkbox" id="accredited" v-model="isAccredited" v-on:change="saveConfig"> Аккредитованные
+            <span class="d-flex align-items-center">
+              <input type="checkbox" class="mx-1" v-model="isAccredited" v-on:change="saveConfig">
+              Аккредитованные
+            </span>  
           </div>
           <ScatterChart class="chart diagram"
             :params="ScatterChartParams" 
@@ -19,7 +22,7 @@
               predict: {
                 "IID": el.IID,
                 "ogrn":0,
-                "income":formData()?.income + period.grunt || 0,
+                "income":formData()?.income,
                 "income_lic":100,
                 "fot":100,
                 "taxesProfit":100,
@@ -35,7 +38,7 @@
               predict: {
                 "IID": selectedCompany?.IID,
                 "ogrn":0,
-                "income":formData()?.income + period.grunt,
+                "income":formData()?.income,
                 "income_lic":100,
                 "fot":100,
                 "taxesProfit":100,
@@ -100,13 +103,19 @@
         
         </div>
       </td>
-      <td style="width:50%">
-        <EventsList 
-          @addEvent="addEvent" 
-          @removeEvent="removeEvent"
-          @timeSelected="setPeriod" 
-          :selectedCompany="selectedCompany" 
-          :period="period"/>
+      <td class="w-50">
+        <div style="height: 300px !important;" class="d-flex flex-row justify-content-between">
+          <TimeLine :period="period" @timeSelected="setPeriod"/>
+          <div v-show="selectedCompany">
+            <EventsList
+              @removeEvent="removeEvent"
+              :events="selectedCompany?.events" 
+              :period="period"/>
+            <CreateCompEvent v-show="period"
+              @addEvent="addEvent"
+              :period="period"/>
+          </div>
+        </div>
       </td>
     </tr>
   </table>
@@ -120,6 +129,8 @@ import DownloadButton from './components/downloadButton.vue'
 import UploadButton from './components/uploadButton.vue'
 import CompaniesList from './components/companiesList.vue'
 import EventsList from './components/eventsList.vue'
+import TimeLine from './components/TimeLine.vue'
+import CreateCompEvent from '@/components/CreateCompEvent.vue'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -132,7 +143,9 @@ export default {
     DownloadButton,
     UploadButton,
     CompaniesList,
-    EventsList
+    EventsList,
+    TimeLine,
+    CreateCompEvent
 },
   data(){
     return {
@@ -149,9 +162,8 @@ export default {
         y:'employee_num',
       },
       period: {
-        year: '',
-        quarter: '',
-        grunt: 0
+        year: undefined,
+        quarter: undefined,
       },
     }
   },
@@ -163,7 +175,7 @@ export default {
     },
     // В идеале вынести этот функционал в соответствующий модуль. 
     // А тут получать через this.$store.config.value
-    setPeriod(p = {year: '', quarter: ''}) {
+    setPeriod(p) {
       this.$data.period = p;
       this.saveConfig()
     },
@@ -223,13 +235,13 @@ export default {
       this.$store.dispatch('companies/save')
     },
     addEvent(e) {
-      if (!this.$data.selectedCompany.events) {
+      if (!this.$data.selectedCompany.events){
         this.$data.selectedCompany.events = [];
       }
-      this.$data.selectedCompany.events.push({...e})
+      this.$data.selectedCompany.events.push(e)
     },
     removeEvent(e) {
-      this.$data.selectedCompany.events = this.$data.selectedCompany.events.filter(c => c.id !== e.id)
+      this.$data.selectedCompany.events = this.$data.selectedCompany.events.filter(c => c.type !== e.type)
     },
     saveConfig(){
       // Сохраняет текущий config в localStore
@@ -270,6 +282,5 @@ export default {
   }  
 }
 </script>
-
-<style>
+<style scoped>
 </style>
