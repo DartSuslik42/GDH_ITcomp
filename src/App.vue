@@ -14,7 +14,6 @@
           </div>
           <ScatterChart class="chart diagram"
             :params="ScatterChartParams" 
-            :period="period"
             :companies='companies.map((el)=>{return{
               ...el,
               predict: {
