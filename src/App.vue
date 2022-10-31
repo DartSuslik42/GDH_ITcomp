@@ -221,7 +221,7 @@ export default {
       this.$store.dispatch('companies/save')
     },
     removeEvent(e) {
-      this.$data.selectedCompany.events = this.$data.selectedCompany.events.filter(c => c.type !== e.type)
+      this.$data.selectedCompany.events = this.$data.selectedCompany.events.filter(c => c.id !== e.id)
     },
     saveConfig(){
       // Сохраняет текущий config в localStore

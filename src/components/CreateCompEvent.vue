@@ -83,7 +83,8 @@ export default {
       this.$emit("addEvent", {
         type: this.$data.type,
         data: this.$data.data,
-        period : this.$props.period
+        period : this.$props.period,
+        id: new Date().getTime()
       });
       
       // Default settings
