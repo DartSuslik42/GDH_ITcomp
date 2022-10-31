@@ -1,46 +1,7 @@
 <template>
   <table>
     <tr>
-      <td class="charts border-bt border-rt">
-        <div id="chart" class="chart container">
-          
-          <div class="d-flex flex-row w-100">
-            <SelectAxisType class="select_y" v-model="ScatterAxis.y" @input="saveConfig"/>
-            <select class="select_d mx-2" v-model="dataSource" v-on:change="saveConfig">
-              <option value="1"> Версия 1 </option>
-              <option value="2"> Версия 2 </option>
-            </select>
-            <span class="d-flex align-items-center">
-              <input type="checkbox" class="mx-1" v-model="isAccredited" v-on:change="saveConfig">
-              Аккредитованные
-            </span>  
-          </div>
-          <ScatterChart class="chart diagram"
-            :params="ScatterChartParams" 
-            :companies='companies.map((el)=>{return{
-              ...el,
-            }})'
-            :predict='predict'
-            @select="setSelectedCompany"
-          />
-          <SelectAxisType class="select_x" v-model="ScatterAxis.x" @input="saveConfig"/>
-
-        </div>
-      </td>
-      <td class="charts border-bt">
-        <div id="chart2" class="chart container">
-
-          <SelectAxisType class="select_y" v-model="AbcAxis.y"  @input="saveConfig"/>
-          <AbcChart :params="AbcChartParams" class="chart diagram"/>
-          <select class="select_x" disabled>
-            <option selected>Число компаний</option>
-          </select>
-
-        </div>
-      </td>
-    </tr>
-    <tr>
-      <td id="cell_bl" class="forms border-bt border-rt">
+      <td class="forms border-bt border-rt">
         <div id="cell_bl_content">
           <div id="org_list">
             <CompaniesList :companies="companies" 
@@ -63,7 +24,6 @@
                   <DownloadButton @storeCompanies="storeCompanies"/>
                 </div>
               </div>
-              <img id="logo" src="@/assets/gdh.png" alt="GDH" width="150px">
             </div>
           </div>
           <NewCompForm
@@ -75,7 +35,33 @@
         
         </div>
       </td>
-      <td class="w-50">
+      <td class="charts border-bt">
+        <div class="chart container">          
+          <div class="d-flex flex-row w-100">
+            <SelectAxisType class="select_y" v-model="ScatterAxis.y" @input="saveConfig"/>
+            <select class="select_d mx-2" v-model="dataSource" v-on:change="saveConfig">
+              <option value="1"> Версия 1 </option>
+              <option value="2"> Версия 2 </option>
+            </select>
+            <span class="d-flex align-items-center">
+              <input type="checkbox" class="mx-1" v-model="isAccredited" v-on:change="saveConfig">
+              Аккредитованные
+            </span>  
+          </div>
+          <ScatterChart class="chart diagram"
+            :params="ScatterChartParams" 
+            :companies='companies.map((el)=>{return{
+              ...el,
+            }})'
+            :predict='predict'
+            @select="setSelectedCompany"
+          />
+          <SelectAxisType class="select_x" v-model="ScatterAxis.x" @input="saveConfig"/>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td class="w-50 border-rt">
         <div class="d-flex flex-row justify-content-between">
           <TimeLine :period="period" @timeSelected="setPeriod"/>
           <div v-show="selectedCompany">
@@ -88,6 +74,18 @@
               :period="period"
               :selected="selectedCompany"/>
           </div>
+        </div>
+        <img src="@/assets/gdh.png" alt="GDH" width="150px">
+      </td>
+      <td class="charts">
+        <div id="chart2" class="chart container">
+
+          <SelectAxisType class="select_y" v-model="AbcAxis.y"  @input="saveConfig"/>
+          <AbcChart :params="AbcChartParams" class="chart diagram"/>
+          <select class="select_x" disabled>
+            <option selected>Число компаний</option>
+          </select>
+
         </div>
       </td>
     </tr>
