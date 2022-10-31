@@ -10,7 +10,6 @@ body {
 table {
     height:100vh;
     width:100%;
-    overflow: hidden;
 }
 
 table td {
@@ -49,6 +48,10 @@ table td.charts {
 .year-quarter {
     min-width: 2rem;
     height: 50vh;
+}
+
+.grunt {
+    min-width: 9rem;
 }
 
 .year {
@@ -123,6 +126,7 @@ select:disabled {
     height: 100%;
     display: flex;
     flex-direction: column;
+    min-height: 50vh;
 }
 td{
     padding: 0;
