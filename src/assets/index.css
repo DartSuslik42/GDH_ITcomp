@@ -16,10 +16,6 @@ table td {
     position: relative;
 }
 
-table td.charts {
-    height: 60%;
-}
-
 .border-bt {
     border-bottom: 1px dotted #bbb;
     border-collapse: collapse;
@@ -47,7 +43,6 @@ table td.charts {
 
 .year-quarter {
     min-width: 2rem;
-    height: 50vh;
 }
 
 .grunt {
@@ -64,7 +59,6 @@ table td.charts {
 }
 .events {
     min-width: 25vw;
-    height: 50vh;
     margin-left: 3rem;
 }
 select.select_x,
