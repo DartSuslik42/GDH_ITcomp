@@ -1,6 +1,9 @@
 <template>
     <div class="d-flex flex-column">
-      <b>Лента событий</b>
+      <span class="h6">
+        <b>Лента событий </b>
+        за {{period.year}} Q{{period.quarter}}
+      </span>
       <ul>
         <Event
           v-for="(event, idx) in filteredEvents"
@@ -8,6 +11,9 @@
           :event="event"
           @removeEvent="$emit('removeEvent', $event)"
         />
+        <div v-show="noEvents" class="h6 text-center">
+          Событий нет
+        </div>
       </ul>
     </div>
 </template>
@@ -30,6 +36,9 @@ export default {
             .filter(item => item.period.year === this.$props.period.year && item.period.quarter === this.$props.period.quarter)
         else return this.$props.events
       else return []
+    },
+    noEvents(){
+      return !this.filteredEvents.length
     }
   },
   components: { Event },
