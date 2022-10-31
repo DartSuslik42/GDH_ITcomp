@@ -76,7 +76,7 @@
         </div>
       </td>
       <td class="w-50">
-        <div style="height: 300px !important;" class="d-flex flex-row justify-content-between">
+        <div class="d-flex flex-row justify-content-between">
           <TimeLine :period="period" @timeSelected="setPeriod"/>
           <div v-show="selectedCompany">
             <EventsList
@@ -85,7 +85,8 @@
               :period="period"/>
             <CreateCompEvent v-show="period"
               @addEvent="addEvent"
-              :period="period"/>
+              :period="period"
+              :selected="selectedCompany"/>
           </div>
         </div>
       </td>

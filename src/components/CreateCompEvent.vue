@@ -3,51 +3,105 @@
 </script>
 
 <template>
-    <form action="#" @submit.prevent="addNewEvent">
-        <div>
-            <select v-model="comp_event.type">
-                <option ref="default_option" value="undefined" disabled hidden>Выберите тип</option>
-                <option 
+  <div>
+    <b-button v-b-modal.modal-1 class="btn btn-primary">Добавить новое событие</b-button>
+    <b-modal id="modal-1" hide-footer @hidden="restoreData">
+      <template #modal-header>
+        <div class="w-100 d-flex flex-column">
+          <div class="d-flex flex-row justify-content-between">
+            <span class="h5">Новое событие</span>
+            <b class="h6">{{period.year}} Q{{period.quarter}}</b>
+          </div>
+          <span class="h6">Компания: <b class="h5">{{selected.IID}}</b></span>
+        </div>
+      </template>
+      <template #default>
+        <div class="w-100 d-flex flex-column">
+          <form action="#" @submit.stop.prevent="()=>{$bvModal.hide('modal-1'); addNewEvent()}">
+            <div>
+              <div class="form-group">
+                <b-form-select v-model="type" class="form-control mb-3">
+                  <b-form-select-option :value="null" disabled selected hidden>-- Выберите тип события --</b-form-select-option>
+                  <b-form-select-option                       
                     v-for="([key, value],idx) in Object.entries(CompanyEventTypes)" 
                     :key="idx" 
                     :value="key"
-                >{{value}}</option>
-            </select>
-        <button type="submit" class="btn btn-primary">
-            Добавить событие
-        </button>
+                  >{{value}}</b-form-select-option>
+                </b-form-select>
+              </div>
+              <div class="form-group" v-show="isGrantType">
+                <InputNumber id="asdf" v-model="data" placeholder="Введитее сумму гранта"/>
+              </div>
+              <div class="form-group" v-show="showSubmitButton">
+                <button type="submit" class="btn btn-primary">
+                  <span class="h5">Создать cобытие</span>
+                </button>
+              </div>
+            </div>
+          </form>
         </div>
-    </form>
+      </template>
+    </b-modal>
+  </div>
 </template>
 <script>
-import { dummyFormEvent} from "@/js/const.js";
+import InputNumber from '@/components/input_number.vue'
 export default {
   name:"CreateCompEvent",
+  components:{
+    InputNumber
+  },
   props: {
     period:{
+      type: Object
+    },
+    selected:{
       type: Object
     }
   },
   data() {
     return {
-      comp_event: {...dummyFormEvent},
+      type:null,
+      data:null,
     };
   },
   methods: {
+    restoreData(){
+      this.$data.type = null
+      this.$data.data = null
+    },
     addNewEvent() {
       if (!this.$props.period) {
-        alert("Выберите квартал года");
+        alert("Нельзя создать событие: Не выбран квартал");
         return;
       }
-      if(Object.keys(CompanyEventTypes).indexOf(this.$data.comp_event.type) < 0) return
+      if(Object.keys(CompanyEventTypes).indexOf(this.$data.type) < 0) {
+        alert("Нельзя создать событие: Выбран некорректный тип события");
+        return
+      }
       
-      this.$data.comp_event.period = this.$props.period
-      this.$emit("addEvent", this.$data.comp_event);
+      this.$emit("addEvent", {
+        type: this.$data.type,
+        data: this.$data.data,
+        period : this.$props.period
+      });
       
       // Default settings
-      this.$data.comp_event = {...dummyFormEvent}
-      this.$refs.default_option.value="undefined"
+      this.restoreData()
     },
   },
+  computed:{
+    isGrantType(){
+      return this.$data.type === "grantincome"
+    },
+    showSubmitButton(){
+      if(this.isGrantType) 
+        if(this.$data.data)return true
+        else return false
+      else 
+        if(this.$data.type) return true
+        else return false
+    }
+  }
 };
 </script>

@@ -203,11 +203,6 @@ export const dummyFormCompany = {
   data: undefined,
   events: undefined,
 }
-export const dummyFormEvent = {
-  type: undefined,
-  data: undefined,
-  period: undefined,
-}
 export const CompanyEventTypes = {
   creation:"создание компании",
   delition:"закрытие компании",
