@@ -11,13 +11,14 @@
                         <span>Название</span>
                     </div>
                     <div class="col">
-                        <input type="text" name="IID" placeholder="Введите название" v-model="currentCompany.IID"
+                        <b-form-input type="text" name="IID" placeholder="Введите название"
+                        v-model="currentCompany.IID"
                         @keydown.enter.prevent="(event)=>{
                             IterateThroughFormField(event.target, 'next')
                         }"
                         @keydown.ArrowDown.prevent="(event)=>{
                             IterateThroughFormField(event.target, 'next')
-                        }">
+                        }"/>
                     </div>
                 </div>
                 <div class="row">
@@ -25,7 +26,8 @@
                         <span>ОГРН</span>
                     </div>
                     <div class="col">
-                        <input type="number" pattern="\d*" placeholder="Введите ОГРН" name="ogrn" v-model="currentCompany.ogrn"
+                        <b-form-input type="text" placeholder="Введите ОГРН" name="ogrn"
+                        v-model="currentCompany.ogrn"
                         @keydown.enter.prevent="(event)=>{
                             IterateThroughFormField(event.target, 'next')
                         }"
@@ -34,7 +36,7 @@
                         }"
                         @keydown.ArrowUp.prevent="(event)=>{
                             IterateThroughFormField(event.target, 'prev')
-                        }">
+                        }"/>
                     </div>
                 </div>
                 
@@ -81,7 +83,13 @@ export default{
     },
     data(){
         return{
-            currentCompany: this.selectedCompany || this.getDummyFormCompany(),
+            currentCompany: this.selectedCompany ? 
+                {
+                    ...this.selectedCompany,
+                    IID:this.selectedCompany.IID,
+                    ogrn:this.selectedCompany.ogrn
+                } 
+                : this.getDummyFormCompany(),
             currentItem: this.emptyDataItem()
         }
     },  
@@ -149,7 +157,8 @@ export default{
                 return false
             }
             
-            for(const [_, value] of Object.entries(this.$data.currentItem)){
+            for(const key of Object.keys(companyData_perPeriod)){
+                const value = this.$data.currentItem[key]
                 if (typeof(value) !== "number" || value < 0) return false; 
             }
             return true;
@@ -169,7 +178,12 @@ export default{
             }
             const selectedItem = val.data.find(e => e.period.year === this.$props.period.year && e.period.quarter === this.$props.period.quarter)
             this.$data.currentItem = selectedItem || this.emptyDataItem();
-            this.$data.currentCompany = val
+            this.$data.currentCompany = 
+                {
+                    ...val,
+                    IID:this.selectedCompany.IID,
+                    ogrn:this.selectedCompany.ogrn
+                } 
         },
         period(newVal, oldVal) {
             if(oldVal){
