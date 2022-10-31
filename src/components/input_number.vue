@@ -15,7 +15,7 @@
     ></b-form-input>
 </template>
 <script>
-const spaceSymbol = ","
+import {NUMBER_DIG_SEPARATOR as spaceSymbol} from '@/js/const.js'
 const REGEXP = new RegExp(spaceSymbol,'g')
 export default{
     name:'InputNumber',
