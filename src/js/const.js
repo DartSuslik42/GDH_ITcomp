@@ -213,3 +213,4 @@ export const CompanyEventTypes = {
 
 export const server = " https://itmod.car.cos.ru/";
 export const startYear = 2019;
+export const NUMBER_DIG_SEPARATOR = ','

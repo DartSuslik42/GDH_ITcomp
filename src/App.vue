@@ -63,7 +63,7 @@
     <tr>
       <td class="w-50 border-rt">
         <div class="d-flex flex-row justify-content-between">
-          <TimeLine :period="period" @timeSelected="setPeriod"/>
+          <TimeLine :period="period" @timeSelected="setPeriod" :grunts="arr_gruntSum_perPeriod"/>
           <div v-show="selectedCompany">
             <EventsList
               @removeEvent="removeEvent"
@@ -262,7 +262,27 @@ export default {
     ...mapGetters({
       ScatterChartParams: 'config/ScatterChartParams',
       AbcChartParams: 'config/AbcChartParams'
-    })
+    }),
+    arr_gruntSum_perPeriod(){
+      if(!this.$data.selectedCompany?.events?.length)return new Array()
+      return this.$data.selectedCompany.events
+        .filter((e)=>{return e.type === 'grantincome'})
+        .reduce((prev,el)=>{
+          const idx = prev.findIndex((e)=>{
+            return (
+              e.period.year === el.period.year
+              && e.period.quarter === el.period.quarter
+          )})
+          
+          if(idx >= 0){
+            prev[idx].data += el.data
+          }else{
+            prev.push(el)
+          }
+          
+          return prev
+        },[])
+    }
   },
   mounted() {
     this.$store.dispatch("companies/load")
