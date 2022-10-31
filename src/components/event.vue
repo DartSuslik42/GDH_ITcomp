@@ -1,7 +1,10 @@
+<script setup>
+import {CompanyEventTypes} from '@/js/const.js'
+</script>
 <template>
-    <li :id="event.id">
-        {{event.year}} Q{{((event.quarter - 1) % 4) + 1}} {{event.id}}
-        <span  @click.left="removeEvent" class="close">X</span>
+    <li class="d-flex justify-content-between align-items-center">
+        <span>{{event.period.year}} Q{{event.period.quarter}} {{CompanyEventTypes[event.type]}}</span>
+        <b-icon icon="x-lg" variant="danger" @click.left="removeEvent"></b-icon>
     </li>
 </template>
 <script>
@@ -16,3 +19,5 @@ export default{
     }
 }
 </script>
+<style scoped>
+</style>

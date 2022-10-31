@@ -28,7 +28,8 @@ export default{
             chart_options: options,
             img_style: null,
             chart: null,
-            loading: false
+            loading: false,
+            request_url: undefined,
         }
     },
     methods:{
@@ -93,13 +94,11 @@ export default{
             this.$data.chart = new google.visualization.ScatterChart(chart_points_div)
             this.$data.chart.draw(data, this.$data.chart_options)
         },
-    },
-    computed:{
-        request_url(){
-            if(!this.$data.img_style?.size?.x) return undefined
-            if(!this.$data.img_style?.size?.y) return undefined
-
-            return `${server}abc/json?` + 
+        update_request_url(){
+            if(!this.$data.img_style?.size?.y || !this.$data.img_style?.size?.x) return undefined
+            if(!this.$props.params.Period.quarter || !this.$props.params.Period.year) return undefined
+            
+            this.$data.request_url = `${server}abc/json?` + 
             // Size
             `${API.ImgSize.x}=${this.$data.img_style.size.x}&${API.ImgSize.y}=${this.$data.img_style.size.y}` +
             // Period
@@ -111,6 +110,9 @@ export default{
         },
     },
     watch:{
+        params(){
+            this.update_request_url()
+        },
         request_url(newVal){
             if(newVal){
                 var xmlhttp = new XMLHttpRequest();
@@ -134,8 +136,15 @@ export default{
         google.charts.setOnLoadCallback(()=>{
             this.update_svg_chart()
             this.update_img_style()
+            this.update_request_url()
         })
     },
+    created(){
+        window.addEventListener('resize',()=>{
+            this.update_svg_chart()
+            this.update_img_style()
+        })
+    }
 }
 </script>
    

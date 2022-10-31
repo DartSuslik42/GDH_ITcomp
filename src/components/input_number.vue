@@ -1,9 +1,9 @@
 <template>
-    <input ref="input" type="text" :placeholder="placeholder"
-        @input="input"
-        @focusout="$emit('input', real_num)"
+    <b-form-input :size="$attrs.size" ref="input" type="text" :placeholder="$attrs.placeholder || '0'"
+        @input.native="(e)=>{input(e); $emit('input', emit_num)}"
+        @focusout="$emit('input', emit_num)"
         @keydown.enter.prevent="(event)=>{
-            $emit('input', real_num); 
+            $emit('input', emit_num); 
             IterateThroughFormField(event.target, 'next')
         }"
         @keydown.ArrowDown.prevent="(event)=>{
@@ -12,7 +12,7 @@
         @keydown.ArrowUp.prevent="(event)=>{
             IterateThroughFormField(event.target, 'prev')
         }"
-    >
+    ></b-form-input>
 </template>
 <script>
 const spaceSymbol = ","
@@ -20,9 +20,10 @@ const REGEXP = new RegExp(spaceSymbol,'g')
 export default{
     name:'InputNumber',
     props: {
-        placeholder:{
-            type: [String, Number],
-            default: 0
+        default:{
+            type: Number,
+            required: false,
+            default:0
         },
         value:{
             type: [Number, String],
@@ -61,7 +62,7 @@ export default{
         },
         input(e){
             const input_val = e.target.value
-            let cursorPos = e.target.selectionStart
+            let cursorPos = this.$el.selectionStart
             const newVal = +this.removeSpaces(input_val)
             if(Number.isInteger(newVal)){
                 this.$data.real_num = newVal
@@ -73,9 +74,13 @@ export default{
                 cursorPos--
             }
             if(cursorPos < 0) cursorPos = 0
-            e.target.setSelectionRange(cursorPos,cursorPos)
+            this.$el.setSelectionRange(cursorPos,cursorPos)
         },
         updateInputValue(){
+            if(this.$data.real_num === 0){
+                this.$el.value = null
+                return
+            }
             this.$el.value = this.numFormat(this.$data.real_num)
         }
     },
@@ -84,6 +89,11 @@ export default{
             this.$data.real_num = newVal
             this.updateInputValue()
         },
+    },
+    computed:{
+        emit_num(){
+            return typeof this.$data.real_num === 'undefined' ? this.$props.default : this.$data.real_num
+        }
     }
 }
 </script>

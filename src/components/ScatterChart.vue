@@ -20,8 +20,7 @@ export default{
     props:{
         params: Object,
         companies: Array,
-        selected: Object,
-        period: Object
+        predict: Object,
     },
     components:{
         chart_img
@@ -32,10 +31,27 @@ export default{
             chart_options: options,
             img_style: null,
             chart: null,
-            loading: false
+            loading: false,
+            request_url: undefined,
         }
     },
     methods:{
+        update_request_url(){
+            if(!this.$data.img_style?.size?.y || !this.$data.img_style?.size?.x) return undefined
+            if(!this.$props.params.Period.quarter || !this.$props.params.Period.year) return undefined
+            
+            this.$data.request_url = `${server}scatter/json?` + 
+            // Size
+            `${API.ImgSize.x}=${this.$data.img_style.size.x}&${API.ImgSize.y}=${this.$data.img_style.size.y}` +
+            // Period
+            `&${API.Period.year}=${this.$props.params.Period.year}&${API.Period.quarter}=${this.$props.params.Period.quarter}` +
+            // AxisType
+            `&${API.AxisSrc.x}=${this.$props.params.AxisSrc.x}&${API.AxisSrc.y}=${this.$props.params.AxisSrc.y}&${API.AxisSrc.z}=${this.$props.params.AxisSrc.z}` +
+            // DataSource
+            `&${API.AxisSrc.d}=${this.$props.params.AxisSrc.d}` +
+            // isAccredited
+            `&${API.AxisSrc.a}=${this.$props.params.AxisSrc.a}`
+        },
         update_img_style(){
             const boundingBox = this.$data.chart.getChartLayoutInterface().getChartAreaBoundingBox(); 
             this.$data.img_style = {
@@ -136,44 +152,27 @@ export default{
         }
     },
     computed:{
-        request_url(){
-            if(!this.$data.img_style?.size?.x) return undefined
-            if(!this.$data.img_style?.size?.y) return undefined
-
-            return `${server}scatter/json?` + 
-            // Size
-            `${API.ImgSize.x}=${this.$data.img_style.size.x}&${API.ImgSize.y}=${this.$data.img_style.size.y}` +
-            // Period
-            `&${API.Period.year}=${this.$props.params.Period.year}&${API.Period.quarter}=${this.$props.params.Period.quarter}` +
-            // AxisType
-            `&${API.AxisSrc.x}=${this.$props.params.AxisSrc.x}&${API.AxisSrc.y}=${this.$props.params.AxisSrc.y}&${API.AxisSrc.z}=${this.$props.params.AxisSrc.z}` +
-            // DataSource
-            `&${API.AxisSrc.d}=${this.$props.params.AxisSrc.d}` +
-            // isAccredited
-            `&${API.AxisSrc.a}=${this.$props.params.AxisSrc.a}`
-        },
         points(){
             return this.$props.companies
             .map(c => {
-                const xs = c.data.find(e => e.year === this.$props.period?.year && e.quarter === this.$props.period?.quarter)       
+                const xs = c.data.find(e => e.period.year === this.$props.params.Period.year && e.period.quarter === this.$props.params.Period.quarter)       
                 return {
                     IID:c.IID,
-                    predict:c.predict,
                     ...xs
                 }
             })   
             .reduce((prev, el, idx) => {
-                const isSelected = el.IID === this.$props.selected?.IID
-                if(isSelected){
+                const isPredicted = el.IID === this.$props.predict?.IID
+                if(isPredicted){
                     // Конец стрелки в точке прогноза для выбранной компании
                     prev.push([
-                        +el.predict[this.$props.params.AxisSrc.x],
+                        +this.$props.predict[this.$props.params.AxisSrc.x],
                         null,
                         null,
                         null,
-                        +el.predict[this.$props.params.AxisSrc.y],
+                        +this.$props.predict[this.$props.params.AxisSrc.y],
                         point_style['selected_predict'],
-                        this.getPointTooltipHTML(el.predict),
+                        this.getPointTooltipHTML(this.$props.predict),
                         idx
                     ])
                     // Начало стрелки в точке выбранной компании
@@ -187,7 +186,6 @@ export default{
                         this.getPointTooltipHTML(el),
                         idx
                     ])
-                    
                 }else{
                     prev.push([
                         +el[this.$props.params.AxisSrc.x],
@@ -208,8 +206,11 @@ export default{
         companies(){
             this.update_svg_chart()
         },
-        selected(){
+        predict(){
             this.update_svg_chart()
+        },
+        params(){
+            this.update_request_url()
         },
         request_url(newVal){
             if(newVal){
@@ -234,8 +235,15 @@ export default{
         google.charts.setOnLoadCallback(()=>{
             this.update_svg_chart()
             this.update_img_style()
+            this.update_request_url()
         })
     },
+    created(){
+        window.addEventListener('resize',()=>{
+            this.update_svg_chart()
+            this.update_img_style()
+        })
+    }
 }
 </script>
 

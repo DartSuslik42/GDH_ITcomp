@@ -184,31 +184,31 @@ export const Fields_All = {
   ...Fields_Info
 }
 export const companyData_perPeriod = {
-  income: "",
-  income_lic: "",
-  fot: "",
-  taxesProfit: "",
-  taxesVAT: "",
-  taxesEmplSal: "",
-  insurance: "",
-  employee_num: "",
+  income: undefined,
+  income_lic: undefined,
+  fot: undefined,
+  taxesProfit: undefined,
+  taxesVAT: undefined,
+  taxesEmplSal: undefined,
+  insurance: undefined,
+  employee_num: undefined,
 }
 export const сompanyDataItem = {
-  year: "",
-  quarter: "",
+  period: undefined,
   ...companyData_perPeriod
 }
 export const dummyFormCompany = {
-  IID: "",
-  ogrn: "",
-  data: [],
-  events: [],
-  grunts: new Array(16).fill('')
+  IID: undefined,
+  ogrn: undefined,
+  data: undefined,
+  events: undefined,
 }
-export const dummyFormEvent = {
-  id: "получение дохода от грантов и субсидий",
-  year: "",
-  quarter: "",
+export const CompanyEventTypes = {
+  creation:"создание компании",
+  delition:"закрытие компании",
+  acredit:"получение аккредитации компании",
+  deacredit:"лишение аккредитации компании",
+  grantincome:"получение дохода от грантов и субсидий",
 }
 
 export const server = " https://itmod.car.cos.ru/";

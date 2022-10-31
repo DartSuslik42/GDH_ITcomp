@@ -4,49 +4,23 @@
       <td class="charts border-bt border-rt">
         <div id="chart" class="chart container">
           
-          <div id="select_yd">
+          <div class="d-flex flex-row w-100">
             <SelectAxisType class="select_y" v-model="ScatterAxis.y" @input="saveConfig"/>
-            <select class="select_d" v-model="dataSource" v-on:change="saveConfig">
+            <select class="select_d mx-2" v-model="dataSource" v-on:change="saveConfig">
               <option value="1"> Версия 1 </option>
               <option value="2"> Версия 2 </option>
             </select>
-            <input type="checkbox" id="accredited" v-model="isAccredited" v-on:change="saveConfig"> Аккредитованные
+            <span class="d-flex align-items-center">
+              <input type="checkbox" class="mx-1" v-model="isAccredited" v-on:change="saveConfig">
+              Аккредитованные
+            </span>  
           </div>
           <ScatterChart class="chart diagram"
             :params="ScatterChartParams" 
-            :period="period"
             :companies='companies.map((el)=>{return{
               ...el,
-              predict: {
-                "IID": el.IID,
-                "ogrn":0,
-                "income":formData()?.income + period.grunt || 0,
-                "income_lic":100,
-                "fot":100,
-                "taxesProfit":100,
-                "taxesVAT":100,
-                "taxesEmplSal":100,
-                "insurance":100,
-                "employee_num":formData()?.employee_num,
-                "taxes":100,
-              }
             }})'
-            :selected='{
-              ...selectedCompany,
-              predict: {
-                "IID": selectedCompany?.IID,
-                "ogrn":0,
-                "income":formData()?.income + period.grunt,
-                "income_lic":100,
-                "fot":100,
-                "taxesProfit":100,
-                "taxesVAT":100,
-                "taxesEmplSal":100,
-                "insurance":100,
-                "employee_num":formData()?.employee_num,
-                "taxes":100,
-              }
-            }'
+            :predict='predict'
             @select="setSelectedCompany"
           />
           <SelectAxisType class="select_x" v-model="ScatterAxis.x" @input="saveConfig"/>
@@ -69,13 +43,10 @@
       <td id="cell_bl" class="forms border-bt border-rt">
         <div id="cell_bl_content">
           <div id="org_list">
-            <div>
-              <b>Организации в анализе</b>
-              <CompaniesList :companies="companies" 
-              :selected="selectedCompany" 
-              @removeCompany="removeCompany"
-              @select="setSelectedCompany"/>
-            </div>
+            <CompaniesList :companies="companies" 
+            :selected="selectedCompany" 
+            @removeCompany="removeCompany"
+            @select="setSelectedCompany"/>
             <div>
               <div id="choose-file">
                 <b-form-file v-model="selectedFile" :state="Boolean(selectedFile)"
@@ -104,13 +75,20 @@
         
         </div>
       </td>
-      <td style="width:50%">
-        <EventsList 
-          @addEvent="addEvent" 
-          @removeEvent="removeEvent"
-          @timeSelected="setPeriod" 
-          :selectedCompany="selectedCompany" 
-          :period="period"/>
+      <td class="w-50">
+        <div class="d-flex flex-row justify-content-between">
+          <TimeLine :period="period" @timeSelected="setPeriod"/>
+          <div v-show="selectedCompany">
+            <EventsList
+              @removeEvent="removeEvent"
+              :events="selectedCompany?.events" 
+              :period="period"/>
+            <CreateCompEvent v-show="period"
+              @addEvent="addEvent"
+              :period="period"
+              :selected="selectedCompany"/>
+          </div>
+        </div>
       </td>
     </tr>
   </table>
@@ -124,7 +102,10 @@ import DownloadButton from './components/downloadButton.vue'
 import UploadButton from './components/uploadButton.vue'
 import CompaniesList from './components/companiesList.vue'
 import EventsList from './components/eventsList.vue'
+import TimeLine from './components/TimeLine.vue'
+import CreateCompEvent from '@/components/CreateCompEvent.vue'
 import { mapGetters } from 'vuex'
+import { startYear } from "@/js/const.js"
 
 export default {
   name: 'root',
@@ -136,7 +117,9 @@ export default {
     DownloadButton,
     UploadButton,
     CompaniesList,
-    EventsList
+    EventsList,
+    TimeLine,
+    CreateCompEvent
 },
   data(){
     return {
@@ -153,21 +136,15 @@ export default {
         y:'employee_num',
       },
       period: {
-        year: '',
-        quarter: '',
-        grunt: 0
+        year: startYear,
+        quarter: 1,
       },
     }
   },
   methods:{
-    formData() {
-      const x = this.$data.selectedCompany?.data?.find(
-        e => e?.year === this.$data.period?.year && e?.quarter === this.$data.period?.quarter);
-      return x;  
-    },
     // В идеале вынести этот функционал в соответствующий модуль. 
     // А тут получать через this.$store.config.value
-    setPeriod(p = {year: '', quarter: ''}) {
+    setPeriod(p) {
       this.$data.period = p;
       this.saveConfig()
     },
@@ -194,8 +171,17 @@ export default {
         };
         reader.onerror = function() {
           console.log(reader.error);
-        };  
-      }  
+        };
+      }
+    },
+    getSumGrunts(company, period_from, period_to){
+      return company.events
+      .filter(el=>{
+        return (el.type === "grantincome")
+        && (el.period.year >= period_from.year && el.period.year <= period_to.year) 
+        && (el.period.quarter >= period_from.quarter && el.period.quarter <= period_to.quarter)
+      })
+      .reduce((prev,el)=>{return prev + el.data},0)
     },
     storeCompanies() {
       const fileName = this.$data.selectedFile ?
@@ -227,10 +213,12 @@ export default {
       this.$store.dispatch('companies/save')
     },
     addEvent(e) {
-      if (!this.$data.selectedCompany.events) {
+      if (!this.$data.selectedCompany.events){
         this.$data.selectedCompany.events = [];
       }
-      this.$data.selectedCompany.events.push({...e})
+      this.$data.selectedCompany.events.push(e)
+      this.$store.commit('companies/update', this.$data.selectedCompany)
+      this.$store.dispatch('companies/save')
     },
     removeEvent(e) {
       this.$data.selectedCompany.events = this.$data.selectedCompany.events.filter(c => c.id !== e.id)
@@ -260,6 +248,16 @@ export default {
     }
   },
   computed:{
+    predict(){
+      const x = this.$data.selectedCompany?.data.find(e => e.period.year === this.$data.period.year && e.period.quarter === this.$data.period.quarter);
+      if(!x) return null
+      return {
+        ...x,
+        IID : this.$data.selectedCompany?.IID,
+        ogrn : this.$data.selectedCompany?.ogrn,
+        income : x.income + this.getSumGrunts(this.$data.selectedCompany, {year:startYear,quarter:1},this.$data.period)
+      }
+    },
     companies(){
       return this.$store.state.companies.value
     },
@@ -274,6 +272,5 @@ export default {
   }  
 }
 </script>
-
-<style>
+<style scoped>
 </style>

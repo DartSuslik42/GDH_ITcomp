@@ -1,4 +1,6 @@
+import { startYear } from "@/js/const.js"
 const ls_id = 'APP_CONFIG'
+
 export const dummy_state = {
     dataSource:undefined,
     isAccredited:undefined,
@@ -57,8 +59,8 @@ export default {
                 y:'employee_num',
             },
             period: {
-                year: undefined,
-                quarter: undefined,
+                year: startYear,
+                quarter: 1,
             },
     }}),
     getters:{
