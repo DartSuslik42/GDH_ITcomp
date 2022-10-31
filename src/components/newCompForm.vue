@@ -43,7 +43,7 @@
                         <span>{{comp_field_names[comp_field]}}</span>
                     </div>
                     <div class="col">
-                        <InputNumber v-model="currentItem[comp_field]"/>
+                        <InputNumber v-model="currentItem[comp_field]" size="sm"/>
                     </div>
                 </div>
 
