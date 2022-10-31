@@ -174,6 +174,15 @@ export default {
         };
       }
     },
+    getSumGrunts(company, period_from, period_to){
+      return company.events
+      .filter(el=>{
+        return (el.type === "grantincome")
+        && (el.period.year >= period_from.year && el.period.year <= period_to.year) 
+        && (el.period.quarter >= period_from.quarter && el.period.quarter <= period_to.quarter)
+      })
+      .reduce((prev,el)=>{return prev + el.data},0)
+    },
     storeCompanies() {
       const fileName = this.$data.selectedFile ?
         this.$data.selectedFile.name : '_companies';
@@ -246,7 +255,7 @@ export default {
         ...x,
         IID : this.$data.selectedCompany?.IID,
         ogrn : this.$data.selectedCompany?.ogrn,
-        income : x.income + 100000
+        income : x.income + this.getSumGrunts(this.$data.selectedCompany, {year:startYear,quarter:1},this.$data.period)
       }
     },
     companies(){
