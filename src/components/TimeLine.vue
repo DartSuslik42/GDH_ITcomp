@@ -79,6 +79,7 @@ export default {
     overflow-y: scroll;
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
+    width: 12rem;
 }
 /* Hide scrollbar for Chrome, Safari and Opera */
 #timeline-vue::-webkit-scrollbar {

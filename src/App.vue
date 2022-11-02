@@ -9,7 +9,7 @@
             @removeCompany="removeCompany"
             @select="setSelectedCompany"/>
             <div>
-              <div id="choose-file">
+              <div id="choose-file" class="p-1 m-2">
                 <b-form-file v-model="selectedFile" :state="Boolean(selectedFile)"
                   placeholder="Выберите файл или поместите сюда..."
                   drop-placeholder="Поместите файл сюда..."
@@ -61,10 +61,10 @@
       </td>
     </tr>
     <tr>
-      <td class="w-50 border-rt">
+      <td class="p-2 border-rt">
         <div class="d-flex flex-row justify-content-between">
           <TimeLine :period="period" @timeSelected="setPeriod" :grunts="arr_gruntSum_perPeriod"/>
-          <div v-show="selectedCompany">
+          <div v-if="selectedCompany">
             <EventsList
               @removeEvent="removeEvent"
               :events="selectedCompany?.events" 
@@ -74,8 +74,10 @@
               :period="period"
               :selected="selectedCompany"/>
           </div>
+          <div v-else class="note"> 
+            Выберите компанию для того чтобы увидеть ленту событий за квартал
+          </div>
         </div>
-        <img src="@/assets/gdh.png" alt="GDH" width="150px">
       </td>
       <td class="charts">
         <div id="chart2" class="chart container">

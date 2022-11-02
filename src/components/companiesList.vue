@@ -1,6 +1,11 @@
 <template>
     <div>
-        <b>Организации в анализе</b>
+        <div>
+            <img id="logo" src="@/assets/gdh.png" alt="GDH" width="150px">
+        </div>
+        <div class="p-2">
+            <b>Организации в анализе</b>
+        </div>
         <ol id="table_point">
             <Company v-for="(company, idx) in companies" :key="idx" :company="company"
                 @select="emitSelectedCompany" @removeCompany="emitRemovedCompany"

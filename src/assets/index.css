@@ -126,7 +126,7 @@ td{
     padding: 0;
 }
 #cell_bl_content {
-    width: 100%;
+    min-width: 518px;
     height: 100%;
     display: flex;
     justify-content: space-between;
@@ -201,4 +201,23 @@ input[type=file].custom-file-input {
     border: 1px dashed gray;
     color: gray;
     border-radius: 5px;
+}
+
+.form-control, .form-control-sm {
+    padding: 0.3rem;
+    font-size: .75rem;
+}
+.form-control-sm {
+    min-height: .75rem;
+}
+
+.note {
+    padding: 2rem;
+    font-size: 1.5rem;
+    color: #999;
+    margin: 2rem;
+}
+
+td.charts {
+    width: 80%;
 }
